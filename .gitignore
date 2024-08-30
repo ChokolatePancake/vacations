@@ -1,2 +1,6 @@
 .ddev/
 vendor/
+.idea
+/web/modules/contrib/
+/web/sites/default/files/
+/web/sites/default/settings.php

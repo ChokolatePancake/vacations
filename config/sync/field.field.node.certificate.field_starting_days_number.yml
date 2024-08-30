@@ -1,0 +1,23 @@
+uuid: ac0d865f-94fb-4f28-bc9c-8705ce901e0a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_starting_days_number
+    - node.type.certificate
+id: node.certificate.field_starting_days_number
+field_name: field_starting_days_number
+entity_type: node
+bundle: certificate
+label: 'Starting days number'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,18 @@
+uuid: d9aa445d-e7b8-460e-95a7-33ae44d6d967
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_expiration_date
+field_name: field_expiration_date
+entity_type: node
+type: timestamp
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

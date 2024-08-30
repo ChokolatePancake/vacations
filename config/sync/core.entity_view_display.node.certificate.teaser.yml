@@ -1,0 +1,26 @@
+uuid: 8ddd435d-4abc-4b4d-bced-0a3c512093e9
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.certificate.field_expiration_date
+    - field.field.node.certificate.field_starting_days_number
+    - field.field.node.certificate.field_user_id
+    - node.type.certificate
+  module:
+    - user
+id: node.certificate.teaser
+targetEntityType: node
+bundle: certificate
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_expiration_date: true
+  field_starting_days_number: true
+  field_user_id: true

@@ -1,0 +1,19 @@
+uuid: a3c44ba0-4b6e-4028-8453-221ecc694d07
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_expiration_date
+    - node.type.certificate
+id: node.certificate.field_expiration_date
+field_name: field_expiration_date
+entity_type: node
+bundle: certificate
+label: 'Expiration Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

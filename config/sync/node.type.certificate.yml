@@ -1,0 +1,17 @@
+uuid: 8d344edb-3f2b-4800-8fd0-a5fa1534544c
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Certificate
+type: certificate
+description: 'Content type for certificates'
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false
