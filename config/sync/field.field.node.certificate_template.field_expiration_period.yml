@@ -1,13 +1,13 @@
-uuid: db6770ea-9f92-4c49-9a37-4cb00b479c99
+uuid: 2bfde2c0-ea00-4911-b3ec-438ae812e0bc
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.taxonomy_term.field_expiration_period
-    - taxonomy.vocabulary.certificate_template
-id: taxonomy_term.certificate_template.field_expiration_period
+    - field.storage.node.field_expiration_period
+    - node.type.certificate_template
+id: node.certificate_template.field_expiration_period
 field_name: field_expiration_period
-entity_type: taxonomy_term
+entity_type: node
 bundle: certificate_template
 label: 'Expiration period'
 description: 'How often certificate will be given (number of months)'

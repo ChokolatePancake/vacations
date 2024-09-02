@@ -1,16 +1,11 @@
 uuid: 9d2994d5-dba9-4dd1-8495-ca0acbf5c7a8
 langcode: en
 status: true
-dependencies:
-  config:
-    - filter.format.restricted_html
-  module:
-    - filter
+dependencies: {  }
 _core:
   default_config_hash: 6WavjUYXIegP9AAg2zXGx54MWIVoomC3SZhNiqe-Dyk
 id: anonymous
 label: 'Anonymous user'
 weight: -10
 is_admin: false
-permissions:
-  - 'use text format restricted_html'
+permissions: {  }

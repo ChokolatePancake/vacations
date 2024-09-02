@@ -1,25 +1,18 @@
-uuid: 902f8f69-050a-4c16-916b-cf578430543f
+uuid: b64758fd-9f09-4ea2-bc75-da52189bc4df
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.taxonomy_term.certificate_template.field_expiration_period
-    - field.field.taxonomy_term.certificate_template.field_number_of_days
-    - taxonomy.vocabulary.certificate_template
+    - field.field.node.certificate_template.field_expiration_period
+    - field.field.node.certificate_template.field_number_of_days
+    - node.type.certificate_template
   module:
-    - text
-id: taxonomy_term.certificate_template.default
-targetEntityType: taxonomy_term
+    - user
+id: node.certificate_template.default
+targetEntityType: node
 bundle: certificate_template
 mode: default
 content:
-  description:
-    type: text_default
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 0
-    region: content
   field_expiration_period:
     type: number_integer
     label: above
@@ -27,7 +20,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 2
+    weight: 101
     region: content
   field_number_of_days:
     type: number_integer
@@ -36,6 +29,11 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 1
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
     region: content
 hidden: {  }

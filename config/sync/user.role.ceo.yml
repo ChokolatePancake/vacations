@@ -4,8 +4,8 @@ status: true
 dependencies:
   config:
     - node.type.certificate
+    - node.type.certificate_template
     - node.type.vacations
-    - taxonomy.vocabulary.certificate_template
   module:
     - comment
     - field_ui
@@ -40,14 +40,17 @@ permissions:
   - 'administer users'
   - 'administer views'
   - 'create certificate content'
-  - 'create terms in certificate_template'
+  - 'create certificate_template content'
   - 'create url aliases'
   - 'create vacations content'
   - 'delete any certificate content'
+  - 'delete any certificate_template content'
   - 'delete any vacations content'
+  - 'delete own certificate content'
+  - 'delete own certificate_template content'
   - 'delete own vacations content'
-  - 'delete terms in certificate_template'
-  - 'edit terms in certificate_template'
+  - 'edit any certificate_template content'
+  - 'edit own certificate_template content'
   - 'flag approve'
   - 'link to any page'
   - 'unflag approve'

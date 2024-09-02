@@ -1,12 +1,12 @@
-uuid: 17db3e88-7cc5-4b1a-a531-0d81dd663008
+uuid: f96a16de-16dc-43ba-a9dc-e3938dce36a2
 langcode: en
 status: true
 dependencies:
   module:
-    - taxonomy
-id: taxonomy_term.field_expiration_period
+    - node
+id: node.field_expiration_period
 field_name: field_expiration_period
-entity_type: taxonomy_term
+entity_type: node
 type: integer
 settings:
   unsigned: false

@@ -1,16 +1,16 @@
-uuid: 2da37a00-cd8f-4d34-a6f1-f85d9204c45c
+uuid: 2994cf49-b254-4812-bfbb-a58b4b05894b
 langcode: en
 status: true
 dependencies:
   module:
-    - taxonomy
+    - node
     - user
 id: user.field_regular_certificate_templa
 field_name: field_regular_certificate_templa
 entity_type: user
 type: entity_reference
 settings:
-  target_type: taxonomy_term
+  target_type: node
 module: core
 locked: false
 cardinality: 1

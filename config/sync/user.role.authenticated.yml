@@ -4,10 +4,13 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - node.type.vacations
   module:
     - file
     - filter
+    - node
     - shortcut
+    - system
 _core:
   default_config_hash: cFrlqjtkTfvY3RGccjJkPf1SGIfJ942IrxTLWAO4mgA
 id: authenticated
@@ -15,6 +18,14 @@ label: 'Authenticated user'
 weight: -9
 is_admin: false
 permissions:
+  - 'access content'
+  - 'access content overview'
   - 'access shortcuts'
+  - 'access user profiles'
+  - 'create vacations content'
   - 'delete own files'
+  - 'delete own vacations content'
   - 'use text format basic_html'
+  - 'view own unpublished content'
+  - 'view user email addresses'
+  - 'view vacations revisions'

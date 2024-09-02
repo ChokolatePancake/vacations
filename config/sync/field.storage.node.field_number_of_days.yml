@@ -1,12 +1,12 @@
-uuid: 545a0ba5-4af6-4740-97dd-b1ecb23dba1a
+uuid: 9096ebb2-70a9-4815-821b-3676b6d91870
 langcode: en
 status: true
 dependencies:
   module:
-    - taxonomy
-id: taxonomy_term.field_number_of_days
+    - node
+id: node.field_number_of_days
 field_name: field_number_of_days
-entity_type: taxonomy_term
+entity_type: node
 type: integer
 settings:
   unsigned: false

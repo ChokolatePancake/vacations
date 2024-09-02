@@ -1,10 +1,10 @@
-uuid: 1fc1712d-3305-4e7a-a050-3cd109eda4dc
+uuid: 0a8055c3-f936-4ef4-af12-f89507c79d04
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.user.field_regular_certificate_templa
-    - taxonomy.vocabulary.certificate_template
+    - node.type.certificate_template
   module:
     - user
 id: user.user.field_regular_certificate_templa
@@ -18,13 +18,13 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:taxonomy_term'
+  handler: 'default:node'
   handler_settings:
     target_bundles:
       certificate_template: certificate_template
     sort:
-      field: name
-      direction: asc
+      field: _none
+      direction: ASC
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: certificate
 field_type: entity_reference
