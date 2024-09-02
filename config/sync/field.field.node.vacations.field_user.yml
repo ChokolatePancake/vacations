@@ -1,0 +1,29 @@
+uuid: 24583110-6ed1-4965-bb1b-7e1414f3fed8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_user
+    - node.type.vacations
+id: node.vacations.field_user
+field_name: field_user
+entity_type: node
+bundle: vacations
+label: User
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: _none
+    include_anonymous: false
+field_type: entity_reference

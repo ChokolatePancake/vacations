@@ -1,19 +1,19 @@
-uuid: 29b2a454-7457-43d9-af36-efac0e25e3ab
+uuid: 688b4268-d491-4791-8aec-582261ac2271
 langcode: en
 status: true
 dependencies:
   module:
     - node
     - user
-id: node.field_user_id
-field_name: field_user_id
+id: node.field_approvers
+field_name: field_approvers
 entity_type: node
 type: entity_reference
 settings:
   target_type: user
 module: core
 locked: false
-cardinality: 1
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

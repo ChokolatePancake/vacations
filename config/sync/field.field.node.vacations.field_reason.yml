@@ -1,0 +1,19 @@
+uuid: 289e1a17-4409-4912-8281-82997ad66393
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_reason
+    - node.type.vacations
+id: node.vacations.field_reason
+field_name: field_reason
+entity_type: node
+bundle: vacations
+label: Reason
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

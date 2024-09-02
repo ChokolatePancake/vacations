@@ -1,17 +1,17 @@
-uuid: 4c6252e4-71c1-4764-bcde-5e318fdfa8a0
+uuid: 32815585-f402-4a43-952e-2b957ca8ebc0
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_user_id
-    - node.type.certificate
-id: node.certificate.field_user_id
-field_name: field_user_id
+    - field.storage.node.field_approvers
+    - node.type.vacations
+id: node.vacations.field_approvers
+field_name: field_approvers
 entity_type: node
-bundle: certificate
-label: 'User Id'
+bundle: vacations
+label: Approvers
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

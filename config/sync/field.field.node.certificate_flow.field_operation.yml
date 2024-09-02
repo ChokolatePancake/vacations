@@ -1,0 +1,29 @@
+uuid: c109fcfb-63e8-48e5-a30c-b5d7532ad5da
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_operation
+    - node.type.certificate_flow
+    - taxonomy.vocabulary.operation_with_certificate
+id: node.certificate_flow.field_operation
+field_name: field_operation
+entity_type: node
+bundle: certificate_flow
+label: Operation
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      operation_with_certificate: operation_with_certificate
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

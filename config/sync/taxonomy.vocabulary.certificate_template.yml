@@ -1,0 +1,9 @@
+uuid: 8d02df5a-cde1-4eb9-a631-00d73ae8e8bd
+langcode: en
+status: true
+dependencies: {  }
+name: 'Certificate template'
+vid: certificate_template
+description: 'Certificate template for regular certificates'
+weight: 0
+new_revision: false

@@ -1,0 +1,23 @@
+uuid: 48f5aa3d-f8b3-4bcd-84e4-8bbf17daeb1c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_full_days
+    - node.type.vacations
+id: node.vacations.field_full_days
+field_name: field_full_days
+entity_type: node
+bundle: vacations
+label: 'Full days'
+description: 'This field is calculated automatically using end and start date'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,21 @@
+uuid: 6a80cf49-0cee-4d74-9794-3cf5247e66a3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_full_day
+    - node.type.vacations
+id: node.vacations.field_is_full_day
+field_name: field_is_full_day
+entity_type: node
+bundle: vacations
+label: 'Is full day'
+description: 'This field for knowing is vacation full day or partial day'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

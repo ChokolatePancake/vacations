@@ -1,0 +1,15 @@
+uuid: d77db0bd-2968-493d-87ca-82b5cee199aa
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.approve
+  module:
+    - flag
+id: flag_action.approve_unflag
+label: Reject
+type: node
+plugin: 'flag_action:approve_unflag'
+configuration:
+  flag_id: approve
+  flag_action: unflag

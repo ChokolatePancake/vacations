@@ -1,0 +1,20 @@
+uuid: aee39d37-2590-4126-9771-444c2f1ad24c
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_operation_with_days
+field_name: field_operation_with_days
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,23 @@
+uuid: 25d14abf-dc86-4d7a-85b3-07dd04d74f2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_paid
+    - node.type.vacations
+id: node.vacations.field_is_paid
+field_name: field_is_paid
+entity_type: node
+bundle: vacations
+label: 'Is paid'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

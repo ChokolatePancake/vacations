@@ -1,0 +1,38 @@
+uuid: e22a4e7d-11fd-41b6-b816-730ad3e46c71
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.vacations.field_approvers
+    - field.field.node.vacations.field_end_date
+    - field.field.node.vacations.field_full_days
+    - field.field.node.vacations.field_is_approved
+    - field.field.node.vacations.field_is_full_day
+    - field.field.node.vacations.field_is_paid
+    - field.field.node.vacations.field_reason
+    - field.field.node.vacations.field_start_date
+    - field.field.node.vacations.field_user
+    - node.type.vacations
+  module:
+    - user
+id: node.vacations.teaser
+targetEntityType: node
+bundle: vacations
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_approvers: true
+  field_end_date: true
+  field_full_days: true
+  field_is_approved: true
+  field_is_full_day: true
+  field_is_paid: true
+  field_reason: true
+  field_start_date: true
+  field_user: true

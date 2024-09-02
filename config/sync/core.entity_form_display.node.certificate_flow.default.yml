@@ -1,17 +1,18 @@
-uuid: 065c26ea-0941-4e15-a349-715128494327
+uuid: f41d486e-1bf4-44da-9372-ef2570fe4bc4
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.certificate.field_expiration_date
-    - field.field.node.certificate.field_starting_days_number
-    - field.field.node.certificate.field_user
-    - node.type.certificate
+    - field.field.node.certificate_flow.field_certificate
+    - field.field.node.certificate_flow.field_days
+    - field.field.node.certificate_flow.field_operation
+    - field.field.node.certificate_flow.field_operation_with_days
+    - node.type.certificate_flow
   module:
     - path
-id: node.certificate.default
+id: node.certificate_flow.default
 targetEntityType: node
-bundle: certificate
+bundle: certificate_flow
 mode: default
 content:
   created:
@@ -20,20 +21,7 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_expiration_date:
-    type: datetime_timestamp
-    weight: 122
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_starting_days_number:
-    type: number
-    weight: 123
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_user:
+  field_certificate:
     type: entity_reference_autocomplete
     weight: 121
     region: content
@@ -41,6 +29,30 @@ content:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_days:
+    type: number
+    weight: 124
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_operation:
+    type: entity_reference_autocomplete
+    weight: 122
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_operation_with_days:
+    type: number
+    weight: 123
+    region: content
+    settings:
       placeholder: ''
     third_party_settings: {  }
   path:

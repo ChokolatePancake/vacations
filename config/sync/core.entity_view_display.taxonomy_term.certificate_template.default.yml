@@ -1,0 +1,41 @@
+uuid: 902f8f69-050a-4c16-916b-cf578430543f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.certificate_template.field_expiration_period
+    - field.field.taxonomy_term.certificate_template.field_number_of_days
+    - taxonomy.vocabulary.certificate_template
+  module:
+    - text
+id: taxonomy_term.certificate_template.default
+targetEntityType: taxonomy_term
+bundle: certificate_template
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_expiration_period:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_number_of_days:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

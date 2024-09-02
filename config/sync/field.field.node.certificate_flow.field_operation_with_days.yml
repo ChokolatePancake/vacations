@@ -1,0 +1,23 @@
+uuid: 00c268c0-a55c-4892-b644-eeb547ce1afa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_operation_with_days
+    - node.type.certificate_flow
+id: node.certificate_flow.field_operation_with_days
+field_name: field_operation_with_days
+entity_type: node
+bundle: certificate_flow
+label: 'Operation with days'
+description: 'Here should be the number of days with which the operation is performed'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,17 @@
+uuid: 407d84e2-3091-406d-a365-13ca84555a84
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Certificate flow'
+type: certificate_flow
+description: 'For tracking creating, using, returning, and burning (expiration) of certificates.'
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

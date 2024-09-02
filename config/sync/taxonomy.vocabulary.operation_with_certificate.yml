@@ -1,0 +1,9 @@
+uuid: 6351d0ad-5b00-43ff-9f32-37510da0b5a7
+langcode: en
+status: true
+dependencies: {  }
+name: 'Operation with certificate'
+vid: operation_with_certificate
+description: 'Creating, using, returning, burning'
+weight: 0
+new_revision: false

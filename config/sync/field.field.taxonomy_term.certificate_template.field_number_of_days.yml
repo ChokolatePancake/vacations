@@ -1,0 +1,23 @@
+uuid: 1ee2bb0e-db4a-40b8-9fe8-4332c04ab3fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_number_of_days
+    - taxonomy.vocabulary.certificate_template
+id: taxonomy_term.certificate_template.field_number_of_days
+field_name: field_number_of_days
+entity_type: taxonomy_term
+bundle: certificate_template
+label: 'Number of Days'
+description: 'How many days will be given when regular certificate will be created'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

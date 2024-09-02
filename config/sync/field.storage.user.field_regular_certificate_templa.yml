@@ -1,0 +1,20 @@
+uuid: 2da37a00-cd8f-4d34-a6f1-f85d9204c45c
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - user
+id: user.field_regular_certificate_templa
+field_name: field_regular_certificate_templa
+entity_type: user
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

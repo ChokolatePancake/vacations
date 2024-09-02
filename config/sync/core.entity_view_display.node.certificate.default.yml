@@ -5,7 +5,7 @@ dependencies:
   config:
     - field.field.node.certificate.field_expiration_date
     - field.field.node.certificate.field_starting_days_number
-    - field.field.node.certificate.field_user_id
+    - field.field.node.certificate.field_user
     - node.type.certificate
   module:
     - user
@@ -42,7 +42,7 @@ content:
     third_party_settings: {  }
     weight: 103
     region: content
-  field_user_id:
+  field_user:
     type: entity_reference_label
     label: above
     settings:

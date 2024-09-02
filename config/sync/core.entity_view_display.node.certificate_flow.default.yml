@@ -1,0 +1,57 @@
+uuid: f38e1caa-0886-44dc-9015-d76fbcb6f154
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.certificate_flow.field_certificate
+    - field.field.node.certificate_flow.field_days
+    - field.field.node.certificate_flow.field_operation
+    - field.field.node.certificate_flow.field_operation_with_days
+    - node.type.certificate_flow
+  module:
+    - user
+id: node.certificate_flow.default
+targetEntityType: node
+bundle: certificate_flow
+mode: default
+content:
+  field_certificate:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_days:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_operation:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_operation_with_days:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

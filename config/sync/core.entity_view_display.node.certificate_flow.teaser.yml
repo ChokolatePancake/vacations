@@ -1,0 +1,28 @@
+uuid: 3af248c4-b2ae-4035-8b3a-e1fe5ae36d93
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.certificate_flow.field_certificate
+    - field.field.node.certificate_flow.field_days
+    - field.field.node.certificate_flow.field_operation
+    - field.field.node.certificate_flow.field_operation_with_days
+    - node.type.certificate_flow
+  module:
+    - user
+id: node.certificate_flow.teaser
+targetEntityType: node
+bundle: certificate_flow
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_certificate: true
+  field_days: true
+  field_operation: true
+  field_operation_with_days: true

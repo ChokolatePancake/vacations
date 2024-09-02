@@ -1,0 +1,23 @@
+uuid: 731eef71-b945-442a-bd03-20df38e4298f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_days
+    - node.type.certificate_flow
+id: node.certificate_flow.field_days
+field_name: field_days
+entity_type: node
+bundle: certificate_flow
+label: Days
+description: "This field is calculated automatically. The value depends on the number of days from the previous record of this certificate and operation's days"
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

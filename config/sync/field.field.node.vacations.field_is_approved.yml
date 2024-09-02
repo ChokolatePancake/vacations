@@ -1,0 +1,23 @@
+uuid: 51c7144b-a958-46d8-b8fc-597d94b432c3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_approved
+    - node.type.vacations
+id: node.vacations.field_is_approved
+field_name: field_is_approved
+entity_type: node
+bundle: vacations
+label: 'Is approved'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

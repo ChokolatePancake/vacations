@@ -1,0 +1,20 @@
+uuid: 17db3e88-7cc5-4b1a-a531-0d81dd663008
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.field_expiration_period
+field_name: field_expiration_period
+entity_type: taxonomy_term
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
