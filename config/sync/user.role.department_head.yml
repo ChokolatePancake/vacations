@@ -1,0 +1,25 @@
+uuid: 80df4662-7f3b-4658-b4d7-c777d2ed9241
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.certificate
+    - node.type.vacations
+  module:
+    - flag
+    - node
+    - system
+id: department_head
+label: 'Department Head'
+weight: -2
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access user profiles'
+  - 'create certificate content'
+  - 'create vacations content'
+  - 'delete own vacations content'
+  - 'flag approve'
+  - 'unflag approve'
+  - 'view own unpublished content'
+  - 'view user email addresses'

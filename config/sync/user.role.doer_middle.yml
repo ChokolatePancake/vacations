@@ -1,0 +1,20 @@
+uuid: ed0a5708-2032-4d67-a19b-9140d29922a5
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.vacations
+  module:
+    - node
+    - system
+id: doer_middle
+label: 'Doer Middle'
+weight: 0
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access user profiles'
+  - 'create vacations content'
+  - 'delete own vacations content'
+  - 'view own unpublished content'
+  - 'view user email addresses'

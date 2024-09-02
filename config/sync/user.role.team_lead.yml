@@ -1,0 +1,25 @@
+uuid: 8d02a8ca-9470-46ea-8f09-1dad9b92a6c4
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.certificate
+    - node.type.vacations
+  module:
+    - flag
+    - node
+    - system
+id: team_lead
+label: 'Team Lead'
+weight: 4
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access user profiles'
+  - 'create certificate content'
+  - 'create vacations content'
+  - 'delete own vacations content'
+  - 'flag approve'
+  - 'unflag approve'
+  - 'view own unpublished content'
+  - 'view user email addresses'

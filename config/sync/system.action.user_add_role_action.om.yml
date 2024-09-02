@@ -1,0 +1,14 @@
+uuid: e09389e6-9055-4402-8c31-94506aa7d5e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.om
+  module:
+    - user
+id: user_add_role_action.om
+label: 'Add the OM role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: om

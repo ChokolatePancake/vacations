@@ -1,0 +1,14 @@
+uuid: f4da0394-c4d6-447c-85f6-bd345cf3d543
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.doer_junior
+  module:
+    - user
+id: user_add_role_action.doer_junior
+label: 'Add the Doer Junior role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: doer_junior

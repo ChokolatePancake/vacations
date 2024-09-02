@@ -1,0 +1,14 @@
+uuid: a21af94c-c134-49e8-92aa-13fb44418f95
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.administrative_staff
+  module:
+    - user
+id: user_remove_role_action.administrative_staff
+label: 'Remove the Administrative Staff role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: administrative_staff

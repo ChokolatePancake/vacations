@@ -1,0 +1,14 @@
+uuid: 00a8b13f-79ca-405f-bae5-50fec417168f
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.administrative_staff
+  module:
+    - user
+id: user_add_role_action.administrative_staff
+label: 'Add the Administrative Staff role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: administrative_staff

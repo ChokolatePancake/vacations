@@ -1,0 +1,20 @@
+uuid: e07cf387-eb3a-4d58-aa6f-c832e3005e79
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.vacations
+  module:
+    - node
+    - system
+id: hr
+label: HR
+weight: 2
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access user profiles'
+  - 'create vacations content'
+  - 'delete own vacations content'
+  - 'view own unpublished content'
+  - 'view user email addresses'

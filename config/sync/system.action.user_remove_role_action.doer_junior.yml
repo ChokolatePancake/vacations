@@ -1,0 +1,14 @@
+uuid: f45676f2-5afa-4af1-84ae-38f562f1ec3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.doer_junior
+  module:
+    - user
+id: user_remove_role_action.doer_junior
+label: 'Remove the Doer Junior role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: doer_junior

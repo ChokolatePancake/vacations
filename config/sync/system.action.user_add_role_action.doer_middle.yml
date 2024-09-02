@@ -1,0 +1,14 @@
+uuid: ccf6acb3-cd20-4336-a65b-6063c6d98dc0
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.doer_middle
+  module:
+    - user
+id: user_add_role_action.doer_middle
+label: 'Add the Doer Middle role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: doer_middle

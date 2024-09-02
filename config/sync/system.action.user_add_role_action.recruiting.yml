@@ -1,0 +1,14 @@
+uuid: bcc55507-2336-47c6-9de2-dc8ef3f89c2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.recruiting
+  module:
+    - user
+id: user_add_role_action.recruiting
+label: 'Add the Recruiting role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: recruiting

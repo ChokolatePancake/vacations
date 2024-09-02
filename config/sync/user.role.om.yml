@@ -1,0 +1,20 @@
+uuid: f3f7f5dc-7819-411c-8fd1-5c494fde41b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.vacations
+  module:
+    - node
+    - system
+id: om
+label: OM
+weight: 5
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access user profiles'
+  - 'create vacations content'
+  - 'delete own vacations content'
+  - 'view own unpublished content'
+  - 'view user email addresses'

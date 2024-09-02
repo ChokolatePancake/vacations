@@ -1,0 +1,14 @@
+uuid: ea5ae550-284e-4dd0-8e08-6536c0f87399
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.doer_senior
+  module:
+    - user
+id: user_add_role_action.doer_senior
+label: 'Add the Doer Senior role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: doer_senior

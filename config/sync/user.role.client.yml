@@ -1,0 +1,23 @@
+uuid: 0a120b04-cb7e-43f3-bce1-456ec6d75330
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.vacations
+  module:
+    - flag
+    - node
+    - system
+id: client
+label: Client
+weight: -3
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access user profiles'
+  - 'create vacations content'
+  - 'delete own vacations content'
+  - 'flag approve'
+  - 'unflag approve'
+  - 'view own unpublished content'
+  - 'view user email addresses'

@@ -1,0 +1,14 @@
+uuid: bcb70306-b838-4be0-8464-ee3cae3f84d9
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.doer_senior
+  module:
+    - user
+id: user_remove_role_action.doer_senior
+label: 'Remove the Doer Senior role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: doer_senior

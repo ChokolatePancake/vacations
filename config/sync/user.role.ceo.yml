@@ -1,0 +1,56 @@
+uuid: 38fc157e-1d63-45ef-b0f7-9ba1dfff5d5e
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.certificate
+    - node.type.vacations
+    - taxonomy.vocabulary.certificate_template
+  module:
+    - comment
+    - field_ui
+    - flag
+    - node
+    - path
+    - system
+    - taxonomy
+    - toolbar
+    - views_ui
+id: ceo
+label: CEO
+weight: -7
+is_admin: null
+permissions:
+  - 'access administration pages'
+  - 'access content'
+  - 'access content overview'
+  - 'access taxonomy overview'
+  - 'access toolbar'
+  - 'access user profiles'
+  - 'administer account settings'
+  - 'administer actions'
+  - 'administer comment fields'
+  - 'administer flaggings'
+  - 'administer flags'
+  - 'administer node display'
+  - 'administer node form display'
+  - 'administer nodes'
+  - 'administer permissions'
+  - 'administer url aliases'
+  - 'administer users'
+  - 'administer views'
+  - 'create certificate content'
+  - 'create terms in certificate_template'
+  - 'create url aliases'
+  - 'create vacations content'
+  - 'delete any certificate content'
+  - 'delete any vacations content'
+  - 'delete own vacations content'
+  - 'delete terms in certificate_template'
+  - 'edit terms in certificate_template'
+  - 'flag approve'
+  - 'link to any page'
+  - 'unflag approve'
+  - 'view own unpublished content'
+  - 'view user email addresses'
+  - 'view vocabulary labels'

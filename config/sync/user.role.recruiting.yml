@@ -1,0 +1,20 @@
+uuid: a63ab722-d4b4-4443-b454-49e90cdd1760
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.vacations
+  module:
+    - node
+    - system
+id: recruiting
+label: Recruiting
+weight: 7
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access user profiles'
+  - 'create vacations content'
+  - 'delete own vacations content'
+  - 'view own unpublished content'
+  - 'view user email addresses'

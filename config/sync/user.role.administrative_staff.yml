@@ -1,0 +1,25 @@
+uuid: 99f3811e-e5cc-4251-9928-eff0951ff3dc
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.certificate
+    - node.type.vacations
+  module:
+    - flag
+    - node
+    - system
+id: administrative_staff
+label: 'Administrative Staff'
+weight: -6
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access user profiles'
+  - 'create certificate content'
+  - 'create vacations content'
+  - 'delete own vacations content'
+  - 'flag approve'
+  - 'unflag approve'
+  - 'view own unpublished content'
+  - 'view user email addresses'

@@ -1,0 +1,20 @@
+uuid: 8ab91d99-5efd-4319-9777-cc0747323ffe
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.vacations
+  module:
+    - node
+    - system
+id: accounting
+label: Accounting
+weight: -5
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access user profiles'
+  - 'create vacations content'
+  - 'delete own vacations content'
+  - 'view own unpublished content'
+  - 'view user email addresses'

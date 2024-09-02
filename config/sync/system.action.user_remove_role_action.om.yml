@@ -1,0 +1,14 @@
+uuid: c5caaa3b-b0af-44d6-adbb-79df2220bee3
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.om
+  module:
+    - user
+id: user_remove_role_action.om
+label: 'Remove the OM role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: om

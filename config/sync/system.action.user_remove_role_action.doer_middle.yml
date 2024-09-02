@@ -1,0 +1,14 @@
+uuid: d617ab4a-d2d6-4264-8263-c8db394ab03e
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.doer_middle
+  module:
+    - user
+id: user_remove_role_action.doer_middle
+label: 'Remove the Doer Middle role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: doer_middle

@@ -1,0 +1,20 @@
+uuid: 9ae3b55f-59b1-4224-95e9-5bfc7a3f322b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.vacations
+  module:
+    - node
+    - system
+id: marketing
+label: Marketing
+weight: 3
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access user profiles'
+  - 'create vacations content'
+  - 'delete own vacations content'
+  - 'view own unpublished content'
+  - 'view user email addresses'
