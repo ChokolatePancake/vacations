@@ -1,0 +1,13 @@
+uuid: ec58599b-6209-49bf-ade3-a55f9c09cdbc
+langcode: en
+status: true
+dependencies: {  }
+id: process_d524j1k
+modeller: bpmn_io
+label: Vacations
+version: ''
+weight: null
+events: {  }
+conditions: {  }
+gateways: {  }
+actions: {  }
