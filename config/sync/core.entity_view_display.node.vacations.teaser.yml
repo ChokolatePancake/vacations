@@ -21,6 +21,11 @@ targetEntityType: node
 bundle: vacations
 mode: teaser
 content:
+  flag_approve:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -36,3 +41,4 @@ hidden:
   field_reason: true
   field_start_date: true
   field_user: true
+  langcode: true

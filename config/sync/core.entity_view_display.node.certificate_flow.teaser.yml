@@ -26,3 +26,4 @@ hidden:
   field_days: true
   field_operation: true
   field_operation_with_days: true
+  langcode: true

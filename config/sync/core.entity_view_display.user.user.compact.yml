@@ -30,4 +30,5 @@ content:
     region: content
 hidden:
   field_regular_certificate_templa: true
+  langcode: true
   member_for: true

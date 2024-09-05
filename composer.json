@@ -25,6 +25,8 @@
         "drupal/eca": "^2.0",
         "drupal/flag": "^4.0@beta",
         "drupal/queue_ui": "^3.1",
+        "drupal/token": "^1.15",
+        "drupal/views_aggregator": "^2.0",
         "drush/drush": "^13.0"
     },
     "conflict": {

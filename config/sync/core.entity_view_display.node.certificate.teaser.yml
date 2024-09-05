@@ -24,3 +24,4 @@ hidden:
   field_expiration_date: true
   field_starting_days_number: true
   field_user: true
+  langcode: true

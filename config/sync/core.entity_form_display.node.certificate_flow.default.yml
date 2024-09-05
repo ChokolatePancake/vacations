@@ -39,14 +39,10 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_operation:
-    type: entity_reference_autocomplete
+    type: options_select
     weight: 122
     region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
   field_operation_with_days:
     type: number
@@ -54,6 +50,13 @@ content:
     region: content
     settings:
       placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
     third_party_settings: {  }
   path:
     type: path

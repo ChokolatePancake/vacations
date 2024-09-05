@@ -1,13 +1,263 @@
 uuid: ec58599b-6209-49bf-ade3-a55f9c09cdbc
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - field.field.node.certificate.field_expiration_date
+    - field.field.node.certificate.field_starting_days_number
+    - field.field.node.certificate.field_user
+    - field.field.node.certificate_flow.field_certificate
+    - field.field.node.certificate_flow.field_days
+    - field.field.node.certificate_flow.field_operation
+    - field.field.node.certificate_flow.field_operation_with_days
+    - field.field.node.certificate_template.field_number_of_days
+    - field.field.node.vacations.field_user
+    - field.field.user.user.field_regular_certificate_templa
+    - field.storage.node.field_certificate
+    - field.storage.node.field_days
+    - field.storage.node.field_expiration_date
+    - field.storage.node.field_number_of_days
+    - field.storage.node.field_operation
+    - field.storage.node.field_operation_with_days
+    - field.storage.node.field_starting_days_number
+    - field.storage.node.field_user
+    - field.storage.user.field_regular_certificate_templa
+    - node.type.certificate
+    - node.type.certificate_flow
+  module:
+    - eca_content
+    - eca_queue
+    - user
 id: process_d524j1k
 modeller: bpmn_io
 label: Vacations
 version: ''
-weight: null
-events: {  }
-conditions: {  }
+weight: 0
+events:
+  Event_1lp4or2:
+    plugin: 'content_entity:insert'
+    label: Event_1lp4or2
+    configuration:
+      type: 'user user'
+    successors:
+      -
+        id: Activity_1iigodt
+        condition: ''
+  Event_0yekq4q:
+    plugin: 'eca_queue:processing_task'
+    label: Event_0yekq4q
+    configuration:
+      distribute: false
+      task_name: give_certificate
+      task_value: ''
+      cron: '60'
+    successors:
+      -
+        id: Activity_1o6mgkq
+        condition: Flow_0yq0jwy
+conditions:
+  Flow_0yq0jwy:
+    plugin: eca_entity_exists
+    configuration:
+      negate: false
+      unchanged: false
+      latest_revision: false
+      from: id
+      entity_type: user
+      entity_id: '[created-user:uid]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      entity: created-user
 gateways: {  }
-actions: {  }
+actions:
+  Activity_1rgszo3:
+    plugin: eca_enqueue_task_delayed
+    label: 'Wait 6 months'
+    configuration:
+      delay_value: '10'
+      delay_unit: '1'
+      task_name: give_certificate
+      task_value: ''
+      tokens: 'created-user, template'
+    successors: {  }
+  Activity_1o6mgkq:
+    plugin: eca_new_entity
+    label: 'Create regular certificate'
+    configuration:
+      token_name: certificate
+      type: 'node certificate'
+      langcode: _interface
+      label: 'Regular certificate'
+      published: true
+      owner: '1'
+    successors:
+      -
+        id: Activity_12o5wvl
+        condition: ''
+  Activity_1yd3qbq:
+    plugin: eca_set_field_value
+    label: 'Set starting number of days in certificate'
+    configuration:
+      field_name: field_starting_days_number.value
+      field_value: '[template:field_number_of_days]'
+      method: 'set:empty'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate
+    successors:
+      -
+        id: Activity_1tpd9sk
+        condition: ''
+  Activity_03fxg1u:
+    plugin: eca_set_field_value
+    label: 'Set expiration for certificate'
+    configuration:
+      field_name: field_expiration_date.value
+      field_value: '[current-date:raw]'
+      method: 'set:empty'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate
+    successors:
+      -
+        id: Activity_1yd3qbq
+        condition: ''
+  Activity_18jucyp:
+    plugin: eca_set_field_value
+    label: 'Put user information to certificate'
+    configuration:
+      field_name: field_user.target_id
+      field_value: '[created-user:uid]'
+      method: 'set:empty'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate
+    successors:
+      -
+        id: Activity_03fxg1u
+        condition: ''
+  Activity_1iigodt:
+    plugin: eca_token_load_entity_ref
+    label: "Load user's certificate template"
+    configuration:
+      field_name_entity_ref: field_regular_certificate_templa
+      token_name: template
+      from: current
+      entity_type: node
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_10ezw9r
+        condition: ''
+  Activity_10ezw9r:
+    plugin: eca_token_load_entity
+    label: 'Load user'
+    configuration:
+      token_name: created-user
+      from: current
+      entity_type: user
+      entity_id: '[user:uid]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_1rgszo3
+        condition: ''
+  Activity_0f9v5xr:
+    plugin: eca_enqueue_task_delayed
+    label: 'Wait again'
+    configuration:
+      delay_value: '10'
+      delay_unit: '1'
+      task_name: give_certificate
+      task_value: ''
+      tokens: 'created-user, template'
+    successors: {  }
+  Activity_12o5wvl:
+    plugin: eca_new_entity
+    label: 'Create record in flow'
+    configuration:
+      token_name: certificate-flow
+      type: 'node certificate_flow'
+      langcode: ''
+      label: 'Creating regular certificate'
+      published: true
+      owner: '1'
+    successors:
+      -
+        id: Activity_18jucyp
+        condition: ''
+  Activity_1tpd9sk:
+    plugin: eca_set_field_value
+    label: 'Put certificate to flow'
+    configuration:
+      field_name: field_certificate.target_id
+      field_value: '[certificate:nid]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_1x8u75x
+        condition: ''
+  Activity_1x8u75x:
+    plugin: eca_set_field_value
+    label: 'Set operation'
+    configuration:
+      field_name: field_operation.target_id
+      field_value: '1'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_05vtl7d
+        condition: ''
+  Activity_05vtl7d:
+    plugin: eca_set_field_value
+    label: 'Set operation with days'
+    configuration:
+      field_name: field_operation_with_days.value
+      field_value: '[template:field_number_of_days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_13jr03y
+        condition: ''
+  Activity_13jr03y:
+    plugin: eca_set_field_value
+    label: 'Set days'
+    configuration:
+      field_name: field_days.value
+      field_value: '[template:field_number_of_days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_0f9v5xr
+        condition: ''

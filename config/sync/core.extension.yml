@@ -23,10 +23,22 @@ module:
   eca: 0
   eca_access: 0
   eca_base: 0
+  eca_cache: 0
+  eca_config: 0
+  eca_content: 0
+  eca_development: 0
+  eca_endpoint: 0
+  eca_file: 0
+  eca_language: 0
+  eca_log: 0
+  eca_migrate: 0
+  eca_misc: 0
   eca_modeller_bpmn: 0
   eca_queue: 0
+  eca_render: 0
   eca_ui: 0
   eca_user: 0
+  eca_views: 0
   editor: 0
   field: 0
   field_ui: 0
@@ -36,9 +48,11 @@ module:
   help: 0
   history: 0
   image: 0
+  language: 0
   link: 0
   menu_link_content: 0
   menu_ui: 0
+  migrate: 0
   mysql: 0
   node: 0
   options: 0
@@ -51,10 +65,13 @@ module:
   system: 0
   taxonomy: 0
   text: 0
+  token: 0
   toolbar: 0
   update: 0
   user: 0
+  views_aggregator: 0
   views_ui: 0
+  eca_form: 1
   views: 10
   standard: 1000
 theme:
