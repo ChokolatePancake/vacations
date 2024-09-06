@@ -10,27 +10,33 @@ dependencies:
     - field.field.node.certificate_flow.field_days
     - field.field.node.certificate_flow.field_operation
     - field.field.node.certificate_flow.field_operation_with_days
+    - field.field.node.certificate_template.field_expiration_period
     - field.field.node.certificate_template.field_number_of_days
     - field.field.node.vacations.field_user
+    - field.field.user.user.field_available_days
     - field.field.user.user.field_regular_certificate_templa
     - field.storage.node.field_certificate
     - field.storage.node.field_days
     - field.storage.node.field_expiration_date
+    - field.storage.node.field_expiration_period
     - field.storage.node.field_number_of_days
     - field.storage.node.field_operation
     - field.storage.node.field_operation_with_days
     - field.storage.node.field_starting_days_number
     - field.storage.node.field_user
+    - field.storage.user.field_available_days
     - field.storage.user.field_regular_certificate_templa
     - node.type.certificate
     - node.type.certificate_flow
   module:
+    - eca_base
     - eca_content
     - eca_queue
+    - eca_tamper
     - user
 id: process_d524j1k
 modeller: bpmn_io
-label: Vacations
+label: 'Set days'
 version: ''
 weight: 0
 events:
@@ -55,6 +61,15 @@ events:
       -
         id: Activity_1o6mgkq
         condition: Flow_0yq0jwy
+  Event_09ycnmd:
+    plugin: 'content_entity:insert'
+    label: Event_09ycnmd
+    configuration:
+      type: 'node certificate_flow'
+    successors:
+      -
+        id: Activity_1lo70pw
+        condition: ''
 conditions:
   Flow_0yq0jwy:
     plugin: eca_entity_exists
@@ -69,6 +84,24 @@ conditions:
       properties: ''
       langcode: _interface
       entity: created-user
+  Flow_1027xb1:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[operation-with-days]'
+      right: '0'
+      operator: equal
+      type: value
+      negate: true
+  Flow_16b4ebh:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[operation-with-days]'
+      right: '0'
+      operator: equal
+      type: value
 gateways: {  }
 actions:
   Activity_1rgszo3:
@@ -115,7 +148,7 @@ actions:
     label: 'Set expiration for certificate'
     configuration:
       field_name: field_expiration_date.value
-      field_value: '[current-date:raw]'
+      field_value: '[expiration-date]'
       method: 'set:empty'
       strip_tags: false
       trim: false
@@ -138,7 +171,7 @@ actions:
       object: certificate
     successors:
       -
-        id: Activity_03fxg1u
+        id: Activity_0p8pwgo
         condition: ''
   Activity_1iigodt:
     plugin: eca_token_load_entity_ref
@@ -260,4 +293,142 @@ actions:
     successors:
       -
         id: Activity_0f9v5xr
+        condition: ''
+  Activity_144qdyn:
+    plugin: eca_token_load_entity_ref
+    label: 'Load certificate'
+    configuration:
+      field_name_entity_ref: field_certificate
+      token_name: certificate
+      from: current
+      entity_type: node
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_08qvzji
+        condition: ''
+  Activity_08qvzji:
+    plugin: eca_token_load_entity_ref
+    label: 'Load user'
+    configuration:
+      field_name_entity_ref: field_user
+      token_name: certificate-user
+      from: current
+      entity_type: user
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: certificate
+    successors:
+      -
+        id: Activity_1driwde
+        condition: ''
+  Activity_1driwde:
+    plugin: eca_get_field_value
+    label: 'Get available days from user'
+    configuration:
+      field_name: field_available_days
+      token_name: available-days
+      object: certificate-user
+    successors:
+      -
+        id: Activity_069nqim
+        condition: Flow_1027xb1
+      -
+        id: Activity_1dp9cir
+        condition: Flow_16b4ebh
+  Activity_1lo70pw:
+    plugin: eca_get_field_value
+    label: 'Get operations-with-days from flow'
+    configuration:
+      field_name: field_operation_with_days
+      token_name: operation-with-days
+      object: ''
+    successors:
+      -
+        id: Activity_144qdyn
+        condition: ''
+  Activity_069nqim:
+    plugin: 'eca_tamper:math'
+    label: 'Sum operations-with-days with available-days'
+    configuration:
+      operation: addition
+      flip: false
+      value: '[available-days]'
+      eca_data: '[operation-with-days]'
+      eca_token_name: current-available-days
+    successors:
+      -
+        id: Activity_104k1js
+        condition: ''
+  Activity_104k1js:
+    plugin: eca_set_field_value
+    label: 'Save new available-days value'
+    configuration:
+      field_name: field_available_days
+      field_value: '[current-available-days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-user
+    successors: {  }
+  Activity_034m0q8:
+    plugin: 'eca_tamper:math'
+    label: 'Subtract remaining days when the certificate is burned'
+    configuration:
+      operation: subtraction
+      flip: false
+      value: '[remaining-days]'
+      eca_data: '[available-days]'
+      eca_token_name: current-available-days
+    successors:
+      -
+        id: Activity_104k1js
+        condition: ''
+  Activity_1dp9cir:
+    plugin: eca_get_field_value
+    label: 'Load remaining days from flow'
+    configuration:
+      field_name: field_days
+      token_name: remaining-days
+      object: ''
+    successors:
+      -
+        id: Activity_034m0q8
+        condition: ''
+  Activity_0p8pwgo:
+    plugin: 'eca_tamper:math'
+    label: 'Count expiration time in seconds'
+    configuration:
+      operation: multiplication
+      flip: false
+      value: '2629800'
+      eca_data: '[template:field_expiration_period:value]'
+      eca_token_name: expiration-time
+    successors:
+      -
+        id: Activity_0iblsno
+        condition: ''
+  Activity_0iblsno:
+    plugin: 'eca_tamper:math'
+    label: 'Count expiration date'
+    configuration:
+      operation: addition
+      flip: false
+      value: '[expiration-time]'
+      eca_data: '[current-date:raw]'
+      eca_token_name: expiration-date
+    successors:
+      -
+        id: Activity_03fxg1u
         condition: ''

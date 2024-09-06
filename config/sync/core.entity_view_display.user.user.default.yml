@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_available_days
     - field.field.user.user.field_regular_certificate_templa
     - field.field.user.user.user_picture
     - image.style.thumbnail
@@ -16,6 +17,15 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
+  field_available_days:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
   field_regular_certificate_templa:
     type: entity_reference_label
     label: above
@@ -25,6 +35,8 @@ content:
     weight: 6
     region: content
   member_for:
+    settings: {  }
+    third_party_settings: {  }
     weight: 5
     region: content
   user_picture:

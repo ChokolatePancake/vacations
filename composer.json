@@ -23,6 +23,7 @@
         "drupal/core-recommended": "^10.3",
         "drupal/devel": "^5.3",
         "drupal/eca": "^2.0",
+        "drupal/eca_tamper": "^2.0",
         "drupal/flag": "^4.0@beta",
         "drupal/queue_ui": "^3.1",
         "drupal/token": "^1.15",
@@ -32,7 +33,7 @@
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "allow-plugins": {
@@ -46,6 +47,11 @@
         "sort-packages": true
     },
     "extra": {
+        "patches": {
+            "drupal/core": {
+                "Add Views EntityReference filter to support better UX for exposed filters": "https://www.drupal.org/files/issues/2024-07-10/3347343-213.patch"
+            }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
