@@ -5,14 +5,13 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.vacations.field_approvers
-    - field.field.node.vacations.field_end_date
+    - field.field.node.vacations.field_date
+    - field.field.node.vacations.field_date_and_time
     - field.field.node.vacations.field_full_days
     - field.field.node.vacations.field_is_approved
     - field.field.node.vacations.field_is_full_day
     - field.field.node.vacations.field_is_paid
     - field.field.node.vacations.field_reason
-    - field.field.node.vacations.field_start_date
-    - field.field.node.vacations.field_user
     - node.type.vacations
   module:
     - user
@@ -33,12 +32,11 @@ content:
     region: content
 hidden:
   field_approvers: true
-  field_end_date: true
+  field_date: true
+  field_date_and_time: true
   field_full_days: true
   field_is_approved: true
   field_is_full_day: true
   field_is_paid: true
   field_reason: true
-  field_start_date: true
-  field_user: true
   langcode: true

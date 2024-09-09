@@ -13,10 +13,12 @@ module:
   breakpoint: 0
   ckeditor5: 0
   comment: 0
+  conditional_fields: 0
   config: 0
   contact: 0
   contextual: 0
   datetime: 0
+  datetime_range: 0
   dblog: 0
   devel: 0
   dynamic_page_cache: 0
@@ -29,6 +31,7 @@ module:
   eca_development: 0
   eca_endpoint: 0
   eca_file: 0
+  eca_flag: 0
   eca_language: 0
   eca_log: 0
   eca_migrate: 0
@@ -68,6 +71,7 @@ module:
   taxonomy: 0
   text: 0
   token: 0
+  token_views_filter: 0
   toolbar: 0
   update: 0
   user: 0

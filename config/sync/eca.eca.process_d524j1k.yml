@@ -1,4 +1,4 @@
-uuid: ec58599b-6209-49bf-ade3-a55f9c09cdbc
+uuid: fc016784-7386-4ce5-811c-e8a723e26d66
 langcode: en
 status: true
 dependencies:
@@ -12,13 +12,16 @@ dependencies:
     - field.field.node.certificate_flow.field_operation_with_days
     - field.field.node.certificate_template.field_expiration_period
     - field.field.node.certificate_template.field_number_of_days
-    - field.field.node.vacations.field_user
+    - field.field.node.vacations.field_date
+    - field.field.node.vacations.field_full_days
     - field.field.user.user.field_available_days
     - field.field.user.user.field_regular_certificate_templa
     - field.storage.node.field_certificate
+    - field.storage.node.field_date
     - field.storage.node.field_days
     - field.storage.node.field_expiration_date
     - field.storage.node.field_expiration_period
+    - field.storage.node.field_full_days
     - field.storage.node.field_number_of_days
     - field.storage.node.field_operation
     - field.storage.node.field_operation_with_days
@@ -28,15 +31,20 @@ dependencies:
     - field.storage.user.field_regular_certificate_templa
     - node.type.certificate
     - node.type.certificate_flow
+    - node.type.vacations
+    - views.view.certificates
   module:
     - eca_base
     - eca_content
+    - eca_flag
+    - eca_log
     - eca_queue
     - eca_tamper
+    - eca_views
     - user
 id: process_d524j1k
 modeller: bpmn_io
-label: 'Set days'
+label: noname
 version: ''
 weight: 0
 events:
@@ -70,6 +78,32 @@ events:
       -
         id: Activity_1lo70pw
         condition: ''
+  Event_08pkbbv:
+    plugin: 'content_entity:insert'
+    label: Event_08pkbbv
+    configuration:
+      type: 'node vacations'
+    successors:
+      -
+        id: Activity_011v1oh
+        condition: ''
+  Event_0tbybkg:
+    plugin: 'flag:flag'
+    label: Event_0tbybkg
+    configuration: {  }
+    successors:
+      -
+        id: Activity_1p6780b
+        condition: ''
+  Event_0vjqee8:
+    plugin: 'content_entity:insert'
+    label: Event_0vjqee8
+    configuration:
+      type: 'node vacations'
+    successors:
+      -
+        id: Activity_0210lgf
+        condition: Flow_0t0a63k
 conditions:
   Flow_0yq0jwy:
     plugin: eca_entity_exists
@@ -102,6 +136,16 @@ conditions:
       right: '0'
       operator: equal
       type: value
+  Flow_0t0a63k:
+    plugin: eca_entity_field_value
+    configuration:
+      negate: false
+      case: false
+      expected_value: '1'
+      field_name: field_is_paid
+      operator: equal
+      type: value
+      entity: ''
 gateways: {  }
 actions:
   Activity_1rgszo3:
@@ -432,3 +476,202 @@ actions:
       -
         id: Activity_03fxg1u
         condition: ''
+  Activity_0xf6sei:
+    plugin: 'eca_tamper:math'
+    label: Subdivide
+    configuration:
+      operation: subtraction
+      flip: false
+      value: '[value]'
+      eca_data: '[end_value]'
+      eca_token_name: full_days_unix
+    successors:
+      -
+        id: Activity_0ephzfw
+        condition: ''
+  Activity_0mq0mys:
+    plugin: eca_set_field_value
+    label: 'Set days'
+    configuration:
+      field_name: field_full_days
+      field_value: '[full_days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: vacation
+    successors: {  }
+  Activity_011v1oh:
+    plugin: eca_token_load_entity
+    label: 'Load vacation'
+    configuration:
+      token_name: vacation
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_0swg1kl
+        condition: ''
+  Activity_0swg1kl:
+    plugin: 'eca_tamper:strtotime'
+    label: 'Get start date in UNIX'
+    configuration:
+      eca_data: '[vacation:field_date:value]'
+      eca_token_name: value
+    successors:
+      -
+        id: Activity_1wcwozg
+        condition: ''
+  Activity_1wcwozg:
+    plugin: 'eca_tamper:strtotime'
+    label: 'Get end date in UNIX'
+    configuration:
+      eca_data: '[vacation:field_date:end_value]'
+      eca_token_name: end_value
+    successors:
+      -
+        id: Activity_0xf6sei
+        condition: ''
+  Activity_0ephzfw:
+    plugin: 'eca_tamper:math'
+    label: 'UNIX to days'
+    configuration:
+      operation: division
+      flip: false
+      value: '86400'
+      eca_data: '[full_days_unix]'
+      eca_token_name: full_days_without_1
+    successors:
+      -
+        id: Activity_1wh2kg4
+        condition: ''
+  Activity_1wh2kg4:
+    plugin: 'eca_tamper:math'
+    label: '+1 day'
+    configuration:
+      operation: addition
+      flip: false
+      value: '1'
+      eca_data: '[full_days_without_1]'
+      eca_token_name: full_days
+    successors:
+      -
+        id: Activity_0mq0mys
+        condition: ''
+  Activity_0pmmj1g:
+    plugin: eca_token_load_entity
+    label: Activity_0pmmj1g
+    configuration:
+      token_name: vacation
+      from: id
+      entity_type: node
+      entity_id: '[flag:entity-id]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: flag
+    successors:
+      -
+        id: Activity_0fz1ody
+        condition: ''
+  Activity_1p6780b:
+    plugin: eca_token_load_entity
+    label: Activity_1p6780b
+    configuration:
+      token_name: flag
+      from: current
+      entity_type: flagging
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_0ss0zme
+        condition: ''
+  Activity_0fz1ody:
+    plugin: eca_write_log_message
+    label: Activity_0fz1ody
+    configuration:
+      channel: euo
+      severity: '2'
+      message: |-
+        [vacation:title] title
+        [flag:entity-id] entity id
+    successors: {  }
+  Activity_0ss0zme:
+    plugin: eca_write_log_message
+    label: Activity_0ss0zme
+    configuration:
+      channel: ''
+      severity: '2'
+      message: '[flag:entity-id]'
+    successors:
+      -
+        id: Activity_0pmmj1g
+        condition: ''
+  Activity_0vg9uzk:
+    plugin: eca_token_load_entity_ref
+    label: 'Load user'
+    configuration:
+      field_name_entity_ref: uid
+      token_name: current-user
+      from: current
+      entity_type: user
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_156bcft
+        condition: ''
+  Activity_156bcft:
+    plugin: eca_views_query
+    label: 'Execute query'
+    configuration:
+      token_name: view
+      view_id: certificates
+      display_id: default
+      arguments: '[current-user:uid]'
+    successors:
+      -
+        id: Activity_1pjlvec
+        condition: ''
+  Activity_0210lgf:
+    plugin: eca_get_field_value
+    label: 'Get number of required days'
+    configuration:
+      field_name: field_full_days
+      token_name: full-days
+      object: ''
+    successors:
+      -
+        id: Activity_0vg9uzk
+        condition: ''
+  Activity_1pjlvec:
+    plugin: eca_write_log_message
+    label: Activity_1pjlvec
+    configuration:
+      channel: uek
+      severity: '3'
+      message: |-
+        [view] 	[view:id]
+        [view:total-rows] 	
+        [view:url]
+    successors: {  }

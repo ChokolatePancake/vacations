@@ -1,0 +1,21 @@
+uuid: ca4bb56c-277a-4d47-baf6-374cc1f8d3ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date_and_time
+    - node.type.vacations
+  module:
+    - datetime_range
+id: node.vacations.field_date_and_time
+field_name: field_date_and_time
+entity_type: node
+bundle: vacations
+label: 'Date and time'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: daterange
