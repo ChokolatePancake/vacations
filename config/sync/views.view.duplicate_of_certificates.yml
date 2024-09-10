@@ -1,16 +1,17 @@
-uuid: 79ba1111-14bd-45f4-9388-d148e00ac51b
+uuid: 6899f60b-41cc-4f8a-8666-0de28ca55a86
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_days
+    - node.type.certificate
     - node.type.certificate_flow
   module:
     - node
     - user
     - views_aggregator
-id: certificates
-label: Certificates
+id: duplicate_of_certificates
+label: 'Duplicate of Certificates'
 module: views
 description: ''
 tag: ''
@@ -345,6 +346,7 @@ display:
           plugin_id: bundle
           operator: in
           value:
+            certificate: certificate
             certificate_flow: certificate_flow
           group: 1
           exposed: false
@@ -509,6 +511,15 @@ display:
           replica: false
           query_tags: {  }
       relationships:
+        field_user:
+          id: field_user
+          table: node__field_user
+          field: field_user
+          relationship: none
+          group_type: group
+          admin_label: 'field_user: User'
+          plugin_id: standard
+          required: false
         reverse__node__field_certificate:
           id: reverse__node__field_certificate
           table: node_field_data

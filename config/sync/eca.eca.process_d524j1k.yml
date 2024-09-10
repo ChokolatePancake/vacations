@@ -32,7 +32,7 @@ dependencies:
     - node.type.certificate
     - node.type.certificate_flow
     - node.type.vacations
-    - views.view.certificates
+    - views.view.certificates_information
   module:
     - eca_base
     - eca_content
@@ -146,6 +146,24 @@ conditions:
       operator: equal
       type: value
       entity: ''
+  Flow_13kh7pz:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[certificate-days]'
+      right: '[full-days]'
+      operator: atleast
+      type: value
+  Flow_1weflus:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[certificate-days]'
+      right: '[full-days]'
+      operator: lessthan
+      type: value
 gateways: {  }
 actions:
   Activity_1rgszo3:
@@ -645,13 +663,13 @@ actions:
     plugin: eca_views_query
     label: 'Execute query'
     configuration:
-      token_name: view
-      view_id: certificates
+      token_name: certificates-list
+      view_id: certificates_information
       display_id: default
       arguments: '[current-user:uid]'
     successors:
       -
-        id: Activity_1pjlvec
+        id: Activity_1w7g9ev
         condition: ''
   Activity_0210lgf:
     plugin: eca_get_field_value
@@ -664,14 +682,274 @@ actions:
       -
         id: Activity_0vg9uzk
         condition: ''
-  Activity_1pjlvec:
-    plugin: eca_write_log_message
-    label: Activity_1pjlvec
+  Activity_1at16hs:
+    plugin: 'eca_tamper:math'
+    label: Activity_1at16hs
     configuration:
-      channel: uek
-      severity: '3'
+      operation: subtraction
+      flip: false
+      value: '[full-days]'
+      eca_data: '[certificate-days]'
+      eca_token_name: remaining-days
+    successors:
+      -
+        id: Activity_0oznekq
+        condition: ''
+  Activity_13k94cl:
+    plugin: eca_token_set_value
+    label: 'Load certificate available days'
+    configuration:
+      token_name: certificate-days
+      token_value: '[one-certificate:field_days]'
+      use_yaml: false
+    successors:
+      -
+        id: Activity_1at16hs
+        condition: Flow_13kh7pz
+      -
+        id: Activity_01cuhc5
+        condition: Flow_1weflus
+  Activity_0op8nbt:
+    plugin: eca_set_field_value
+    label: Activity_0op8nbt
+    configuration:
+      field_name: field_days
+      field_value: '[remaining-days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_1pjj4jr
+        condition: ''
+  Activity_1pjj4jr:
+    plugin: eca_set_field_value
+    label: Activity_1pjj4jr
+    configuration:
+      field_name: field_operation_with_days
+      field_value: '[oper-days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_1ne4p7y
+        condition: ''
+  Activity_10e7qhi:
+    plugin: 'eca_tamper:math'
+    label: Activity_10e7qhi
+    configuration:
+      operation: multiplication
+      flip: false
+      value: '-1'
+      eca_data: '[full-days]'
+      eca_token_name: oper-days
+    successors:
+      -
+        id: Activity_0op8nbt
+        condition: ''
+  Activity_1ne4p7y:
+    plugin: eca_set_field_value
+    label: Activity_1ne4p7y
+    configuration:
+      field_name: field_operation.target_id
+      field_value: '2'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_040y5m6
+        condition: ''
+  Activity_0oznekq:
+    plugin: eca_new_entity
+    label: Activity_0oznekq
+    configuration:
+      token_name: certificate-flow
+      type: 'node certificate_flow'
+      langcode: ''
+      label: Using
+      published: true
+      owner: '1'
+    successors:
+      -
+        id: Activity_0apdul0
+        condition: ''
+  Activity_0apdul0:
+    plugin: eca_set_field_value
+    label: Activity_0apdul0
+    configuration:
+      field_name: field_certificate
+      field_value: '[certificate]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_10e7qhi
+        condition: ''
+  Activity_1nbpk7u:
+    plugin: eca_token_load_entity
+    label: 'Load certificate'
+    configuration:
+      token_name: certificate
+      from: id
+      entity_type: node
+      entity_id: '[one-certificate:field_certificate:target_id]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_13k94cl
+        condition: ''
+  Activity_1upv4hy:
+    plugin: eca_new_entity
+    label: Activity_1upv4hy
+    configuration:
+      token_name: certificate-flow
+      type: 'node certificate_flow'
+      langcode: ''
+      label: Using
+      published: true
+      owner: '1'
+    successors:
+      -
+        id: Activity_0md9x5o
+        condition: ''
+  Activity_0md9x5o:
+    plugin: eca_set_field_value
+    label: Activity_0md9x5o
+    configuration:
+      field_name: field_certificate
+      field_value: '[certificate]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_051g6ky
+        condition: ''
+  Activity_01cuhc5:
+    plugin: 'eca_tamper:math'
+    label: Activity_01cuhc5
+    configuration:
+      operation: subtraction
+      flip: false
+      value: '[certificate-days]'
+      eca_data: '[full-days]'
+      eca_token_name: full-days
+    successors:
+      -
+        id: Activity_1upv4hy
+        condition: ''
+  Activity_051g6ky:
+    plugin: 'eca_tamper:math'
+    label: Activity_051g6ky
+    configuration:
+      operation: multiplication
+      flip: false
+      value: '-1'
+      eca_data: '[certificate-days]'
+      eca_token_name: oper-days
+    successors:
+      -
+        id: Activity_1to36jl
+        condition: ''
+  Activity_1to36jl:
+    plugin: eca_set_field_value
+    label: Activity_1to36jl
+    configuration:
+      field_name: field_days
+      field_value: '0'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_0fced9v
+        condition: ''
+  Activity_0fced9v:
+    plugin: eca_set_field_value
+    label: Activity_0fced9v
+    configuration:
+      field_name: field_operation_with_days
+      field_value: '[oper-days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_0kyi6q7
+        condition: ''
+  Activity_0kyi6q7:
+    plugin: eca_set_field_value
+    label: Activity_0kyi6q7
+    configuration:
+      field_name: field_operation.target_id
+      field_value: '2'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_19xxecu
+        condition: ''
+      -
+        id: Activity_1w7g9ev
+        condition: ''
+  Activity_19xxecu:
+    plugin: eca_write_log_message
+    label: Activity_19xxecu
+    configuration:
+      channel: eauo
+      severity: '2'
       message: |-
-        [view] 	[view:id]
-        [view:total-rows] 	
-        [view:url]
+        All ok lets continue
+        certificate:[certificate]
+        oper-days:[oper-days]
     successors: {  }
+  Activity_040y5m6:
+    plugin: eca_write_log_message
+    label: Activity_040y5m6
+    configuration:
+      channel: aeuo
+      severity: '1'
+      message: |-
+        Finish
+        certificate:[certificate]
+        remaining-days:[remaining-days]
+        oper-days:[oper-days]
+    successors: {  }
+  Activity_1w7g9ev:
+    plugin: eca_list_remove
+    label: Activity_1w7g9ev
+    configuration:
+      value: ''
+      token_name: one-certificate
+      method: first
+      index: ''
+      list_token: certificates-list
+    successors:
+      -
+        id: Activity_1nbpk7u
+        condition: ''
