@@ -22,7 +22,6 @@ weight: -7
 is_admin: null
 permissions:
   - 'access administration pages'
-  - 'access content'
   - 'access content overview'
   - 'access taxonomy overview'
   - 'access toolbar'
@@ -53,7 +52,5 @@ permissions:
   - 'edit own certificate_template content'
   - 'flag approve'
   - 'link to any page'
-  - 'unflag approve'
-  - 'view own unpublished content'
   - 'view user email addresses'
   - 'view vocabulary labels'

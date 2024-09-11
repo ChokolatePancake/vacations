@@ -8,18 +8,14 @@ dependencies:
   module:
     - flag
     - node
-    - system
 id: pm
 label: PM
 weight: 6
 is_admin: null
 permissions:
-  - 'access content'
   - 'access user profiles'
   - 'create certificate content'
   - 'create vacations content'
   - 'delete own vacations content'
   - 'flag approve'
-  - 'unflag approve'
-  - 'view own unpublished content'
   - 'view user email addresses'

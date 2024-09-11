@@ -12,16 +12,20 @@ dependencies:
     - field.field.node.certificate_flow.field_operation_with_days
     - field.field.node.certificate_template.field_expiration_period
     - field.field.node.certificate_template.field_number_of_days
+    - field.field.node.vacations.field_approvers
     - field.field.node.vacations.field_date
     - field.field.node.vacations.field_full_days
+    - field.field.node.vacations.field_is_approved
     - field.field.user.user.field_available_days
     - field.field.user.user.field_regular_certificate_templa
+    - field.storage.node.field_approvers
     - field.storage.node.field_certificate
     - field.storage.node.field_date
     - field.storage.node.field_days
     - field.storage.node.field_expiration_date
     - field.storage.node.field_expiration_period
     - field.storage.node.field_full_days
+    - field.storage.node.field_is_approved
     - field.storage.node.field_number_of_days
     - field.storage.node.field_operation
     - field.storage.node.field_operation_with_days
@@ -29,15 +33,15 @@ dependencies:
     - field.storage.node.field_user
     - field.storage.user.field_available_days
     - field.storage.user.field_regular_certificate_templa
+    - flag.flag.approve
     - node.type.certificate
     - node.type.certificate_flow
     - node.type.vacations
     - views.view.certificates_information
+    - views.view.flags
   module:
     - eca_base
     - eca_content
-    - eca_flag
-    - eca_log
     - eca_queue
     - eca_tamper
     - eca_views
@@ -87,14 +91,6 @@ events:
       -
         id: Activity_011v1oh
         condition: ''
-  Event_0tbybkg:
-    plugin: 'flag:flag'
-    label: Event_0tbybkg
-    configuration: {  }
-    successors:
-      -
-        id: Activity_1p6780b
-        condition: ''
   Event_0vjqee8:
     plugin: 'content_entity:insert'
     label: Event_0vjqee8
@@ -104,6 +100,24 @@ events:
       -
         id: Activity_0210lgf
         condition: Flow_0t0a63k
+  Event_0fgxt6j:
+    plugin: 'content_entity:create'
+    label: Event_0fgxt6j
+    configuration:
+      type: 'node vacations'
+    successors:
+      -
+        id: Activity_0oyehfz
+        condition: ''
+  Event_0tbybkg:
+    plugin: 'content_entity:insert'
+    label: Event_0tbybkg
+    configuration:
+      type: 'flagging approve'
+    successors:
+      -
+        id: Activity_1rxxpss
+        condition: ''
 conditions:
   Flow_0yq0jwy:
     plugin: eca_entity_exists
@@ -155,6 +169,15 @@ conditions:
       right: '[full-days]'
       operator: atleast
       type: value
+  Flow_10zgp9m:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[item-list:field_days:value]'
+      right: '0'
+      operator: equal
+      type: value
+      negate: true
   Flow_1weflus:
     plugin: eca_scalar
     configuration:
@@ -164,6 +187,49 @@ conditions:
       right: '[full-days]'
       operator: lessthan
       type: value
+  Flow_1fiirzb:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[empty-certificate]'
+      right: '[item-list:field_certificate:target_id]'
+      operator: equal
+      type: value
+      negate: true
+  Flow_0ybozwb:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[item-list:field_days:value]'
+      right: '0'
+      operator: equal
+      type: value
+  Flow_13bi7o1:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[empty-certificate]'
+      right: '[item-list:field_certificate:target_id]'
+      operator: equal
+      type: value
+  Flow_03411sf:
+    plugin: eca_list_contains
+    configuration:
+      negate: false
+      list_token: approvers
+      method: value
+      value: '[flag-user]'
+  Flow_08nxb9o:
+    plugin: eca_count
+    configuration:
+      negate: false
+      case: false
+      left: '[approvers]'
+      right: '0'
+      operator: equal
+      type: numeric
 gateways: {  }
 actions:
   Activity_1rgszo3:
@@ -583,63 +649,6 @@ actions:
       -
         id: Activity_0mq0mys
         condition: ''
-  Activity_0pmmj1g:
-    plugin: eca_token_load_entity
-    label: Activity_0pmmj1g
-    configuration:
-      token_name: vacation
-      from: id
-      entity_type: node
-      entity_id: '[flag:entity-id]'
-      revision_id: ''
-      properties: ''
-      langcode: _interface
-      latest_revision: false
-      unchanged: false
-      object: flag
-    successors:
-      -
-        id: Activity_0fz1ody
-        condition: ''
-  Activity_1p6780b:
-    plugin: eca_token_load_entity
-    label: Activity_1p6780b
-    configuration:
-      token_name: flag
-      from: current
-      entity_type: flagging
-      entity_id: ''
-      revision_id: ''
-      properties: ''
-      langcode: _interface
-      latest_revision: false
-      unchanged: false
-      object: ''
-    successors:
-      -
-        id: Activity_0ss0zme
-        condition: ''
-  Activity_0fz1ody:
-    plugin: eca_write_log_message
-    label: Activity_0fz1ody
-    configuration:
-      channel: euo
-      severity: '2'
-      message: |-
-        [vacation:title] title
-        [flag:entity-id] entity id
-    successors: {  }
-  Activity_0ss0zme:
-    plugin: eca_write_log_message
-    label: Activity_0ss0zme
-    configuration:
-      channel: ''
-      severity: '2'
-      message: '[flag:entity-id]'
-    successors:
-      -
-        id: Activity_0pmmj1g
-        condition: ''
   Activity_0vg9uzk:
     plugin: eca_token_load_entity_ref
     label: 'Load user'
@@ -684,13 +693,13 @@ actions:
         condition: ''
   Activity_1at16hs:
     plugin: 'eca_tamper:math'
-    label: Activity_1at16hs
+    label: 'Count balance days'
     configuration:
       operation: subtraction
       flip: false
       value: '[full-days]'
       eca_data: '[certificate-days]'
-      eca_token_name: remaining-days
+      eca_token_name: balance-days
     successors:
       -
         id: Activity_0oznekq
@@ -700,7 +709,7 @@ actions:
     label: 'Load certificate available days'
     configuration:
       token_name: certificate-days
-      token_value: '[one-certificate:field_days]'
+      token_value: '[item-list:field_days:value]'
       use_yaml: false
     successors:
       -
@@ -711,10 +720,10 @@ actions:
         condition: Flow_1weflus
   Activity_0op8nbt:
     plugin: eca_set_field_value
-    label: Activity_0op8nbt
+    label: 'Set balance days'
     configuration:
       field_name: field_days
-      field_value: '[remaining-days]'
+      field_value: '[balance-days]'
       method: 'set:clear'
       strip_tags: false
       trim: false
@@ -722,11 +731,11 @@ actions:
       object: certificate-flow
     successors:
       -
-        id: Activity_1pjj4jr
+        id: Activity_10e7qhi
         condition: ''
   Activity_1pjj4jr:
     plugin: eca_set_field_value
-    label: Activity_1pjj4jr
+    label: 'Set operation with days'
     configuration:
       field_name: field_operation_with_days
       field_value: '[oper-days]'
@@ -741,7 +750,7 @@ actions:
         condition: ''
   Activity_10e7qhi:
     plugin: 'eca_tamper:math'
-    label: Activity_10e7qhi
+    label: 'Calculating operation with days'
     configuration:
       operation: multiplication
       flip: false
@@ -750,11 +759,11 @@ actions:
       eca_token_name: oper-days
     successors:
       -
-        id: Activity_0op8nbt
+        id: Activity_1pjj4jr
         condition: ''
   Activity_1ne4p7y:
     plugin: eca_set_field_value
-    label: Activity_1ne4p7y
+    label: 'Set operation "Using"'
     configuration:
       field_name: field_operation.target_id
       field_value: '2'
@@ -763,13 +772,10 @@ actions:
       trim: false
       save_entity: true
       object: certificate-flow
-    successors:
-      -
-        id: Activity_040y5m6
-        condition: ''
+    successors: {  }
   Activity_0oznekq:
     plugin: eca_new_entity
-    label: Activity_0oznekq
+    label: 'Create new certificate flow'
     configuration:
       token_name: certificate-flow
       type: 'node certificate_flow'
@@ -783,7 +789,7 @@ actions:
         condition: ''
   Activity_0apdul0:
     plugin: eca_set_field_value
-    label: Activity_0apdul0
+    label: 'Set certificate id'
     configuration:
       field_name: field_certificate
       field_value: '[certificate]'
@@ -794,7 +800,7 @@ actions:
       object: certificate-flow
     successors:
       -
-        id: Activity_10e7qhi
+        id: Activity_0op8nbt
         condition: ''
   Activity_1nbpk7u:
     plugin: eca_token_load_entity
@@ -803,7 +809,7 @@ actions:
       token_name: certificate
       from: id
       entity_type: node
-      entity_id: '[one-certificate:field_certificate:target_id]'
+      entity_id: '[item-list:field_certificate:target_id]'
       revision_id: ''
       properties: ''
       langcode: _interface
@@ -813,10 +819,13 @@ actions:
     successors:
       -
         id: Activity_13k94cl
-        condition: ''
+        condition: Flow_10zgp9m
+      -
+        id: Activity_11etmyq
+        condition: Flow_0ybozwb
   Activity_1upv4hy:
     plugin: eca_new_entity
-    label: Activity_1upv4hy
+    label: 'Create new certificate flow'
     configuration:
       token_name: certificate-flow
       type: 'node certificate_flow'
@@ -830,7 +839,7 @@ actions:
         condition: ''
   Activity_0md9x5o:
     plugin: eca_set_field_value
-    label: Activity_0md9x5o
+    label: 'Set certificate id'
     configuration:
       field_name: field_certificate
       field_value: '[certificate]'
@@ -845,7 +854,7 @@ actions:
         condition: ''
   Activity_01cuhc5:
     plugin: 'eca_tamper:math'
-    label: Activity_01cuhc5
+    label: 'Get remaining uncovered days'
     configuration:
       operation: subtraction
       flip: false
@@ -858,7 +867,7 @@ actions:
         condition: ''
   Activity_051g6ky:
     plugin: 'eca_tamper:math'
-    label: Activity_051g6ky
+    label: 'Calculating operation with days'
     configuration:
       operation: multiplication
       flip: false
@@ -871,7 +880,7 @@ actions:
         condition: ''
   Activity_1to36jl:
     plugin: eca_set_field_value
-    label: Activity_1to36jl
+    label: 'Set field days to 0'
     configuration:
       field_name: field_days
       field_value: '0'
@@ -886,7 +895,7 @@ actions:
         condition: ''
   Activity_0fced9v:
     plugin: eca_set_field_value
-    label: Activity_0fced9v
+    label: 'Set operation with days'
     configuration:
       field_name: field_operation_with_days
       field_value: '[oper-days]'
@@ -901,7 +910,7 @@ actions:
         condition: ''
   Activity_0kyi6q7:
     plugin: eca_set_field_value
-    label: Activity_0kyi6q7
+    label: 'Set operation "Using"'
     configuration:
       field_name: field_operation.target_id
       field_value: '2'
@@ -912,44 +921,196 @@ actions:
       object: certificate-flow
     successors:
       -
-        id: Activity_19xxecu
+        id: Activity_1ib0z07
         condition: ''
-      -
-        id: Activity_1w7g9ev
-        condition: ''
-  Activity_19xxecu:
-    plugin: eca_write_log_message
-    label: Activity_19xxecu
-    configuration:
-      channel: eauo
-      severity: '2'
-      message: |-
-        All ok lets continue
-        certificate:[certificate]
-        oper-days:[oper-days]
-    successors: {  }
-  Activity_040y5m6:
-    plugin: eca_write_log_message
-    label: Activity_040y5m6
-    configuration:
-      channel: aeuo
-      severity: '1'
-      message: |-
-        Finish
-        certificate:[certificate]
-        remaining-days:[remaining-days]
-        oper-days:[oper-days]
-    successors: {  }
   Activity_1w7g9ev:
     plugin: eca_list_remove
-    label: Activity_1w7g9ev
+    label: 'Pop first certificate flow info'
     configuration:
       value: ''
-      token_name: one-certificate
-      method: first
-      index: ''
+      token_name: item-list
+      method: index
+      index: '0'
       list_token: certificates-list
     successors:
       -
         id: Activity_1nbpk7u
+        condition: Flow_1fiirzb
+      -
+        id: Activity_1w7g9ev
+        condition: Flow_13bi7o1
+  Activity_11etmyq:
+    plugin: eca_token_set_value
+    label: 'If certificate empty save id in token and avoid it'
+    configuration:
+      token_name: empty-certificate
+      token_value: '[item-list:field_certificate:target_id]'
+      use_yaml: false
+    successors:
+      -
+        id: Activity_1w7g9ev
         condition: ''
+  Activity_1ib0z07:
+    plugin: eca_token_set_value
+    label: 'Create token with empty certificate id to avoid it in next circle'
+    configuration:
+      token_name: empty-certificate
+      token_value: '[item-list:field_certificate:target_id]'
+      use_yaml: false
+    successors:
+      -
+        id: Activity_1w7g9ev
+        condition: ''
+  Activity_0oyehfz:
+    plugin: eca_token_load_entity_ref
+    label: 'Load author'
+    configuration:
+      field_name_entity_ref: uid
+      token_name: Author
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_0gg4cj4
+        condition: ''
+  Activity_0gg4cj4:
+    plugin: eca_set_field_value
+    label: 'Set title "Author''s vacation reques"'
+    configuration:
+      field_name: title
+      field_value: "[author:name]'s vacation reques"
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: ''
+    successors: {  }
+  Activity_1rxxpss:
+    plugin: eca_get_field_value
+    label: 'Get vacation id'
+    configuration:
+      field_name: entity_id
+      token_name: entity-id
+      object: ''
+    successors:
+      -
+        id: Activity_0kjbqpz
+        condition: ''
+  Activity_0kjbqpz:
+    plugin: eca_token_load_entity
+    label: 'Load vacation'
+    configuration:
+      token_name: vacation
+      from: id
+      entity_type: node
+      entity_id: '[entity-id]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_0ayrcgz
+        condition: ''
+  Activity_0ayrcgz:
+    plugin: eca_views_query
+    label: 'Execute query of all people, who flagged this vacation'
+    configuration:
+      token_name: flags-list
+      view_id: flags
+      display_id: default
+      arguments: '[entity-id]'
+    successors:
+      -
+        id: Activity_0vssfkd
+        condition: ''
+  Activity_0vssfkd:
+    plugin: eca_get_field_value
+    label: 'Get required approvers'
+    configuration:
+      field_name: field_approvers
+      token_name: approvers
+      object: vacation
+    successors:
+      -
+        id: Activity_1amwtd6
+        condition: ''
+  Activity_1amwtd6:
+    plugin: eca_list_remove
+    label: "Pop\_ person who flagged"
+    configuration:
+      value: ''
+      token_name: flag-id
+      method: first
+      index: ''
+      list_token: flags-list
+    successors:
+      -
+        id: Activity_1mbu8pl
+        condition: ''
+  Activity_0j10zjg:
+    plugin: eca_list_remove
+    label: 'Remove person from required approvers'
+    configuration:
+      value: '[flag-user]'
+      token_name: ''
+      method: value
+      index: ''
+      list_token: approvers
+    successors:
+      -
+        id: Activity_1amwtd6
+        condition: ''
+  Activity_0fu4ahq:
+    plugin: eca_token_load_entity
+    label: 'Load person'
+    configuration:
+      token_name: flag-user
+      from: id
+      entity_type: user
+      entity_id: '[user-id]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_0j10zjg
+        condition: Flow_03411sf
+      -
+        id: Activity_0qojc64
+        condition: Flow_08nxb9o
+  Activity_1mbu8pl:
+    plugin: eca_get_field_value
+    label: 'Get id of person'
+    configuration:
+      field_name: 'uid:target_id'
+      token_name: user-id
+      object: flag-id
+    successors:
+      -
+        id: Activity_0fu4ahq
+        condition: ''
+  Activity_0qojc64:
+    plugin: eca_set_field_value
+    label: 'Set status approved'
+    configuration:
+      field_name: field_is_approved
+      field_value: '1'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: vacation
+    successors: {  }
