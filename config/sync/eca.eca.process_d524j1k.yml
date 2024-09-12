@@ -183,15 +183,6 @@ conditions:
       right: '1'
       operator: equal
       type: value
-  Flow_0kq4uw0:
-    plugin: eca_scalar
-    configuration:
-      negate: false
-      case: false
-      left: '[full_days_unix]'
-      right: '1209600'
-      operator: greaterthan
-      type: value
   Flow_0tscdbt:
     plugin: eca_scalar
     configuration:
@@ -233,18 +224,9 @@ conditions:
     configuration:
       negate: false
       case: false
-      left: '[start-day]'
-      right: '0'
-      operator: equal
-      type: value
-  Flow_1knslso:
-    plugin: eca_scalar
-    configuration:
-      negate: false
-      case: false
-      left: '[start-day]'
-      right: '6'
-      operator: equal
+      left: '0, 6'
+      right: '[start-day]'
+      operator: contains
       type: value
   Flow_0nam5hp:
     plugin: eca_scalar
@@ -255,23 +237,14 @@ conditions:
       right: '8'
       operator: lessthan
       type: value
-  Flow_1c9jx1g:
-    plugin: eca_scalar
-    configuration:
-      negate: false
-      case: false
-      left: '[end-date]'
-      right: '6'
-      operator: equal
-      type: value
   Flow_17bbmvy:
     plugin: eca_scalar
     configuration:
       negate: false
       case: false
-      left: '[end-date]'
-      right: '0'
-      operator: equal
+      left: '0, 6'
+      right: '[end-date]'
+      operator: contains
       type: value
   Flow_0etf79h:
     plugin: eca_scalar
@@ -336,6 +309,51 @@ conditions:
       right: '[full_days]'
       operator: lessthan
       type: value
+  Flow_1me9lof:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[is-paid]'
+      right: '1'
+      operator: equal
+      type: value
+  Flow_1izk5xv:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '1,2,3,4,5'
+      right: '[start-day]'
+      operator: contains
+      type: value
+  Flow_06z3po8:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '1,2,3,4,5'
+      right: '[end-date]'
+      operator: contains
+      type: value
+  Flow_0a4xbog:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[is-paid]'
+      right: '1'
+      operator: equal
+      type: value
+  Flow_1ip05hy:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[result]'
+      right: '86400'
+      operator: lessthan
+      type: value
 gateways:
   Gateway_1uzniph:
     type: 0
@@ -358,6 +376,12 @@ gateways:
       -
         id: Activity_1x09ig6
         condition: ''
+  Gateway_0mzyvr4:
+    type: 0
+    successors:
+      -
+        id: Activity_1hjb1ew
+        condition: Flow_1me9lof
 actions:
   Activity_0xf6sei:
     plugin: 'eca_tamper:math'
@@ -411,7 +435,7 @@ actions:
         id: Gateway_1uzniph
         condition: Flow_1221ep1
       -
-        id: Activity_1hjb1ew
+        id: Gateway_0mzyvr4
         condition: Flow_0o4q0gb
   Activity_0vg9uzk:
     plugin: eca_token_load_entity_ref
@@ -782,6 +806,9 @@ actions:
       -
         id: Activity_0oh1zz6
         condition: Flow_1xys2u5
+      -
+        id: Activity_05ki6s5
+        condition: Flow_0a4xbog
   Activity_1ow7ol1:
     plugin: 'eca_tamper:strtotime'
     label: 'End date to UNIX'
@@ -875,7 +902,7 @@ actions:
         id: Activity_0z7ysg3
         condition: Flow_1vk1wk8
       -
-        id: Activity_0nj7bqi
+        id: Activity_0ecrdsh
         condition: Flow_05ilvyl
   Activity_0pjqqiq:
     plugin: 'eca_tamper:math'
@@ -888,18 +915,8 @@ actions:
       eca_token_name: full_days_unix
     successors:
       -
-        id: Activity_0gdtyu8
-        condition: Flow_0kq4uw0
-      -
         id: Gateway_027c115
         condition: Flow_0etf79h
-  Activity_0gdtyu8:
-    plugin: eca_form_field_set_error
-    label: 'Show error in date'
-    configuration:
-      message: "You can't take more than 14 days off"
-      field_name: field_date_and_time
-    successors: {  }
   Activity_068aabg:
     plugin: eca_form_field_set_error
     label: 'Show error about past date input'
@@ -926,8 +943,8 @@ actions:
         id: Activity_0yoggn0
         condition: Flow_0ulx093
       -
-        id: Activity_0yoggn0
-        condition: Flow_1knslso
+        id: Activity_0wqdocf
+        condition: Flow_1izk5xv
   Activity_0yoggn0:
     plugin: eca_form_field_set_error
     label: 'Show error about weekend start day'
@@ -943,9 +960,6 @@ actions:
       eca_data: '[end_value]'
       eca_token_name: end-date
     successors:
-      -
-        id: Activity_17adey6
-        condition: Flow_1c9jx1g
       -
         id: Activity_17adey6
         condition: Flow_17bbmvy
@@ -1056,3 +1070,68 @@ actions:
       -
         id: Activity_0210lgf
         condition: ''
+  Activity_0ecrdsh:
+    plugin: eca_form_field_get_value
+    label: 'Is paid'
+    configuration:
+      token_name: is-paid
+      field_name: 'field_is_paid[value]'
+      strip_tags: true
+      trim: true
+      xss_filter: true
+    successors:
+      -
+        id: Activity_0nj7bqi
+        condition: ''
+  Activity_0wqdocf:
+    plugin: 'eca_tamper:timetodate'
+    label: 'UNIX end date to day of week as number'
+    configuration:
+      date_format: w
+      eca_data: '[end_value]'
+      eca_token_name: end-date
+    successors:
+      -
+        id: Activity_04i0v17
+        condition: Flow_06z3po8
+  Activity_05ki6s5:
+    plugin: eca_token_set_value
+    label: 'Token current day'
+    configuration:
+      token_name: current-day
+      token_value: '[current-date:date_all_day]'
+      use_yaml: false
+    successors:
+      -
+        id: Activity_07jnsz3
+        condition: ''
+  Activity_07jnsz3:
+    plugin: 'eca_tamper:strtotime'
+    label: 'Current day to UNIX'
+    configuration:
+      eca_data: '[current-day]'
+      eca_token_name: current-day-unix
+    successors:
+      -
+        id: Activity_0ha6m6d
+        condition: ''
+  Activity_0ha6m6d:
+    plugin: 'eca_tamper:math'
+    label: 'Subtract start date from current'
+    configuration:
+      operation: subtraction
+      flip: false
+      value: '[current-day-unix]'
+      eca_data: '[value]'
+      eca_token_name: result
+    successors:
+      -
+        id: Activity_0gt4sye
+        condition: Flow_1ip05hy
+  Activity_0gt4sye:
+    plugin: eca_form_field_set_error
+    label: "Show error paid vacation can't start today"
+    configuration:
+      message: "Paid vacation can't start today, change date or request unpaid vacation"
+      field_name: field_date
+    successors: {  }
