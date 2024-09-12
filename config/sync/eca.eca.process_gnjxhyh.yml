@@ -1,0 +1,171 @@
+uuid: 1b5a808d-a4e8-47ce-a018-70e3779a0e25
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.vacations.field_approvers
+    - field.field.node.vacations.field_is_approved
+    - field.storage.node.field_approvers
+    - field.storage.node.field_is_approved
+    - flag.flag.approve
+    - views.view.flags
+  module:
+    - eca_base
+    - eca_content
+    - eca_views
+id: process_gnjxhyh
+modeller: bpmn_io
+label: Approvement
+version: ''
+weight: 0
+events:
+  Event_0tbybkg:
+    plugin: 'content_entity:insert'
+    label: Event_0tbybkg
+    configuration:
+      type: 'flagging approve'
+    successors:
+      -
+        id: Activity_1rxxpss
+        condition: ''
+conditions:
+  Flow_03411sf:
+    plugin: eca_list_contains
+    configuration:
+      negate: false
+      list_token: approvers
+      method: value
+      value: '[flag-user]'
+  Flow_08nxb9o:
+    plugin: eca_count
+    configuration:
+      negate: false
+      case: false
+      left: '[approvers]'
+      right: '0'
+      operator: equal
+      type: numeric
+gateways: {  }
+actions:
+  Activity_1rxxpss:
+    plugin: eca_get_field_value
+    label: 'Get vacation id'
+    configuration:
+      field_name: entity_id
+      token_name: entity-id
+      object: ''
+    successors:
+      -
+        id: Activity_0kjbqpz
+        condition: ''
+  Activity_0kjbqpz:
+    plugin: eca_token_load_entity
+    label: 'Load vacation'
+    configuration:
+      token_name: vacation
+      from: id
+      entity_type: node
+      entity_id: '[entity-id]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_0ayrcgz
+        condition: ''
+  Activity_0ayrcgz:
+    plugin: eca_views_query
+    label: 'Execute query of all people, who flagged this vacation'
+    configuration:
+      token_name: flags-list
+      view_id: flags
+      display_id: default
+      arguments: '[entity-id]'
+    successors:
+      -
+        id: Activity_0vssfkd
+        condition: ''
+  Activity_0vssfkd:
+    plugin: eca_get_field_value
+    label: 'Get required approvers'
+    configuration:
+      field_name: field_approvers
+      token_name: approvers
+      object: vacation
+    successors:
+      -
+        id: Activity_1amwtd6
+        condition: ''
+  Activity_1amwtd6:
+    plugin: eca_list_remove
+    label: "Pop\_ person who flagged"
+    configuration:
+      value: ''
+      token_name: flag-id
+      method: first
+      index: ''
+      list_token: flags-list
+    successors:
+      -
+        id: Activity_1mbu8pl
+        condition: ''
+  Activity_0j10zjg:
+    plugin: eca_list_remove
+    label: 'Remove person from required approvers'
+    configuration:
+      value: '[flag-user]'
+      token_name: ''
+      method: value
+      index: ''
+      list_token: approvers
+    successors:
+      -
+        id: Activity_1amwtd6
+        condition: ''
+  Activity_0fu4ahq:
+    plugin: eca_token_load_entity
+    label: 'Load person'
+    configuration:
+      token_name: flag-user
+      from: id
+      entity_type: user
+      entity_id: '[user-id]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_0j10zjg
+        condition: Flow_03411sf
+      -
+        id: Activity_0qojc64
+        condition: Flow_08nxb9o
+  Activity_1mbu8pl:
+    plugin: eca_get_field_value
+    label: 'Get id of person'
+    configuration:
+      field_name: 'uid:target_id'
+      token_name: user-id
+      object: flag-id
+    successors:
+      -
+        id: Activity_0fu4ahq
+        condition: ''
+  Activity_0qojc64:
+    plugin: eca_set_field_value
+    label: 'Set status approved'
+    configuration:
+      field_name: field_is_approved
+      field_value: '1'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: vacation
+    successors: {  }

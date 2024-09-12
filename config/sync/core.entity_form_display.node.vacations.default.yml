@@ -78,6 +78,26 @@ content:
             effect: show
             effect_options: {  }
             selector: ''
+        6151e9bc-7d7f-41a0-a352-c7f1af815c59:
+          entity_type: node
+          bundle: vacations
+          dependee: field_is_full_day
+          settings:
+            state: empty
+            reset: false
+            condition: '!checked'
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              value: false
+            effect: empty
+            effect_options:
+              empty:
+                value: ''
+                reset: 1
+            selector: ''
   field_date_and_time:
     type: daterange_default
     weight: 11
@@ -119,6 +139,26 @@ content:
             effect: show
             effect_options: {  }
             selector: ''
+        74f0318b-e79e-45b5-a1df-85903501aa97:
+          entity_type: node
+          bundle: vacations
+          dependee: field_is_full_day
+          settings:
+            state: empty
+            reset: false
+            condition: checked
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              value: false
+            effect: empty
+            effect_options:
+              empty:
+                value: ''
+                reset: 1
+            selector: ''
   field_is_full_day:
     type: boolean_checkbox
     weight: 7
@@ -159,23 +199,6 @@ content:
             state: '!checked'
             reset: false
             condition: '!checked'
-            grouping: AND
-            values_set: 1
-            value: ''
-            values: {  }
-            value_form:
-              value: false
-            effect: show
-            effect_options: {  }
-            selector: ''
-        75bcd91e-736b-4928-a89b-be6fbdd4ffa0:
-          entity_type: node
-          bundle: vacations
-          dependee: field_is_full_day
-          settings:
-            state: '!checked'
-            reset: false
-            condition: checked
             grouping: AND
             values_set: 1
             value: ''
