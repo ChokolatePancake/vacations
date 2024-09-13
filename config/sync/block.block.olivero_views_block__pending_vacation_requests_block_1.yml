@@ -1,0 +1,25 @@
+uuid: 2bcc4c33-2df6-4fce-8983-4113ae0e271a
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.pending_vacation_requests
+  module:
+    - views
+  theme:
+    - olivero
+id: olivero_views_block__pending_vacation_requests_block_1
+theme: olivero
+region: content
+weight: -9
+provider: null
+plugin: 'views_block:pending_vacation_requests-block_1'
+settings:
+  id: 'views_block:pending_vacation_requests-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility: {  }

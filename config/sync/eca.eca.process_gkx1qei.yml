@@ -93,7 +93,7 @@ events:
       type: 'node certificate'
     successors:
       -
-        id: Activity_1faj5nr
+        id: Activity_1c1heng
         condition: ''
   Event_1nna3jn:
     plugin: 'form:form_after_build'
@@ -644,4 +644,22 @@ actions:
     successors:
       -
         id: Activity_0he2nnd
+        condition: ''
+  Activity_1c1heng:
+    plugin: eca_token_load_entity
+    label: Activity_1c1heng
+    configuration:
+      token_name: certificate
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_1faj5nr
         condition: ''

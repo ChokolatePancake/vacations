@@ -1,0 +1,25 @@
+uuid: 97857cae-b780-41ff-b7f5-b5c9339aec00
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.my_certificates
+  module:
+    - views
+  theme:
+    - olivero
+id: olivero_views_block__my_certificates_block_1
+theme: olivero
+region: content
+weight: -5
+provider: null
+plugin: 'views_block:my_certificates-block_1'
+settings:
+  id: 'views_block:my_certificates-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility: {  }
