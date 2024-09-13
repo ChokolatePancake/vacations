@@ -27,11 +27,13 @@ dependencies:
     - field.storage.user.field_regular_certificate_templa
     - node.type.certificate
     - node.type.certificate_flow
+    - views.view.certificates_information
   module:
     - eca_base
     - eca_content
     - eca_queue
     - eca_tamper
+    - eca_views
     - user
 id: process_gkx1qei
 modeller: bpmn_io
@@ -68,6 +70,27 @@ events:
     successors:
       -
         id: Activity_1lo70pw
+        condition: ''
+  Event_1n4lphk:
+    plugin: 'eca_queue:processing_task'
+    label: Event_1n4lphk
+    configuration:
+      distribute: false
+      task_name: burn_certificate
+      task_value: ''
+      cron: '60'
+    successors:
+      -
+        id: Activity_0mwk4vx
+        condition: ''
+  Event_116r723:
+    plugin: 'content_entity:insert'
+    label: Event_116r723
+    configuration:
+      type: 'node certificate'
+    successors:
+      -
+        id: Activity_1faj5nr
         condition: ''
 conditions:
   Flow_0yq0jwy:
@@ -107,8 +130,8 @@ actions:
     plugin: eca_enqueue_task_delayed
     label: 'Wait 6 months'
     configuration:
-      delay_value: '10'
-      delay_unit: '1'
+      delay_value: '1'
+      delay_unit: '60'
       task_name: give_certificate
       task_value: ''
       tokens: 'created-user, template'
@@ -213,8 +236,8 @@ actions:
     plugin: eca_enqueue_task_delayed
     label: 'Wait again'
     configuration:
-      delay_value: '10'
-      delay_unit: '1'
+      delay_value: '1'
+      delay_unit: '60'
       task_name: give_certificate
       task_value: ''
       tokens: 'created-user, template'
@@ -430,4 +453,141 @@ actions:
     successors:
       -
         id: Activity_03fxg1u
+        condition: ''
+  Activity_1e27d2j:
+    plugin: eca_enqueue_task_delayed
+    label: 'Wait for expiration'
+    configuration:
+      delay_value: '2'
+      delay_unit: '60'
+      task_name: burn_certificate
+      task_value: ''
+      tokens: certificate
+    successors: {  }
+  Activity_1c6u3f2:
+    plugin: eca_new_entity
+    label: 'Create record about burning in flow'
+    configuration:
+      token_name: certificate-flow
+      type: 'node certificate_flow'
+      langcode: ''
+      label: 'Burning regular certificate'
+      published: true
+      owner: '1'
+    successors:
+      -
+        id: Activity_16ib5j3
+        condition: ''
+  Activity_16ib5j3:
+    plugin: eca_set_field_value
+    label: 'Put certificate to flow'
+    configuration:
+      field_name: field_certificate.target_id
+      field_value: '[certificate:nid]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_1yhz4fi
+        condition: ''
+  Activity_1yhz4fi:
+    plugin: eca_set_field_value
+    label: 'Set operation'
+    configuration:
+      field_name: field_operation.target_id
+      field_value: '3'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_0t1bf2e
+        condition: ''
+  Activity_0t1bf2e:
+    plugin: eca_set_field_value
+    label: 'Set operation with days(0)'
+    configuration:
+      field_name: field_operation_with_days.value
+      field_value: '0'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_07qoi6u
+        condition: ''
+  Activity_07qoi6u:
+    plugin: eca_views_query
+    label: 'Get last version of that certificate'
+    configuration:
+      token_name: last-operation
+      view_id: certificates_information
+      display_id: default
+      arguments: '[certificate-user]/[certificate:nid]'
+    successors:
+      -
+        id: Activity_066lq6j
+        condition: ''
+  Activity_066lq6j:
+    plugin: eca_set_field_value
+    label: 'Set days from previous version'
+    configuration:
+      field_name: field_days.value
+      field_value: '[last-operation:0:field_days:value]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-flow
+    successors: {  }
+  Activity_0mwk4vx:
+    plugin: eca_get_field_value
+    label: 'Get user from certificate'
+    configuration:
+      field_name: 'field_user:target_id'
+      token_name: certificate-user
+      object: certificate
+    successors:
+      -
+        id: Activity_1c6u3f2
+        condition: ''
+  Activity_0frypg1:
+    plugin: 'eca_tamper:math'
+    label: 'Difference between expiration and creation date'
+    configuration:
+      operation: subtraction
+      flip: false
+      value: '[created-date]'
+      eca_data: '[expiration-date]'
+      eca_token_name: result
+    successors:
+      -
+        id: Activity_1e27d2j
+        condition: ''
+  Activity_1faj5nr:
+    plugin: 'eca_tamper:cast_to_int'
+    label: 'To int expiration date'
+    configuration:
+      eca_data: '[node:field_expiration_date:value]'
+      eca_token_name: expiration-date
+    successors:
+      -
+        id: Activity_0xxxyup
+        condition: ''
+  Activity_0xxxyup:
+    plugin: 'eca_tamper:cast_to_int'
+    label: 'To int created date'
+    configuration:
+      eca_data: '[current-date:raw]'
+      eca_token_name: created-date
+    successors:
+      -
+        id: Activity_0frypg1
         condition: ''
