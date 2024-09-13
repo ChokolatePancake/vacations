@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.certificate.field_expiration_date
+    - field.field.node.certificate.field_is_regular
     - field.field.node.certificate.field_starting_days_number
     - field.field.node.certificate.field_user
     - node.type.certificate
@@ -22,6 +23,7 @@ content:
     region: content
 hidden:
   field_expiration_date: true
+  field_is_regular: true
   field_starting_days_number: true
   field_user: true
   langcode: true

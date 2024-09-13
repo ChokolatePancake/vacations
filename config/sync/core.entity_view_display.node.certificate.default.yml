@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.certificate.field_expiration_date
+    - field.field.node.certificate.field_is_regular
     - field.field.node.certificate.field_starting_days_number
     - field.field.node.certificate.field_user
     - node.type.certificate
@@ -32,6 +33,16 @@ content:
         refresh: 60
     third_party_settings: {  }
     weight: 102
+    region: content
+  field_is_regular:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 104
     region: content
   field_starting_days_number:
     type: number_integer

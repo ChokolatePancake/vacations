@@ -391,9 +391,6 @@ gateways:
       -
         id: Activity_1x09ig6
         condition: ''
-      -
-        id: Gateway_0ks304p
-        condition: ''
   Gateway_15mw1e4:
     type: 0
     successors:
@@ -946,7 +943,7 @@ actions:
       xss_filter: true
     successors:
       -
-        id: Activity_1bgzjgk
+        id: Activity_09ngmg3
         condition: ''
   Activity_09ngmg3:
     plugin: eca_form_field_get_value
@@ -959,7 +956,7 @@ actions:
       xss_filter: true
     successors:
       -
-        id: Activity_07yidjb
+        id: Activity_14it3nw
         condition: ''
   Activity_14it3nw:
     plugin: 'eca_tamper:strtotime'
@@ -982,7 +979,7 @@ actions:
       eca_token_name: end_value
     successors:
       -
-        id: Activity_0or8fza
+        id: Activity_0pjqqiq
         condition: ''
   Activity_1ip62kw:
     plugin: eca_form_field_get_value
@@ -1354,10 +1351,7 @@ actions:
       strip_tags: true
       trim: true
       xss_filter: true
-    successors:
-      -
-        id: Activity_09ngmg3
-        condition: ''
+    successors: {  }
   Activity_07yidjb:
     plugin: eca_form_field_get_value
     label: 'Get end date time(time)'
@@ -1367,10 +1361,7 @@ actions:
       strip_tags: true
       trim: true
       xss_filter: true
-    successors:
-      -
-        id: Activity_14it3nw
-        condition: ''
+    successors: {  }
   Activity_0or8fza:
     plugin: 'eca_tamper:strtotime'
     label: 'Start time to UNIX'
@@ -1387,10 +1378,7 @@ actions:
     configuration:
       eca_data: '[end-date-time]'
       eca_token_name: end_value-time
-    successors:
-      -
-        id: Activity_0pjqqiq
-        condition: ''
+    successors: {  }
   Activity_17woknc:
     plugin: eca_form_field_set_error
     label: 'Show error non-working start time'

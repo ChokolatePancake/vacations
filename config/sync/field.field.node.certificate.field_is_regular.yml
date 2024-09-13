@@ -1,0 +1,21 @@
+uuid: 895e93f2-90e9-49e5-88d0-bd1cec3eb4f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_regular
+    - node.type.certificate
+id: node.certificate.field_is_regular
+field_name: field_is_regular
+entity_type: node
+bundle: certificate
+label: 'Is regular'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean
