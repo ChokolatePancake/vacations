@@ -94,7 +94,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 107
+    weight: 114
     region: content
   flag_approve:
     settings: {  }
