@@ -35,4 +35,10 @@ visibility:
     context_mapping:
       user: '@user.current_user_context:current_user'
     roles:
-      authenticated: authenticated
+      administrator: administrator
+      ceo: ceo
+      shief_pm: shief_pm
+      client: client
+      department_head: department_head
+      team_lead: team_lead
+      pm: pm

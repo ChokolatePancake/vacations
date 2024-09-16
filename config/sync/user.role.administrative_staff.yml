@@ -3,10 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - node.type.certificate
     - node.type.vacations
   module:
-    - flag
     - node
 id: administrative_staff
 label: 'Administrative Staff'
@@ -14,8 +12,6 @@ weight: -6
 is_admin: null
 permissions:
   - 'access user profiles'
-  - 'create certificate content'
   - 'create vacations content'
   - 'delete own vacations content'
-  - 'flag approve'
   - 'view user email addresses'

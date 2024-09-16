@@ -8,7 +8,6 @@ dependencies:
   module:
     - file
     - filter
-    - flag
     - node
     - shortcut
     - system
@@ -26,7 +25,6 @@ permissions:
   - 'create vacations content'
   - 'delete own files'
   - 'delete own vacations content'
-  - 'flag approve'
   - 'use text format basic_html'
   - 'view own unpublished content'
   - 'view user email addresses'
