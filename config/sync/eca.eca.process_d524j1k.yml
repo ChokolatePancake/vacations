@@ -26,6 +26,7 @@ dependencies:
     - eca_base
     - eca_content
     - eca_form
+    - eca_log
     - eca_tamper
     - eca_views
 id: process_d524j1k
@@ -155,15 +156,6 @@ conditions:
       left: '[is-full-day]'
       right: '1'
       operator: equal
-      type: value
-  Flow_0tscdbt:
-    plugin: eca_scalar
-    configuration:
-      negate: false
-      case: false
-      left: '[value]'
-      right: '[current-date:raw]'
-      operator: lessthan
       type: value
   Flow_1xys2u5:
     plugin: eca_scalar
@@ -380,6 +372,15 @@ conditions:
       left: '[result]'
       right: '0'
       operator: lessthan
+      type: value
+  Flow_0blicmm:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[current-date:raw]'
+      right: '[value-time]'
+      operator: greaterthan
       type: value
 gateways:
   Gateway_027c115:
@@ -943,7 +944,7 @@ actions:
       xss_filter: true
     successors:
       -
-        id: Activity_09ngmg3
+        id: Activity_1bgzjgk
         condition: ''
   Activity_09ngmg3:
     plugin: eca_form_field_get_value
@@ -956,7 +957,7 @@ actions:
       xss_filter: true
     successors:
       -
-        id: Activity_14it3nw
+        id: Activity_0or8fza
         condition: ''
   Activity_14it3nw:
     plugin: 'eca_tamper:strtotime'
@@ -968,9 +969,6 @@ actions:
       -
         id: Activity_0uq60ov
         condition: Flow_0gn4cyn
-      -
-        id: Activity_068aabg
-        condition: Flow_0tscdbt
   Activity_0uq60ov:
     plugin: 'eca_tamper:strtotime'
     label: 'End date time to UNIX'
@@ -1351,7 +1349,10 @@ actions:
       strip_tags: true
       trim: true
       xss_filter: true
-    successors: {  }
+    successors:
+      -
+        id: Activity_09ngmg3
+        condition: ''
   Activity_07yidjb:
     plugin: eca_form_field_get_value
     label: 'Get end date time(time)'
@@ -1370,7 +1371,13 @@ actions:
       eca_token_name: value-time
     successors:
       -
-        id: Activity_0auzvi9
+        id: Activity_068aabg
+        condition: Flow_0blicmm
+      -
+        id: Activity_14it3nw
+        condition: ''
+      -
+        id: Activity_125dj7n
         condition: ''
   Activity_0auzvi9:
     plugin: 'eca_tamper:strtotime'
@@ -1386,3 +1393,26 @@ actions:
       message: 'The selected start time is not within working schedule'
       field_name: field_date_and_time
     successors: {  }
+  Activity_125dj7n:
+    plugin: eca_write_log_message
+    label: Activity_125dj7n
+    configuration:
+      channel: a
+      severity: '1'
+      message: |-
+        current:[current-date:raw]
+        time:[value-time]
+    successors: {  }
+  Activity_12yugtg:
+    plugin: 'eca_tamper:math'
+    label: Activity_12yugtg
+    configuration:
+      operation: addition
+      flip: false
+      value: '[value-time]'
+      eca_data: '[value]'
+      eca_token_name: full-start
+    successors:
+      -
+        id: Activity_125dj7n
+        condition: ''
