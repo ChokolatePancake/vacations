@@ -5,6 +5,8 @@ dependencies:
   config:
     - views.view.my_vacation_history
   module:
+    - system
+    - user
     - views
   theme:
     - olivero
@@ -22,4 +24,15 @@ settings:
   context_mapping: {  }
   views_label: ''
   items_per_page: none
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /vacation-history
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

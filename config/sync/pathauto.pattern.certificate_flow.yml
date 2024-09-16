@@ -1,0 +1,22 @@
+uuid: 25c2cc00-7124-4e5a-b6e6-127036a30a40
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: certificate_flow
+label: 'Certificate flow'
+type: 'canonical_entities:node'
+pattern: '/certificate-flow/[node:title]'
+selection_criteria:
+  7ebae978-003d-4f9f-87ac-0a17845d47df:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 7ebae978-003d-4f9f-87ac-0a17845d47df
+    context_mapping:
+      node: node
+    bundles:
+      certificate_flow: certificate_flow
+selection_logic: and
+weight: -5
+relationships: {  }

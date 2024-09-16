@@ -5,6 +5,8 @@ dependencies:
   config:
     - views.view.ongoing_vacation
   module:
+    - system
+    - user
     - views
   theme:
     - olivero
@@ -21,4 +23,15 @@ settings:
   provider: views
   views_label: ''
   items_per_page: none
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /home
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated

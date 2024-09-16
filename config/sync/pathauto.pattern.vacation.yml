@@ -1,0 +1,22 @@
+uuid: 57f281a4-f5b9-4b33-83d6-0f5edb792326
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: vacation
+label: Vacation
+type: 'canonical_entities:node'
+pattern: '/vacation/[node:title]'
+selection_criteria:
+  42df5af8-b00e-484a-afe3-ecfab56a966f:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 42df5af8-b00e-484a-afe3-ecfab56a966f
+    context_mapping:
+      node: node
+    bundles:
+      vacations: vacations
+selection_logic: and
+weight: -5
+relationships: {  }

@@ -31,7 +31,6 @@
         "drupal/eca_flag": "^2.0",
         "drupal/eca_tamper": "^2.0",
         "drupal/flag": "^4.0@beta",
-        "drupal/gin": "^3.0@beta",
         "drupal/maxlength": "^3.1",
         "drupal/nodeaccess": "^2.0@alpha",
         "drupal/pathauto": "^1.13",

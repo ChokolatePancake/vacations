@@ -1,0 +1,22 @@
+uuid: 2c0da5a7-9624-425d-96d5-f94059a6d615
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: certificate
+label: Certificate
+type: 'canonical_entities:node'
+pattern: '/certificate/[node:title]'
+selection_criteria:
+  7d45e136-638e-4401-9fe5-15445a0a047a:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 7d45e136-638e-4401-9fe5-15445a0a047a
+    context_mapping:
+      node: node
+    bundles:
+      certificate: certificate
+selection_logic: and
+weight: -5
+relationships: {  }

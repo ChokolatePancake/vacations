@@ -65,6 +65,9 @@ events:
       -
         id: Activity_1o6mgkq
         condition: Flow_0yq0jwy
+      -
+        id: Activity_0f9v5xr
+        condition: ''
   Event_09ycnmd:
     plugin: 'content_entity:insert'
     label: Event_09ycnmd
@@ -145,7 +148,7 @@ actions:
     plugin: eca_enqueue_task_delayed
     label: 'Wait 6 months'
     configuration:
-      delay_value: '1'
+      delay_value: '5'
       delay_unit: '60'
       task_name: give_certificate
       task_value: ''
@@ -251,7 +254,7 @@ actions:
     plugin: eca_enqueue_task_delayed
     label: 'Wait again'
     configuration:
-      delay_value: '1'
+      delay_value: '5'
       delay_unit: '60'
       task_name: give_certificate
       task_value: ''
@@ -327,10 +330,7 @@ actions:
       trim: false
       save_entity: true
       object: certificate-flow
-    successors:
-      -
-        id: Activity_0f9v5xr
-        condition: ''
+    successors: {  }
   Activity_144qdyn:
     plugin: eca_token_load_entity_ref
     label: 'Load certificate'
@@ -473,7 +473,7 @@ actions:
     plugin: eca_enqueue_task_delayed
     label: 'Wait for expiration'
     configuration:
-      delay_value: '2'
+      delay_value: '10'
       delay_unit: '60'
       task_name: burn_certificate
       task_value: ''
@@ -647,7 +647,7 @@ actions:
         condition: ''
   Activity_1c1heng:
     plugin: eca_token_load_entity
-    label: Activity_1c1heng
+    label: 'Load certificate'
     configuration:
       token_name: certificate
       from: current

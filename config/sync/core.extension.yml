@@ -32,7 +32,6 @@ module:
   eca_endpoint: 0
   eca_file: 0
   eca_flag: 0
-  eca_language: 0
   eca_log: 0
   eca_migrate: 0
   eca_misc: 0
@@ -52,7 +51,8 @@ module:
   help: 0
   history: 0
   image: 0
-  language: 0
+  layout_builder: 0
+  layout_discovery: 0
   link: 0
   maxlength: 0
   menu_link_content: 0
@@ -85,5 +85,4 @@ module:
 theme:
   olivero: 0
   claro: 0
-  gin: 0
 profile: standard

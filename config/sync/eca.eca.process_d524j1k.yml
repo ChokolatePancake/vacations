@@ -26,7 +26,6 @@ dependencies:
     - eca_base
     - eca_content
     - eca_form
-    - eca_log
     - eca_tamper
     - eca_views
 id: process_d524j1k
@@ -873,7 +872,7 @@ actions:
     label: 'Set title "Author''s vacation reques"'
     configuration:
       field_name: title
-      field_value: "[author:name]'s vacation reques"
+      field_value: "[author:name]'s vacation request"
       method: 'set:clear'
       strip_tags: false
       trim: false
@@ -1376,9 +1375,6 @@ actions:
       -
         id: Activity_14it3nw
         condition: ''
-      -
-        id: Activity_125dj7n
-        condition: ''
   Activity_0auzvi9:
     plugin: 'eca_tamper:strtotime'
     label: 'End time to UNIX'
@@ -1393,26 +1389,3 @@ actions:
       message: 'The selected start time is not within working schedule'
       field_name: field_date_and_time
     successors: {  }
-  Activity_125dj7n:
-    plugin: eca_write_log_message
-    label: Activity_125dj7n
-    configuration:
-      channel: a
-      severity: '1'
-      message: |-
-        current:[current-date:raw]
-        time:[value-time]
-    successors: {  }
-  Activity_12yugtg:
-    plugin: 'eca_tamper:math'
-    label: Activity_12yugtg
-    configuration:
-      operation: addition
-      flip: false
-      value: '[value-time]'
-      eca_data: '[value]'
-      eca_token_name: full-start
-    successors:
-      -
-        id: Activity_125dj7n
-        condition: ''
