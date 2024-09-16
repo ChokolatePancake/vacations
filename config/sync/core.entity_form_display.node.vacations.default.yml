@@ -208,26 +208,6 @@ content:
             effect: show
             effect_options: {  }
             selector: ''
-        0354706f-1582-4df4-b2f1-8bbfc17397b1:
-          entity_type: node
-          bundle: vacations
-          dependee: field_is_full_day
-          settings:
-            state: '!empty'
-            reset: false
-            condition: '!checked'
-            grouping: AND
-            values_set: 1
-            value: ''
-            values: {  }
-            value_form:
-              value: false
-            effect: fill
-            effect_options:
-              fill:
-                value: '0'
-                reset: 1
-            selector: ''
   field_reason:
     type: string_textarea
     weight: 9
@@ -240,13 +220,6 @@ content:
         maxlength_js: 100
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
         maxlength_js_enforce: true
-  langcode:
-    type: language_select
-    weight: 0
-    region: content
-    settings:
-      include_locked: true
-    third_party_settings: {  }
   path:
     type: path
     weight: 5

@@ -110,6 +110,15 @@ events:
       -
         id: Activity_16b863e
         condition: ''
+  Event_0d14opt:
+    plugin: 'content_entity:insert'
+    label: Event_0d14opt
+    configuration:
+      type: 'node certificate'
+    successors:
+      -
+        id: Activity_05kroee
+        condition: Flow_14rp6l2
 conditions:
   Flow_0yq0jwy:
     plugin: eca_entity_exists
@@ -142,7 +151,58 @@ conditions:
       right: '0'
       operator: equal
       type: value
-gateways: {  }
+  Flow_08mb5v4:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[last-operation:0:field_days:value]'
+      right: '0'
+      operator: equal
+      type: value
+      negate: true
+  Flow_14rp6l2:
+    plugin: eca_entity_field_value_empty
+    configuration:
+      negate: false
+      field_name: field_is_regular
+      entity: ''
+  Flow_025ki6x:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[last-operation:0:field_days:value]'
+      right: '0'
+      operator: equal
+      type: value
+  Flow_1ek54sx:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[last-operation:0:field_operation_with_days:value]'
+      right: '0'
+      operator: equal
+      type: value
+  Flow_1dqejkq:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[last-operation:0:field_operation_with_days:value]'
+      right: '0'
+      operator: equal
+      type: value
+      negate: true
+gateways:
+  Gateway_0403byw:
+    type: 0
+    successors:
+      -
+        id: Activity_0g79gww
+        condition: Flow_1ek54sx
+      -
+        id: Activity_0i47e6k
+        condition: Flow_1dqejkq
 actions:
   Activity_1rgszo3:
     plugin: eca_enqueue_task_delayed
@@ -486,7 +546,7 @@ actions:
       token_name: certificate-flow
       type: 'node certificate_flow'
       langcode: ''
-      label: 'Burning regular certificate'
+      label: 'Burning certificate'
       published: true
       owner: '1'
     successors:
@@ -536,7 +596,7 @@ actions:
       object: certificate-flow
     successors:
       -
-        id: Activity_07qoi6u
+        id: Activity_066lq6j
         condition: ''
   Activity_07qoi6u:
     plugin: eca_views_query
@@ -548,8 +608,11 @@ actions:
       arguments: '[certificate-user]/[certificate:nid]'
     successors:
       -
-        id: Activity_066lq6j
-        condition: ''
+        id: Activity_1c6u3f2
+        condition: Flow_08mb5v4
+      -
+        id: Gateway_0403byw
+        condition: Flow_025ki6x
   Activity_066lq6j:
     plugin: eca_set_field_value
     label: 'Set days from previous version'
@@ -571,7 +634,7 @@ actions:
       object: certificate
     successors:
       -
-        id: Activity_1c6u3f2
+        id: Activity_07qoi6u
         condition: ''
   Activity_0frypg1:
     plugin: 'eca_tamper:math'
@@ -663,3 +726,145 @@ actions:
       -
         id: Activity_1faj5nr
         condition: ''
+  Activity_05kroee:
+    plugin: eca_new_entity
+    label: 'Create new record about bonus certificate'
+    configuration:
+      token_name: record
+      type: 'node certificate_flow'
+      langcode: ''
+      label: 'Creating bonus certificate'
+      published: true
+      owner: '1'
+    successors:
+      -
+        id: Activity_1jheiav
+        condition: ''
+  Activity_1jheiav:
+    plugin: eca_set_field_value
+    label: 'Put certificate to flow'
+    configuration:
+      field_name: field_certificate.target_id
+      field_value: '[node:nid]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: record
+    successors:
+      -
+        id: Activity_00vwprh
+        condition: ''
+  Activity_00vwprh:
+    plugin: eca_set_field_value
+    label: 'Set operation'
+    configuration:
+      field_name: field_operation.target_id
+      field_value: '1'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: record
+    successors:
+      -
+        id: Activity_1unybee
+        condition: ''
+  Activity_1unybee:
+    plugin: eca_set_field_value
+    label: 'Set operation with days'
+    configuration:
+      field_name: field_operation_with_days.value
+      field_value: '[node:field_starting_days_number]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: record
+    successors:
+      -
+        id: Activity_1nnvwk7
+        condition: ''
+  Activity_1nnvwk7:
+    plugin: eca_set_field_value
+    label: 'Set days'
+    configuration:
+      field_name: field_days.value
+      field_value: '[node:field_starting_days_number]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: record
+    successors: {  }
+  Activity_0i47e6k:
+    plugin: eca_new_entity
+    label: 'Create record about exhausted certificates'
+    configuration:
+      token_name: certificate-flow
+      type: 'node certificate_flow'
+      langcode: ''
+      label: 'Certificate exhausted'
+      published: false
+      owner: '1'
+    successors:
+      -
+        id: Activity_13mqlbs
+        condition: ''
+  Activity_13mqlbs:
+    plugin: eca_set_field_value
+    label: Activity_13mqlbs
+    configuration:
+      field_name: field_certificate.target_id
+      field_value: '[certificate:nid]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_1o4gyuy
+        condition: ''
+  Activity_1o4gyuy:
+    plugin: eca_set_field_value
+    label: Activity_1o4gyuy
+    configuration:
+      field_name: field_operation.target_id
+      field_value: '5'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_0jc3m4x
+        condition: ''
+  Activity_0jc3m4x:
+    plugin: eca_set_field_value
+    label: Activity_0jc3m4x
+    configuration:
+      field_name: field_operation_with_days.value
+      field_value: '0'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_0l7d5yb
+        condition: ''
+  Activity_0l7d5yb:
+    plugin: eca_set_field_value
+    label: Activity_0l7d5yb
+    configuration:
+      field_name: field_days.value
+      field_value: '0'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-flow
+    successors: {  }

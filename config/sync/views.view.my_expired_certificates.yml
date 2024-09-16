@@ -409,7 +409,20 @@ display:
       cache:
         type: tag
         options: {  }
-      empty: {  }
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: 'None of your certificates are expired'
+            format: basic_html
+          tokenize: false
       sorts:
         field_is_regular_value:
           id: field_is_regular_value

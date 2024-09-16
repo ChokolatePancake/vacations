@@ -28,7 +28,7 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /pending-vacations
+    pages: /pending-vacation-requests
   user_role:
     id: user_role
     negate: false

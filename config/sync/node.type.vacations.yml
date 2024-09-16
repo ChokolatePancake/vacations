@@ -10,7 +10,7 @@ third_party_settings:
     parent: ''
 name: Vacations
 type: vacations
-description: null
+description: 'Content type for vacation requests'
 help: null
 new_revision: false
 preview_mode: 1
