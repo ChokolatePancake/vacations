@@ -1,4 +1,4 @@
-uuid: fc016784-7386-4ce5-811c-e8a723e26d66
+uuid: 52de0554-36ca-4141-9ee8-7ff1215900ef
 langcode: en
 status: true
 dependencies:
@@ -24,7 +24,6 @@ dependencies:
     - eca_base
     - eca_content
     - eca_form
-    - eca_log
     - eca_tamper
     - eca_views
 id: process_d524j1k
@@ -718,9 +717,6 @@ actions:
       -
         id: Activity_11etmyq
         condition: Flow_0ybozwb
-      -
-        id: Activity_0h7qx6u
-        condition: ''
   Activity_1upv4hy:
     plugin: eca_new_entity
     label: 'Create new certificate flow'
@@ -1399,12 +1395,4 @@ actions:
     configuration:
       message: 'The selected start time is not within working schedule'
       field_name: field_date_and_time
-    successors: {  }
-  Activity_0h7qx6u:
-    plugin: eca_write_log_message
-    label: Activity_0h7qx6u
-    configuration:
-      channel: euk
-      severity: ''
-      message: '[certificate]'
     successors: {  }

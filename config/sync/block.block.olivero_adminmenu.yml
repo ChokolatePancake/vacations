@@ -1,0 +1,39 @@
+uuid: 6b4e89e2-88c6-4b69-a8da-87cfb96363fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.admin-menu
+  module:
+    - system
+    - user
+  theme:
+    - olivero
+id: olivero_adminmenu
+theme: olivero
+region: primary_menu
+weight: -7
+provider: null
+plugin: 'system_menu_block:admin-menu'
+settings:
+  id: 'system_menu_block:admin-menu'
+  label: 'Admin menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator
+      ceo: ceo
+      shief_pm: shief_pm
+      client: client
+      department_head: department_head
+      team_lead: team_lead
+      pm: pm

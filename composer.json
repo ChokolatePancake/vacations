@@ -12,10 +12,15 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
     ],
     "require": {
         "composer/installers": "^2.0",
+        "cweagans/composer-patches": "~2.0",
         "drupal/admin_toolbar": "^3.5",
         "drupal/bpmn_io": "^2.0",
         "drupal/conditional_fields": "^4.0@alpha",
@@ -30,9 +35,11 @@
         "drupal/eca": "^2.0",
         "drupal/eca_flag": "^2.0",
         "drupal/eca_tamper": "^2.0",
+        "drupal/entity_reference_display": "^2.0",
         "drupal/flag": "^4.0@beta",
         "drupal/maxlength": "^3.1",
         "drupal/nodeaccess": "^2.0@alpha",
+        "drupal/other_view_filter": "^1.3",
         "drupal/pathauto": "^1.13",
         "drupal/queue_ui": "^3.1",
         "drupal/smart_date": "^4.1",
@@ -40,6 +47,8 @@
         "drupal/token_views_filter": "^2.0",
         "drupal/user_node_access": "^2.0",
         "drupal/views_aggregator": "^2.0",
+        "drupal/views_core_entity_reference": "1.0.x-dev@dev",
+        "drupal/views_exclude_previous": "^2.0@beta",
         "drupal/workbench_access": "^2.0",
         "drush/drush": "^13.0"
     },
@@ -55,7 +64,9 @@
             "drupal/core-project-message": true,
             "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "oomphinc/composer-installers-extender": true,
+            "cweagans/composer-patches": true
         },
         "sort-packages": true
     },
@@ -70,34 +81,17 @@
                 "web-root": "web/"
             }
         },
+        "installer-types": ["bower-asset", "npm-asset"],
         "installer-paths": {
-            "web/core": [
-                "type:drupal-core"
-            ],
-            "web/libraries/{$name}": [
-                "type:drupal-library"
-            ],
-            "web/modules/contrib/{$name}": [
-                "type:drupal-module"
-            ],
-            "web/profiles/contrib/{$name}": [
-                "type:drupal-profile"
-            ],
-            "web/themes/contrib/{$name}": [
-                "type:drupal-theme"
-            ],
-            "drush/Commands/contrib/{$name}": [
-                "type:drupal-drush"
-            ],
-            "web/modules/custom/{$name}": [
-                "type:drupal-custom-module"
-            ],
-            "web/profiles/custom/{$name}": [
-                "type:drupal-custom-profile"
-            ],
-            "web/themes/custom/{$name}": [
-                "type:drupal-custom-theme"
-            ]
+            "web/core": ["type:drupal-core"],
+            "web/libraries/{$name}": ["type:drupal-library", "type:bower-asset", "type:npm-asset"],
+            "web/modules/contrib/{$name}": ["type:drupal-module"],
+            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+            "web/themes/contrib/{$name}": ["type:drupal-theme"],
+            "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
+            "web/modules/custom/{$name}": ["type:drupal-custom-module"],
+            "web/profiles/custom/{$name}": ["type:drupal-custom-profile"],
+            "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
         },
         "drupal-core-project-message": {
             "include-keys": [

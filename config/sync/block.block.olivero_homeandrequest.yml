@@ -1,0 +1,33 @@
+uuid: 35997226-e7d0-4d04-9f2a-464a095179f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.home-and-request
+  module:
+    - system
+    - user
+  theme:
+    - olivero
+id: olivero_homeandrequest
+theme: olivero
+region: primary_menu
+weight: -8
+provider: null
+plugin: 'system_menu_block:home-and-request'
+settings:
+  id: 'system_menu_block:home-and-request'
+  label: 'Home and Request'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      authenticated: authenticated
