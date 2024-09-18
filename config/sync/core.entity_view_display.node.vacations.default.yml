@@ -13,20 +13,81 @@ dependencies:
     - field.field.node.vacations.field_reason
     - node.type.vacations
   module:
+    - datetime_range
     - user
 id: node.vacations.default
 targetEntityType: node
 bundle: vacations
 mode: default
-content: {  }
+content:
+  field_approvers:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_date:
+    type: daterange_default
+    label: inline
+    settings:
+      timezone_override: ''
+      format_type: medium
+      from_to: both
+      separator: '-'
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_date_and_time:
+    type: daterange_default
+    label: inline
+    settings:
+      timezone_override: ''
+      format_type: medium
+      from_to: both
+      separator: '-'
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_is_approved:
+    type: boolean
+    label: inline
+    settings:
+      format: custom
+      format_custom_false: Pending
+      format_custom_true: Approved
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_is_full_day:
+    type: boolean
+    label: inline
+    settings:
+      format: custom
+      format_custom_false: 'Partial day'
+      format_custom_true: 'Full day'
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_is_paid:
+    type: boolean
+    label: inline
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_reason:
+    type: basic_string
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
 hidden:
-  field_approvers: true
-  field_date: true
-  field_date_and_time: true
   field_full_days: true
-  field_is_approved: true
-  field_is_full_day: true
-  field_is_paid: true
-  field_reason: true
   flag_approve: true
   links: true

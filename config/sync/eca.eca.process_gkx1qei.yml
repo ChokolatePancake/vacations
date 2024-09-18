@@ -184,15 +184,6 @@ conditions:
       right: '0'
       operator: equal
       type: value
-  Flow_1dqejkq:
-    plugin: eca_scalar
-    configuration:
-      case: false
-      left: '[last-operation:0:field_operation_with_days:value]'
-      right: '0'
-      operator: equal
-      type: value
-      negate: true
 gateways:
   Gateway_0403byw:
     type: 0
@@ -200,16 +191,13 @@ gateways:
       -
         id: Activity_0g79gww
         condition: Flow_1ek54sx
-      -
-        id: Activity_0i47e6k
-        condition: Flow_1dqejkq
 actions:
   Activity_1rgszo3:
     plugin: eca_enqueue_task_delayed
     label: 'Wait 6 months'
     configuration:
-      delay_value: '5'
-      delay_unit: '60'
+      delay_value: '6'
+      delay_unit: '2592000'
       task_name: give_certificate
       task_value: ''
       tokens: 'created-user, template'
@@ -314,8 +302,8 @@ actions:
     plugin: eca_enqueue_task_delayed
     label: 'Wait again'
     configuration:
-      delay_value: '5'
-      delay_unit: '60'
+      delay_value: '6'
+      delay_unit: '2592000'
       task_name: give_certificate
       task_value: ''
       tokens: 'created-user, template'
@@ -533,7 +521,7 @@ actions:
     plugin: eca_enqueue_task_delayed
     label: 'Wait for expiration'
     configuration:
-      delay_value: '10'
+      delay_value: '[result]'
       delay_unit: '60'
       task_name: burn_certificate
       task_value: ''
@@ -796,75 +784,4 @@ actions:
       trim: false
       save_entity: true
       object: record
-    successors: {  }
-  Activity_0i47e6k:
-    plugin: eca_new_entity
-    label: 'Create record about exhausted certificates'
-    configuration:
-      token_name: certificate-flow
-      type: 'node certificate_flow'
-      langcode: ''
-      label: 'Certificate exhausted'
-      published: false
-      owner: '1'
-    successors:
-      -
-        id: Activity_13mqlbs
-        condition: ''
-  Activity_13mqlbs:
-    plugin: eca_set_field_value
-    label: Activity_13mqlbs
-    configuration:
-      field_name: field_certificate.target_id
-      field_value: '[certificate:nid]'
-      method: 'set:clear'
-      strip_tags: false
-      trim: false
-      save_entity: false
-      object: certificate-flow
-    successors:
-      -
-        id: Activity_1o4gyuy
-        condition: ''
-  Activity_1o4gyuy:
-    plugin: eca_set_field_value
-    label: Activity_1o4gyuy
-    configuration:
-      field_name: field_operation.target_id
-      field_value: '5'
-      method: 'set:clear'
-      strip_tags: false
-      trim: false
-      save_entity: false
-      object: certificate-flow
-    successors:
-      -
-        id: Activity_0jc3m4x
-        condition: ''
-  Activity_0jc3m4x:
-    plugin: eca_set_field_value
-    label: Activity_0jc3m4x
-    configuration:
-      field_name: field_operation_with_days.value
-      field_value: '0'
-      method: 'set:clear'
-      strip_tags: false
-      trim: false
-      save_entity: false
-      object: certificate-flow
-    successors:
-      -
-        id: Activity_0l7d5yb
-        condition: ''
-  Activity_0l7d5yb:
-    plugin: eca_set_field_value
-    label: Activity_0l7d5yb
-    configuration:
-      field_name: field_days.value
-      field_value: '0'
-      method: 'set:clear'
-      strip_tags: false
-      trim: false
-      save_entity: true
-      object: certificate-flow
     successors: {  }
