@@ -73,11 +73,6 @@
         "sort-packages": true
     },
     "extra": {
-        "patches": {
-            "drupal/core": {
-                "Add Views EntityReference filter to support better UX for exposed filters": "https://www.drupal.org/files/issues/2024-07-10/3347343-213.patch"
-            }
-        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
