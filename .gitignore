@@ -4,3 +4,4 @@ vendor/
 /web/modules/contrib/
 /web/sites/default/files/
 /web/sites/default/settings.php
+vacations.sql
