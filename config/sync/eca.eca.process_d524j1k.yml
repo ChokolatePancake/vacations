@@ -51,7 +51,7 @@ events:
       operation: ''
     successors:
       -
-        id: Activity_1ip62kw
+        id: Activity_1cz4133
         condition: ''
   Event_0vjqee8:
     plugin: 'content_entity:update'
@@ -68,8 +68,8 @@ conditions:
     configuration:
       negate: false
       case: false
-      expected_value: '1'
-      field_name: field_is_approved
+      expected_value: '7'
+      field_name: field_status
       operator: equal
       type: value
       entity: vacation
@@ -136,15 +136,6 @@ conditions:
       right: '[item-list:field_certificate:target_id]'
       operator: equal
       type: value
-  Flow_1vk1wk8:
-    plugin: eca_scalar
-    configuration:
-      negate: false
-      case: false
-      left: '[is-full-day]'
-      right: '0'
-      operator: equal
-      type: value
   Flow_0gn4cyn:
     plugin: eca_scalar
     configuration:
@@ -153,15 +144,6 @@ conditions:
       left: '[value]'
       right: '[current-date:raw]'
       operator: atleast
-      type: value
-  Flow_05ilvyl:
-    plugin: eca_scalar
-    configuration:
-      negate: false
-      case: false
-      left: '[is-full-day]'
-      right: '1'
-      operator: equal
       type: value
   Flow_1xys2u5:
     plugin: eca_scalar
@@ -254,23 +236,25 @@ conditions:
       operator: lessthan
       type: value
   Flow_02i7rv5:
-    plugin: eca_scalar
+    plugin: eca_entity_field_value
     configuration:
       negate: false
       case: false
-      left: '[is-paid]'
-      right: '1'
+      expected_value: '1'
+      field_name: field_is_paid
       operator: equal
       type: value
+      entity: vacation
   Flow_1n38jv4:
-    plugin: eca_scalar
+    plugin: eca_entity_field_value
     configuration:
       negate: false
       case: false
-      left: '[is-paid]'
-      right: '0'
+      expected_value: '0'
+      field_name: field_is_paid
       operator: equal
       type: value
+      entity: vacation
   Flow_0tl9k1o:
     plugin: eca_scalar
     configuration:
@@ -379,14 +363,34 @@ conditions:
       right: '0'
       operator: lessthan
       type: value
-  Flow_0blicmm:
+  Flow_19jcp7c:
+    plugin: eca_entity_field_value
+    configuration:
+      negate: false
+      case: false
+      expected_value: '0'
+      field_name: field_is_full_day
+      operator: equal
+      type: value
+      entity: vacation
+  Flow_01v7pmu:
+    plugin: eca_entity_field_value
+    configuration:
+      negate: false
+      case: false
+      expected_value: '1'
+      field_name: field_is_full_day
+      operator: equal
+      type: value
+      entity: vacation
+  Flow_12pdh1s:
     plugin: eca_scalar
     configuration:
       negate: false
       case: false
-      left: '[current-date:raw]'
-      right: '[value-time]'
-      operator: greaterthan
+      left: '[value]'
+      right: '[current-date:raw]'
+      operator: lessthan
       type: value
 gateways:
   Gateway_027c115:
@@ -886,24 +890,11 @@ actions:
       save_entity: false
       object: ''
     successors: {  }
-  Activity_1vi0tr7:
-    plugin: eca_form_field_get_value
-    label: 'Get end date'
-    configuration:
-      token_name: end-date
-      field_name: 'field_date[0][end_value][date]'
-      strip_tags: true
-      trim: true
-      xss_filter: true
-    successors:
-      -
-        id: Activity_1abhdau
-        condition: ''
   Activity_1abhdau:
     plugin: 'eca_tamper:strtotime'
     label: 'Start date to UNIX'
     configuration:
-      eca_data: '[start]'
+      eca_data: '[vacation:field_date:value]'
       eca_token_name: value
     successors:
       -
@@ -913,24 +904,11 @@ actions:
     plugin: 'eca_tamper:strtotime'
     label: 'End date to UNIX'
     configuration:
-      eca_data: '[end-date]'
+      eca_data: '[vacation:field_date:end_value]'
       eca_token_name: end_value
     successors:
       -
         id: Activity_0xf6sei
-        condition: ''
-  Activity_0nj7bqi:
-    plugin: eca_form_field_get_value
-    label: 'Get start date'
-    configuration:
-      token_name: start
-      field_name: 'field_date[0][value][date]'
-      strip_tags: true
-      trim: true
-      xss_filter: true
-    successors:
-      -
-        id: Activity_1vi0tr7
         condition: ''
   Activity_1hjb1ew:
     plugin: eca_form_field_set_error
@@ -939,68 +917,29 @@ actions:
       message: "You can't take more than 14 days off"
       field_name: field_date
     successors: {  }
-  Activity_0z7ysg3:
-    plugin: eca_form_field_get_value
-    label: 'Get start date time(date)'
-    configuration:
-      token_name: start
-      field_name: 'field_date_and_time[0][value][date]'
-      strip_tags: true
-      trim: true
-      xss_filter: true
-    successors:
-      -
-        id: Activity_1bgzjgk
-        condition: ''
-  Activity_09ngmg3:
-    plugin: eca_form_field_get_value
-    label: 'Get end date time(date)'
-    configuration:
-      token_name: end
-      field_name: 'field_date_and_time[0][end_value][date]'
-      strip_tags: true
-      trim: true
-      xss_filter: true
-    successors:
-      -
-        id: Activity_0or8fza
-        condition: ''
   Activity_14it3nw:
     plugin: 'eca_tamper:strtotime'
     label: 'Start date time to UNIX'
     configuration:
-      eca_data: '[start]'
+      eca_data: '[vacation:field_date_and_time:value]'
       eca_token_name: value
     successors:
       -
         id: Activity_0uq60ov
         condition: Flow_0gn4cyn
+      -
+        id: Activity_068aabg
+        condition: Flow_12pdh1s
   Activity_0uq60ov:
     plugin: 'eca_tamper:strtotime'
     label: 'End date time to UNIX'
     configuration:
-      eca_data: '[end]'
+      eca_data: '[vacation:field_date_and_time:end_value]'
       eca_token_name: end_value
     successors:
       -
         id: Activity_0pjqqiq
         condition: ''
-  Activity_1ip62kw:
-    plugin: eca_form_field_get_value
-    label: 'Is checked is_full_day'
-    configuration:
-      token_name: is-full-day
-      field_name: 'field_is_full_day[value]'
-      strip_tags: true
-      trim: true
-      xss_filter: true
-    successors:
-      -
-        id: Activity_0z7ysg3
-        condition: Flow_1vk1wk8
-      -
-        id: Activity_0ecrdsh
-        condition: Flow_05ilvyl
   Activity_0pjqqiq:
     plugin: 'eca_tamper:math'
     label: Subtraction
@@ -1157,19 +1096,6 @@ actions:
     successors:
       -
         id: Activity_0210lgf
-        condition: ''
-  Activity_0ecrdsh:
-    plugin: eca_form_field_get_value
-    label: 'Is paid'
-    configuration:
-      token_name: is-paid
-      field_name: 'field_is_paid[value]'
-      strip_tags: true
-      trim: true
-      xss_filter: true
-    successors:
-      -
-        id: Activity_0nj7bqi
         condition: ''
   Activity_0wqdocf:
     plugin: 'eca_tamper:timetodate'
@@ -1346,19 +1272,6 @@ actions:
       message: 'Past times are not allowed'
       field_name: field_date
     successors: {  }
-  Activity_1bgzjgk:
-    plugin: eca_form_field_get_value
-    label: 'Get start date time(time)'
-    configuration:
-      token_name: start-date-time
-      field_name: 'field_date_and_time[0][value][time]'
-      strip_tags: true
-      trim: true
-      xss_filter: true
-    successors:
-      -
-        id: Activity_09ngmg3
-        condition: ''
   Activity_07yidjb:
     plugin: eca_form_field_get_value
     label: 'Get end date time(time)'
@@ -1369,19 +1282,6 @@ actions:
       trim: true
       xss_filter: true
     successors: {  }
-  Activity_0or8fza:
-    plugin: 'eca_tamper:strtotime'
-    label: 'Start time to UNIX'
-    configuration:
-      eca_data: '[start-date-time]'
-      eca_token_name: value-time
-    successors:
-      -
-        id: Activity_068aabg
-        condition: Flow_0blicmm
-      -
-        id: Activity_14it3nw
-        condition: ''
   Activity_0auzvi9:
     plugin: 'eca_tamper:strtotime'
     label: 'End time to UNIX'
@@ -1396,3 +1296,15 @@ actions:
       message: 'The selected start time is not within working schedule'
       field_name: field_date_and_time
     successors: {  }
+  Activity_1cz4133:
+    plugin: eca_form_build_entity
+    label: 'Build vacation'
+    configuration:
+      token_name: vacation
+    successors:
+      -
+        id: Activity_14it3nw
+        condition: Flow_19jcp7c
+      -
+        id: Activity_1abhdau
+        condition: Flow_01v7pmu

@@ -16,4 +16,5 @@ permissions:
   - 'create vacations content'
   - 'delete own vacations content'
   - 'flag approve'
+  - 'flag cancel'
   - 'view user email addresses'

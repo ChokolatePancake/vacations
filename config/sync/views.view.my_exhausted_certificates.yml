@@ -497,7 +497,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: 'None of your certificates are expired'
+            value: 'None of your certificates are exhausted'
             format: basic_html
           tokenize: false
       sorts:

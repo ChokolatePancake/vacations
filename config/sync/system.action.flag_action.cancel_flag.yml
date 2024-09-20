@@ -1,0 +1,15 @@
+uuid: 9c9604f5-227c-40b7-b046-c1f28bb57ad4
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.cancel
+  module:
+    - flag
+id: flag_action.cancel_flag
+label: Cancel
+type: node
+plugin: 'flag_action:cancel_flag'
+configuration:
+  flag_id: cancel
+  flag_action: flag

@@ -1,0 +1,9 @@
+uuid: d9d3a5bc-27b3-4cc9-8ee2-ced41c052970
+langcode: en
+status: true
+dependencies: {  }
+name: 'Vacation state'
+vid: vacation_state
+description: 'Pending, Approved, Canceled'
+weight: 0
+new_revision: false

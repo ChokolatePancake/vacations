@@ -1,0 +1,33 @@
+uuid: adbeb63b-24e1-4a35-851c-5e76c512a12b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_status
+    - node.type.vacations
+    - taxonomy.vocabulary.vacation_state
+  content:
+    - 'taxonomy_term:vacation_state:19e57cf4-02c1-4957-961c-5c0e6ff6167e'
+id: node.vacations.field_status
+field_name: field_status
+entity_type: node
+bundle: vacations
+label: Status
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    target_uuid: 19e57cf4-02c1-4957-961c-5c0e6ff6167e
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      vacation_state: vacation_state
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

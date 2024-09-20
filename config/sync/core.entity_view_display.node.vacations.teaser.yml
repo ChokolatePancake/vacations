@@ -8,10 +8,10 @@ dependencies:
     - field.field.node.vacations.field_date
     - field.field.node.vacations.field_date_and_time
     - field.field.node.vacations.field_full_days
-    - field.field.node.vacations.field_is_approved
     - field.field.node.vacations.field_is_full_day
     - field.field.node.vacations.field_is_paid
     - field.field.node.vacations.field_reason
+    - field.field.node.vacations.field_status
     - node.type.vacations
   module:
     - user
@@ -21,6 +21,11 @@ bundle: vacations
 mode: teaser
 content:
   flag_approve:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  flag_cancel:
     settings: {  }
     third_party_settings: {  }
     weight: 10
@@ -35,8 +40,7 @@ hidden:
   field_date: true
   field_date_and_time: true
   field_full_days: true
-  field_is_approved: true
   field_is_full_day: true
   field_is_paid: true
   field_reason: true
-  langcode: true
+  field_status: true

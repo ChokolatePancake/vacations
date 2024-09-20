@@ -9,9 +9,13 @@ dependencies:
     - field.storage.node.field_is_paid
     - field.storage.node.field_reason
     - node.type.vacations
+    - taxonomy.vocabulary.vacation_state
+  content:
+    - 'taxonomy_term:vacation_state:19e57cf4-02c1-4957-961c-5c0e6ff6167e'
   module:
     - datetime_range
     - node
+    - taxonomy
     - user
 id: my_pending_vacation
 label: 'My pending vacation'
@@ -509,16 +513,17 @@ display:
           plugin_id: bundle
           value:
             vacations: vacations
-        field_is_approved_value:
-          id: field_is_approved_value
-          table: node__field_is_approved
-          field: field_is_approved_value
+        field_status_target_id:
+          id: field_status_target_id
+          table: node__field_status
+          field: field_status_target_id
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '0'
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            6: 6
           group: 1
           exposed: false
           expose:
@@ -535,6 +540,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
+            reduce: false
           is_grouped: false
           group_info:
             label: ''
@@ -547,6 +553,12 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          reduce_duplicates: false
+          vid: vacation_state
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
       style:
         type: table
         options:
@@ -599,13 +611,17 @@ display:
         - 'config:field.storage.node.field_date_and_time'
         - 'config:field.storage.node.field_is_paid'
         - 'config:field.storage.node.field_reason'
-  block_1:
-    id: block_1
-    display_title: Block
-    display_plugin: block
-    position: 1
+  page_1:
+    id: page_1
+    display_title: Page
+    display_plugin: page
+    position: 2
     display_options:
+      title: 'Pending vacation requests'
+      defaults:
+        title: false
       display_extenders: {  }
+      path: pending-vacation-requests
     cache_metadata:
       max-age: -1
       contexts:

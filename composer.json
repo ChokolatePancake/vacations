@@ -52,6 +52,7 @@
         "drupal/views_core_entity_reference": "1.0.x-dev@dev",
         "drupal/views_exclude_previous": "^2.0@beta",
         "drupal/workbench_access": "^2.0",
+        "drupal/workflows_field": "^2.1",
         "drush/drush": "^13.0"
     },
     "conflict": {

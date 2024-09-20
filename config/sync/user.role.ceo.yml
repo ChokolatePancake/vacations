@@ -74,6 +74,7 @@ permissions:
   - 'edit own certificate_template content'
   - 'edit own field_regular_certificate_templa'
   - 'flag approve'
+  - 'flag cancel'
   - 'link to any page'
   - 'masquerade as accounting'
   - 'masquerade as administrative_staff'

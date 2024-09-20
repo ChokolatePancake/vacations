@@ -1,13 +1,14 @@
-uuid: 8749ef9b-260d-4a7f-879a-8c4b0da91dea
+uuid: f7288be0-604c-479b-87e3-a886eb6b6ffc
 langcode: en
 status: true
 dependencies:
   config:
     - field.field.node.vacations.field_approvers
-    - field.field.node.vacations.field_is_approved
+    - field.field.node.vacations.field_status
     - field.storage.node.field_approvers
-    - field.storage.node.field_is_approved
+    - field.storage.node.field_status
     - flag.flag.approve
+    - flag.flag.cancel
     - views.view.flags
   module:
     - eca_base
@@ -28,7 +29,25 @@ events:
       -
         id: Activity_1rxxpss
         condition: ''
+  Event_0uj60k6:
+    plugin: 'content_entity:insert'
+    label: Event_0uj60k6
+    configuration:
+      type: 'flagging cancel'
+    successors:
+      -
+        id: Activity_1wb60fh
+        condition: ''
 conditions:
+  Flow_0cyr0u9:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[vacation:field_status:target_id]'
+      right: '8'
+      operator: equal
+      type: value
+      negate: true
   Flow_03411sf:
     plugin: eca_list_contains
     configuration:
@@ -45,6 +64,15 @@ conditions:
       right: '0'
       operator: equal
       type: numeric
+  Flow_10bu9px:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[vacation:field_status:target_id]'
+      right: '8'
+      operator: equal
+      type: value
+      negate: true
 gateways: {  }
 actions:
   Activity_1rxxpss:
@@ -75,7 +103,7 @@ actions:
     successors:
       -
         id: Activity_0ayrcgz
-        condition: ''
+        condition: Flow_0cyr0u9
   Activity_0ayrcgz:
     plugin: eca_views_query
     label: 'Execute query of all people, who flagged this vacation'
@@ -87,7 +115,7 @@ actions:
     successors:
       -
         id: Activity_0vssfkd
-        condition: ''
+        condition: Flow_10bu9px
   Activity_0vssfkd:
     plugin: eca_get_field_value
     label: 'Get required approvers'
@@ -161,8 +189,49 @@ actions:
     plugin: eca_set_field_value
     label: 'Set status approved'
     configuration:
-      field_name: field_is_approved
-      field_value: '1'
+      field_name: field_status
+      field_value: '7'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: vacation
+    successors: {  }
+  Activity_1wb60fh:
+    plugin: eca_get_field_value
+    label: 'Get vacation id'
+    configuration:
+      field_name: entity_id
+      token_name: entity-id
+      object: ''
+    successors:
+      -
+        id: Activity_08ap54w
+        condition: ''
+  Activity_08ap54w:
+    plugin: eca_token_load_entity
+    label: 'Load vacation'
+    configuration:
+      token_name: vacation
+      from: id
+      entity_type: node
+      entity_id: '[entity-id]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_17kxn8p
+        condition: ''
+  Activity_17kxn8p:
+    plugin: eca_set_field_value
+    label: 'Change status to reject'
+    configuration:
+      field_name: field_status
+      field_value: '8'
       method: 'set:clear'
       strip_tags: false
       trim: false

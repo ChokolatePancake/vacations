@@ -1,14 +1,16 @@
-uuid: 71d639e3-5848-4eb8-93a3-94ebb7e14ebb
+uuid: 8f17a466-a89f-4662-b80a-bc5fc6dc2517
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_is_approved
-field_name: field_is_approved
+    - taxonomy
+id: node.field_status
+field_name: field_status
 entity_type: node
-type: boolean
-settings: {  }
+type: entity_reference
+settings:
+  target_type: taxonomy_term
 module: core
 locked: false
 cardinality: 1

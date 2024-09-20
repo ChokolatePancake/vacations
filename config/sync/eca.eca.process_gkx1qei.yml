@@ -422,15 +422,12 @@ actions:
     label: 'Get available days from user'
     configuration:
       field_name: field_available_days
-      token_name: available-days
+      token_name: available
       object: certificate-user
     successors:
       -
-        id: Activity_069nqim
-        condition: Flow_1027xb1
-      -
-        id: Activity_1dp9cir
-        condition: Flow_16b4ebh
+        id: Activity_108w1lu
+        condition: ''
   Activity_1lo70pw:
     plugin: eca_get_field_value
     label: 'Get operations-with-days from flow'
@@ -785,3 +782,16 @@ actions:
       save_entity: true
       object: record
     successors: {  }
+  Activity_108w1lu:
+    plugin: 'eca_tamper:cast_to_int'
+    label: 'Available days to int'
+    configuration:
+      eca_data: '[available]'
+      eca_token_name: available-days
+    successors:
+      -
+        id: Activity_069nqim
+        condition: Flow_1027xb1
+      -
+        id: Activity_1dp9cir
+        condition: Flow_16b4ebh

@@ -6,9 +6,9 @@ dependencies:
     - field.storage.node.field_approvers
     - field.storage.node.field_date
     - field.storage.node.field_date_and_time
-    - field.storage.node.field_is_approved
     - field.storage.node.field_is_paid
     - field.storage.node.field_reason
+    - field.storage.node.field_status
     - node.type.vacations
   module:
     - datetime_range
@@ -401,15 +401,15 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_is_approved:
-          id: field_is_approved
-          table: node__field_is_approved
-          field: field_is_approved
+        field_status:
+          id: field_status
+          table: node__field_status
+          field: field_status
           relationship: none
           group_type: group
           admin_label: ''
           plugin_id: field
-          label: 'Request status'
+          label: Status
           exclude: false
           alter:
             alter_text: false
@@ -450,13 +450,11 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: boolean
+          click_sort_column: target_id
+          type: entity_reference_label
           settings:
-            format: custom
-            format_custom_false: Pending
-            format_custom_true: Approved
-          group_column: value
+            link: false
+          group_column: target_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -625,16 +623,17 @@ display:
         - 'config:field.storage.node.field_approvers'
         - 'config:field.storage.node.field_date'
         - 'config:field.storage.node.field_date_and_time'
-        - 'config:field.storage.node.field_is_approved'
         - 'config:field.storage.node.field_is_paid'
         - 'config:field.storage.node.field_reason'
-  block_1:
-    id: block_1
-    display_title: Block
-    display_plugin: block
-    position: 1
+        - 'config:field.storage.node.field_status'
+  page_1:
+    id: page_1
+    display_title: Page
+    display_plugin: page
+    position: 2
     display_options:
       display_extenders: {  }
+      path: vacation-history
     cache_metadata:
       max-age: -1
       contexts:
@@ -648,6 +647,6 @@ display:
         - 'config:field.storage.node.field_approvers'
         - 'config:field.storage.node.field_date'
         - 'config:field.storage.node.field_date_and_time'
-        - 'config:field.storage.node.field_is_approved'
         - 'config:field.storage.node.field_is_paid'
         - 'config:field.storage.node.field_reason'
+        - 'config:field.storage.node.field_status'

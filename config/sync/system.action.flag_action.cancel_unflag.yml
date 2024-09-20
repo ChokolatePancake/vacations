@@ -1,0 +1,15 @@
+uuid: aeb615ba-b562-4855-bd99-3a41e1f16bc7
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.cancel
+  module:
+    - flag
+id: flag_action.cancel_unflag
+label: Approve
+type: node
+plugin: 'flag_action:cancel_unflag'
+configuration:
+  flag_id: cancel
+  flag_action: unflag

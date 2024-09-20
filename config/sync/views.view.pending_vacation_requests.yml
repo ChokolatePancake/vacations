@@ -8,7 +8,9 @@ dependencies:
     - field.storage.node.field_is_paid
     - field.storage.node.field_reason
     - flag.flag.approve
+    - flag.flag.cancel
     - node.type.vacations
+    - taxonomy.vocabulary.vacation_state
     - user.role.administrator
     - user.role.ceo
     - user.role.client
@@ -16,10 +18,13 @@ dependencies:
     - user.role.pm
     - user.role.shief_pm
     - user.role.team_lead
+  content:
+    - 'taxonomy_term:vacation_state:7c937d9f-66dc-4bb0-aea6-a752b000cc9f'
   module:
     - datetime_range
     - flag
     - node
+    - taxonomy
     - user
 id: pending_vacation_requests
 label: 'Pending vacation requests'
@@ -460,6 +465,56 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+        link_flag_1:
+          id: link_flag_1
+          table: flagging
+          field: link_flag
+          relationship: flag_relationship_1
+          group_type: group
+          admin_label: ''
+          entity_type: flagging
+          plugin_id: flag_link
+          label: Cancel
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
       pager:
         type: none
         options:
@@ -613,6 +668,91 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        flagged_1:
+          id: flagged_1
+          table: flagging
+          field: flagged
+          relationship: flag_relationship_1
+          group_type: group
+          admin_label: ''
+          entity_type: flagging
+          plugin_id: flag_filter
+          operator: '='
+          value: '0'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_status_target_id:
+          id: field_status_target_id
+          table: node__field_status
+          field: field_status_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: not
+          value:
+            8: 8
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: vacation_state
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
       style:
         type: table
         options:
@@ -667,6 +807,18 @@ display:
           required: false
           flag: approve
           user_scope: current
+        flag_relationship_1:
+          id: flag_relationship_1
+          table: node_field_data
+          field: flag_relationship
+          relationship: none
+          group_type: group
+          admin_label: Cancel
+          entity_type: node
+          plugin_id: flag_relationship
+          required: false
+          flag: cancel
+          user_scope: current
       use_ajax: true
       header: {  }
       footer: {  }
@@ -686,6 +838,7 @@ display:
         - 'config:field.storage.node.field_is_paid'
         - 'config:field.storage.node.field_reason'
         - flag.flag.approve
+        - flag.flag.cancel
   block_1:
     id: block_1
     display_title: Block
@@ -708,3 +861,4 @@ display:
         - 'config:field.storage.node.field_is_paid'
         - 'config:field.storage.node.field_reason'
         - flag.flag.approve
+        - flag.flag.cancel

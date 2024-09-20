@@ -1,0 +1,35 @@
+uuid: df6792c3-8723-4d5c-8281-5037a8f18e74
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: cancel
+label: Cancel
+bundles:
+  - vacations
+entity_type: node
+global: false
+flag_short: Cancel
+flag_long: ''
+flag_message: ''
+unflag_short: Approve
+unflag_long: ''
+unflag_message: ''
+unflag_denied_text: ''
+weight: 0
+flag_type: 'entity:node'
+link_type: confirm
+flagTypeConfig:
+  show_in_links: {  }
+  show_as_field: true
+  show_on_form: false
+  show_contextual_link: false
+  extra_permissions:
+    owner: '0'
+linkTypeConfig:
+  flag_confirmation: 'Are you sure?'
+  unflag_confirmation: none
+  flag_create_button: 'Yes'
+  flag_delete_button: 'No'
+  form_behavior: dialog
