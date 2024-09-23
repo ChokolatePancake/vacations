@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.certificate_flow.field_balance
     - field.field.node.certificate_flow.field_certificate
     - field.field.node.certificate_flow.field_days
     - field.field.node.certificate_flow.field_operation
@@ -20,6 +21,13 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_balance:
+    type: number
+    weight: 125
+    region: content
+    settings:
+      placeholder: ''
     third_party_settings: {  }
   field_certificate:
     type: entity_reference_autocomplete
@@ -50,13 +58,6 @@ content:
     region: content
     settings:
       placeholder: ''
-    third_party_settings: {  }
-  langcode:
-    type: language_select
-    weight: 2
-    region: content
-    settings:
-      include_locked: true
     third_party_settings: {  }
   path:
     type: path

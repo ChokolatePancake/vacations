@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.certificate_flow.field_balance
     - field.field.node.certificate_flow.field_certificate
     - field.field.node.certificate_flow.field_days
     - field.field.node.certificate_flow.field_operation
@@ -15,6 +16,15 @@ targetEntityType: node
 bundle: certificate_flow
 mode: default
 content:
+  field_balance:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
   field_certificate:
     type: entity_reference_label
     label: above

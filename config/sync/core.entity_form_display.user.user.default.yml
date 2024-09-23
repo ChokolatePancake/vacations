@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.user.user.field_available_days
     - field.field.user.user.field_regular_certificate_templa
     - field.field.user.user.user_picture
     - image.style.thumbnail
@@ -52,5 +51,4 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
 hidden:
-  field_available_days: true
   path: true

@@ -1,18 +1,11 @@
 uuid: 034d6985-6057-438d-b6ed-fdf37d70d6bd
 langcode: en
 status: true
-dependencies:
-  module:
-    - field_permissions
+dependencies: {  }
 _core:
   default_config_hash: OeKGIkmZA_c-t6QLH81WNQx8gDCc1MRmxaTuQgxBByU
 id: administrator
 label: Administrator
 weight: -8
 is_admin: true
-permissions:
-  - 'create field_regular_certificate_templa'
-  - 'edit field_regular_certificate_templa'
-  - 'edit own field_regular_certificate_templa'
-  - 'view field_regular_certificate_templa'
-  - 'view own field_regular_certificate_templa'
+permissions: {  }

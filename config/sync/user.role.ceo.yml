@@ -10,7 +10,6 @@ dependencies:
     - user.role.administrative_staff
     - user.role.administrator
     - user.role.authenticated
-    - user.role.ceo
     - user.role.client
     - user.role.department_head
     - user.role.doer_junior
@@ -26,7 +25,6 @@ dependencies:
     - user.role.team_lead
   module:
     - comment
-    - field_permissions
     - field_ui
     - flag
     - masquerade
@@ -60,7 +58,6 @@ permissions:
   - 'administer views'
   - 'create certificate content'
   - 'create certificate_template content'
-  - 'create field_regular_certificate_templa'
   - 'create url aliases'
   - 'create vacations content'
   - 'delete any certificate content'
@@ -70,9 +67,7 @@ permissions:
   - 'delete own certificate_template content'
   - 'delete own vacations content'
   - 'edit any certificate_template content'
-  - 'edit field_regular_certificate_templa'
   - 'edit own certificate_template content'
-  - 'edit own field_regular_certificate_templa'
   - 'flag approve'
   - 'flag cancel'
   - 'link to any page'
@@ -81,7 +76,6 @@ permissions:
   - 'masquerade as administrator'
   - 'masquerade as any user'
   - 'masquerade as authenticated'
-  - 'masquerade as ceo'
   - 'masquerade as client'
   - 'masquerade as department_head'
   - 'masquerade as doer_junior'
@@ -96,7 +90,5 @@ permissions:
   - 'masquerade as shief_pm'
   - 'masquerade as super user'
   - 'masquerade as team_lead'
-  - 'view field_regular_certificate_templa'
-  - 'view own field_regular_certificate_templa'
   - 'view user email addresses'
   - 'view vocabulary labels'

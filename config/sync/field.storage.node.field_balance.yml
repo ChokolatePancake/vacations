@@ -1,12 +1,12 @@
-uuid: 39ce7570-a5ee-440c-a11f-3f5df6a23dbd
+uuid: dbe49760-50dd-442a-a4b9-781e94900835
 langcode: en
 status: true
 dependencies:
   module:
-    - user
-id: user.field_available_days
-field_name: field_available_days
-entity_type: user
+    - node
+id: node.field_balance
+field_name: field_balance
+entity_type: node
 type: integer
 settings:
   unsigned: false

@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.certificate_flow.field_balance
     - field.field.node.certificate_flow.field_certificate
     - field.field.node.certificate_flow.field_days
     - field.field.node.certificate_flow.field_operation
@@ -10,6 +11,7 @@ dependencies:
     - field.field.node.vacations.field_date
     - field.field.node.vacations.field_date_and_time
     - field.field.node.vacations.field_full_days
+    - field.storage.node.field_balance
     - field.storage.node.field_certificate
     - field.storage.node.field_date
     - field.storage.node.field_date_and_time
@@ -20,6 +22,7 @@ dependencies:
     - node.type.certificate_flow
     - node.type.vacations
     - views.view.certificates_information
+    - views.view.records
   module:
     - eca_base
     - eca_content
@@ -28,7 +31,7 @@ dependencies:
     - eca_views
 id: process_d524j1k
 modeller: bpmn_io
-label: noname
+label: 'If certificate empty save id in token and avoid it'
 version: ''
 weight: 0
 events:
@@ -515,7 +518,7 @@ actions:
       method: 'set:clear'
       strip_tags: false
       trim: false
-      save_entity: true
+      save_entity: false
       object: vacation
     successors: {  }
   Activity_0ephzfw:
@@ -1056,22 +1059,8 @@ actions:
       object: ''
     successors:
       -
-        id: Activity_16n31o8
+        id: Activity_1g9crnp
         condition: ''
-  Activity_16n31o8:
-    plugin: eca_get_field_value
-    label: 'Load available days'
-    configuration:
-      field_name: field_available_days
-      token_name: available-days
-      object: author
-    successors:
-      -
-        id: Activity_0mq0mys
-        condition: Flow_0a7j93i
-      -
-        id: Activity_08s8ucx
-        condition: Flow_093mlke
   Activity_08s8ucx:
     plugin: eca_form_field_set_error
     label: 'Show error not enough available days'
@@ -1308,3 +1297,29 @@ actions:
       -
         id: Activity_1abhdau
         condition: Flow_01v7pmu
+  Activity_1g9crnp:
+    plugin: eca_views_query
+    label: 'Execute query for user balance'
+    configuration:
+      token_name: record
+      view_id: records
+      display_id: default
+      arguments: '[author]'
+    successors:
+      -
+        id: Activity_03x4rhu
+        condition: ''
+  Activity_03x4rhu:
+    plugin: eca_token_set_value
+    label: Activity_03x4rhu
+    configuration:
+      token_name: available-days
+      token_value: '[record:0:field_balance]'
+      use_yaml: false
+    successors:
+      -
+        id: Activity_0mq0mys
+        condition: Flow_0a7j93i
+      -
+        id: Activity_08s8ucx
+        condition: Flow_093mlke

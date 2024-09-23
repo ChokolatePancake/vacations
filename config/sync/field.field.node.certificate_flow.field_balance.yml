@@ -1,0 +1,23 @@
+uuid: 1867fb23-21ea-489d-9c1f-e1c817ed52d6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_balance
+    - node.type.certificate_flow
+id: node.certificate_flow.field_balance
+field_name: field_balance
+entity_type: node
+bundle: certificate_flow
+label: Balance
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

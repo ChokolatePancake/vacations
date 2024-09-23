@@ -7,14 +7,15 @@ dependencies:
     - field.field.node.certificate.field_is_regular
     - field.field.node.certificate.field_starting_days_number
     - field.field.node.certificate.field_user
+    - field.field.node.certificate_flow.field_balance
     - field.field.node.certificate_flow.field_certificate
     - field.field.node.certificate_flow.field_days
     - field.field.node.certificate_flow.field_operation
     - field.field.node.certificate_flow.field_operation_with_days
     - field.field.node.certificate_template.field_expiration_period
     - field.field.node.certificate_template.field_number_of_days
-    - field.field.user.user.field_available_days
     - field.field.user.user.field_regular_certificate_templa
+    - field.storage.node.field_balance
     - field.storage.node.field_certificate
     - field.storage.node.field_days
     - field.storage.node.field_expiration_date
@@ -25,11 +26,11 @@ dependencies:
     - field.storage.node.field_operation_with_days
     - field.storage.node.field_starting_days_number
     - field.storage.node.field_user
-    - field.storage.user.field_available_days
     - field.storage.user.field_regular_certificate_templa
     - node.type.certificate
     - node.type.certificate_flow
     - views.view.certificates_information
+    - views.view.records
   module:
     - eca_base
     - eca_content
@@ -197,7 +198,7 @@ actions:
     label: 'Wait 6 months'
     configuration:
       delay_value: '6'
-      delay_unit: '2592000'
+      delay_unit: '60'
       task_name: give_certificate
       task_value: ''
       tokens: 'created-user, template'
@@ -303,7 +304,7 @@ actions:
     label: 'Wait again'
     configuration:
       delay_value: '6'
-      delay_unit: '2592000'
+      delay_unit: '60'
       task_name: give_certificate
       task_value: ''
       tokens: 'created-user, template'
@@ -415,18 +416,7 @@ actions:
       object: certificate
     successors:
       -
-        id: Activity_1driwde
-        condition: ''
-  Activity_1driwde:
-    plugin: eca_get_field_value
-    label: 'Get available days from user'
-    configuration:
-      field_name: field_available_days
-      token_name: available
-      object: certificate-user
-    successors:
-      -
-        id: Activity_108w1lu
+        id: Activity_1y7r3nr
         condition: ''
   Activity_1lo70pw:
     plugin: eca_get_field_value
@@ -450,20 +440,8 @@ actions:
       eca_token_name: current-available-days
     successors:
       -
-        id: Activity_104k1js
+        id: Activity_1dv88ny
         condition: ''
-  Activity_104k1js:
-    plugin: eca_set_field_value
-    label: 'Save new available-days value'
-    configuration:
-      field_name: field_available_days
-      field_value: '[current-available-days]'
-      method: 'set:clear'
-      strip_tags: false
-      trim: false
-      save_entity: true
-      object: certificate-user
-    successors: {  }
   Activity_034m0q8:
     plugin: 'eca_tamper:math'
     label: 'Subtract remaining days when the certificate is burned'
@@ -475,7 +453,7 @@ actions:
       eca_token_name: current-available-days
     successors:
       -
-        id: Activity_104k1js
+        id: Activity_1dv88ny
         condition: ''
   Activity_1dp9cir:
     plugin: eca_get_field_value
@@ -518,7 +496,7 @@ actions:
     plugin: eca_enqueue_task_delayed
     label: 'Wait for expiration'
     configuration:
-      delay_value: '[result]'
+      delay_value: '12'
       delay_unit: '60'
       task_name: burn_certificate
       task_value: ''
@@ -795,3 +773,38 @@ actions:
       -
         id: Activity_1dp9cir
         condition: Flow_16b4ebh
+  Activity_1dv88ny:
+    plugin: eca_set_field_value
+    label: 'Save new balance to flow (to record that triggered that event)'
+    configuration:
+      field_name: field_balance
+      field_value: '[current-available-days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: ''
+    successors: {  }
+  Activity_1y7r3nr:
+    plugin: eca_views_query
+    label: "Get previous record about user's certificates"
+    configuration:
+      token_name: previous-record
+      view_id: records
+      display_id: block_2
+      arguments: '[certificate-user]'
+    successors:
+      -
+        id: Activity_0tp1hy9
+        condition: ''
+  Activity_0tp1hy9:
+    plugin: eca_token_set_value
+    label: 'Get balance field'
+    configuration:
+      token_name: available
+      token_value: '[previous-record:1:field_balance]'
+      use_yaml: false
+    successors:
+      -
+        id: Activity_108w1lu
+        condition: ''

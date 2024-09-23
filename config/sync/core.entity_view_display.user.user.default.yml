@@ -3,11 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.user.user.field_available_days
     - field.field.user.user.field_regular_certificate_templa
     - field.field.user.user.user_picture
     - image.style.thumbnail
     - views.view.pending_vacation_requests
+    - views.view.records
     - views.view.user_role
   module:
     - image
@@ -60,23 +60,6 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 6
             additional: {  }
-          4ea23ba3-163c-41ea-9f06-647f5c95d5f1:
-            uuid: 4ea23ba3-163c-41ea-9f06-647f5c95d5f1
-            region: content
-            configuration:
-              id: 'field_block:user:user:field_available_days'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: number_integer
-                label: above
-                settings:
-                  thousand_separator: ''
-                  prefix_suffix: true
-                third_party_settings: {  }
-            weight: 7
-            additional: {  }
           f497bed7-55eb-4c9f-8bbc-3d8b786c37e5:
             uuid: f497bed7-55eb-4c9f-8bbc-3d8b786c37e5
             region: content
@@ -116,6 +99,29 @@ third_party_settings:
               context_mapping: {  }
               views_label: ''
               items_per_page: none
+            weight: 9
+            additional: {  }
+          7d6519bc-52b4-446f-b2f6-66e7513ddb18:
+            uuid: 7d6519bc-52b4-446f-b2f6-66e7513ddb18
+            region: content
+            configuration:
+              id: 'extra_field_block:user:user:masquerade'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 10
+            additional: {  }
+          26cb18ff-2e7a-42dc-8543-aa71b12f3d38:
+            uuid: 26cb18ff-2e7a-42dc-8543-aa71b12f3d38
+            region: content
+            configuration:
+              id: 'views_block:records-block_1'
+              label: ''
+              label_display: '0'
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
             weight: 8
             additional: {  }
         third_party_settings: {  }
@@ -126,15 +132,6 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
-  field_available_days:
-    type: number_integer
-    label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-    weight: 7
-    region: content
   field_regular_certificate_templa:
     type: entity_reference_label
     label: above
@@ -142,6 +139,11 @@ content:
       link: true
     third_party_settings: {  }
     weight: 6
+    region: content
+  masquerade:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 50
     region: content
   member_for:
     settings: {  }
