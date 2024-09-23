@@ -1,0 +1,49 @@
+uuid: 1a58578b-0a07-4af5-a5f2-6b23680e94ce
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.records
+  module:
+    - views
+label: Balance
+name: balance
+group: null
+description: ''
+requireAllConditions: false
+disabled: false
+conditions:
+  user_status:
+    id: user_status
+    negate: false
+    uuid: f904f3ff-d5b1-47a2-8d70-7ca139812181
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    user_status:
+      own_page_true: own_page_true
+    user_fields: uid
+reactions:
+  blocks:
+    id: blocks
+    uuid: 7e929255-7071-424b-947c-a4e0ffd340dd
+    blocks:
+      ab586951-4264-4ca9-bd61-9034493136de:
+        uuid: ab586951-4264-4ca9-bd61-9034493136de
+        id: 'views_block:records-block_1'
+        label: ''
+        provider: views
+        label_display: '0'
+        region: content_above
+        weight: '0'
+        custom_id: views_block_records_block_1
+        theme: olivero
+        css_class: ''
+        unique: 0
+        context_id: balance
+        context_mapping: {  }
+        views_label: ''
+        items_per_page: none
+        third_party_settings: {  }
+    include_default_blocks: 1
+    saved: false
+weight: 0

@@ -7,7 +7,6 @@ dependencies:
     - field.field.user.user.user_picture
     - image.style.thumbnail
     - views.view.pending_vacation_requests
-    - views.view.records
     - views.view.user_role
   module:
     - image
@@ -110,19 +109,6 @@ third_party_settings:
               context_mapping:
                 entity: layout_builder.entity
             weight: 10
-            additional: {  }
-          26cb18ff-2e7a-42dc-8543-aa71b12f3d38:
-            uuid: 26cb18ff-2e7a-42dc-8543-aa71b12f3d38
-            region: content
-            configuration:
-              id: 'views_block:records-block_1'
-              label: ''
-              label_display: '0'
-              provider: views
-              context_mapping: {  }
-              views_label: ''
-              items_per_page: none
-            weight: 8
             additional: {  }
         third_party_settings: {  }
 _core:
