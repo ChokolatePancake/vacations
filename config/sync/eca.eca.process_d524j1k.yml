@@ -465,6 +465,33 @@ conditions:
       right: '6'
       operator: atleast
       type: value
+  Flow_0m4e468:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[current-day]'
+      right: '[value]'
+      operator: equal
+      type: value
+  Flow_1lbb18u:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[current-day]'
+      right: '[value]'
+      operator: greaterthan
+      type: value
+  Flow_0okdcp4:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[today-time]'
+      right: '[current-date:raw]'
+      operator: lessthan
+      type: value
 gateways:
   Gateway_027c115:
     type: 0
@@ -580,6 +607,12 @@ gateways:
       -
         id: Activity_17ck8vl
         condition: Flow_1e4zneg
+  Gateway_03t2854:
+    type: 0
+    successors:
+      -
+        id: Activity_068aabg
+        condition: Flow_0okdcp4
 actions:
   Activity_0xf6sei:
     plugin: 'eca_tamper:math'
@@ -1013,8 +1046,8 @@ actions:
         id: Activity_0uq60ov
         condition: Flow_0gn4cyn
       -
-        id: Activity_068aabg
-        condition: Flow_12pdh1s
+        id: Activity_1ut5cbn
+        condition: ''
   Activity_0uq60ov:
     plugin: 'eca_tamper:strtotime'
     label: 'End date time to UNIX'
@@ -1592,3 +1625,29 @@ actions:
       -
         id: Activity_0k187ib
         condition: Flow_0l1fko4
+  Activity_11w2ba3:
+    plugin: eca_form_field_get_value
+    label: 'Get start time'
+    configuration:
+      token_name: today-time
+      field_name: 'field_date_and_time[0][value][time]'
+      strip_tags: true
+      trim: true
+      xss_filter: true
+    successors:
+      -
+        id: Gateway_03t2854
+        condition: Flow_12pdh1s
+  Activity_1ut5cbn:
+    plugin: 'eca_tamper:strtotime'
+    label: 'Current day to unix'
+    configuration:
+      eca_data: '[current-date:date_all_day]'
+      eca_token_name: current-day
+    successors:
+      -
+        id: Activity_11w2ba3
+        condition: Flow_0m4e468
+      -
+        id: Activity_068aabg
+        condition: Flow_1lbb18u
