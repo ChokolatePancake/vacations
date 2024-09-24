@@ -430,7 +430,7 @@ conditions:
       negate: false
       case: false
       left: '[seniority]'
-      right: '240'
+      right: '1440'
       operator: lessthan
       type: value
   Flow_1m0kokw:
@@ -439,7 +439,7 @@ conditions:
       negate: false
       case: false
       left: '[seniority]'
-      right: '240'
+      right: '1440'
       operator: greaterthan
       type: value
   Flow_0k5oqxr:
@@ -453,7 +453,7 @@ conditions:
       negate: false
       case: false
       left: '[seniority]'
-      right: '180'
+      right: '1080'
       operator: greaterthan
       type: value
   Flow_0l1fko4:
@@ -1529,7 +1529,7 @@ actions:
     configuration:
       operation: division
       flip: false
-      value: '60'
+      value: '720'
       eca_data: '[seniority]'
       eca_token_name: seniority-full-years
     successors:
@@ -1542,7 +1542,7 @@ actions:
     configuration:
       operation: multiplication
       flip: false
-      value: '60'
+      value: '720'
       eca_data: '[seniority-full-years]'
       eca_token_name: seniority-years
     successors:
@@ -1585,9 +1585,9 @@ actions:
     configuration:
       operation: division
       flip: false
-      value: '2629800'
+      value: '60'
       eca_data: '[seniority-months]'
-      eca_token_name: seniority-months0
+      eca_token_name: seniority-months
     successors:
       -
         id: Activity_0k187ib

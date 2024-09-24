@@ -834,7 +834,7 @@ actions:
     label: 'Wait 22 months(2 years without 2 months)'
     configuration:
       delay_value: '22'
-      delay_unit: '1'
+      delay_unit: '60'
       task_name: reminder
       task_value: ''
       tokens: created-user

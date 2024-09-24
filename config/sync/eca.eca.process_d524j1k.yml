@@ -70,7 +70,7 @@ events:
     plugin: 'content_entity:presave'
     label: Event_1leum74
     configuration:
-      type: _all
+      type: 'node vacations'
     successors:
       -
         id: Activity_1ajgw72

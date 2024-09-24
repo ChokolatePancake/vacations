@@ -95,7 +95,7 @@ modeldata: |
             <camunda:string>12</camunda:string>
           </camunda:field>
           <camunda:field name="delay_unit">
-            <camunda:string>1</camunda:string>
+            <camunda:string>60</camunda:string>
           </camunda:field>
         </bpmn2:extensionElements>
         <bpmn2:incoming>Flow_1o9qxgp</bpmn2:incoming>

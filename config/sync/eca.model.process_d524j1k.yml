@@ -2657,12 +2657,12 @@ modeldata: |
       <bpmn2:sequenceFlow id="Flow_0e2n9sm" sourceRef="Activity_0ephzfw" targetRef="Activity_0ew26i2" />
       <bpmn2:startEvent id="Event_1leum74" camunda:modelerTemplate="org.drupal.event.content_entity:presave">
         <bpmn2:extensionElements>
-          <camunda:field name="type">
-            <camunda:string>_all</camunda:string>
-          </camunda:field>
           <camunda:properties>
             <camunda:property name="pluginid" value="content_entity:presave" />
           </camunda:properties>
+          <camunda:field name="type">
+            <camunda:string>node vacations</camunda:string>
+          </camunda:field>
         </bpmn2:extensionElements>
         <bpmn2:outgoing>Flow_0po1zom</bpmn2:outgoing>
       </bpmn2:startEvent>

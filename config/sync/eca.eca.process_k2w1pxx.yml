@@ -100,7 +100,7 @@ actions:
     label: 'Wait 12 months'
     configuration:
       delay_value: '12'
-      delay_unit: '1'
+      delay_unit: '60'
       task_name: reminder
       task_value: ''
       tokens: created-user
