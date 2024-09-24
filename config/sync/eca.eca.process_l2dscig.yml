@@ -1,6 +1,6 @@
-uuid: 52de0554-36ca-4141-9ee8-7ff1215900ef
+uuid: 9e7671b5-b6a7-4b05-9546-e95e79a1adf9
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - field.field.node.certificate_flow.field_balance
@@ -30,9 +30,9 @@ dependencies:
     - eca_form
     - eca_tamper
     - eca_views
-id: process_d524j1k
+id: process_l2dscig
 modeller: bpmn_io
-label: Vacations
+label: 'Vacations (clone)'
 version: ''
 weight: 0
 events:
@@ -406,6 +406,15 @@ conditions:
       operator: equal
       type: value
       entity: ''
+  Flow_1o3t2ck:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[full_days]'
+      right: '7'
+      operator: lessthan
+      type: value
   Flow_1xth8tc:
     plugin: eca_scalar
     configuration:
@@ -421,7 +430,7 @@ conditions:
       negate: false
       case: false
       left: '[seniority]'
-      right: '63072000'
+      right: '240'
       operator: lessthan
       type: value
   Flow_1m0kokw:
@@ -430,7 +439,7 @@ conditions:
       negate: false
       case: false
       left: '[seniority]'
-      right: '63072000'
+      right: '240'
       operator: greaterthan
       type: value
   Flow_0k5oqxr:
@@ -444,7 +453,7 @@ conditions:
       negate: false
       case: false
       left: '[seniority]'
-      right: '47304000'
+      right: '180'
       operator: greaterthan
       type: value
   Flow_0l1fko4:
@@ -1395,7 +1404,7 @@ actions:
         condition: Flow_093mlke
       -
         id: Activity_0zrgikr
-        condition: ''
+        condition: Flow_1o3t2ck
   Activity_1cnbpyz:
     plugin: 'eca_tamper:math'
     label: Subtraction
@@ -1520,7 +1529,7 @@ actions:
     configuration:
       operation: division
       flip: false
-      value: '31557600'
+      value: '60'
       eca_data: '[seniority]'
       eca_token_name: seniority-full-years
     successors:
@@ -1533,7 +1542,7 @@ actions:
     configuration:
       operation: multiplication
       flip: false
-      value: '31557600'
+      value: '60'
       eca_data: '[seniority-full-years]'
       eca_token_name: seniority-years
     successors:
@@ -1578,7 +1587,7 @@ actions:
       flip: false
       value: '2629800'
       eca_data: '[seniority-months]'
-      eca_token_name: seniority-months
+      eca_token_name: seniority-months0
     successors:
       -
         id: Activity_0k187ib

@@ -41,7 +41,7 @@ dependencies:
     - user
 id: process_gkx1qei
 modeller: bpmn_io
-label: Certificates
+label: 'Wait 22 months(2 years without 2 months)'
 version: ''
 weight: 0
 events:
@@ -185,6 +185,24 @@ conditions:
       right: '0'
       operator: equal
       type: value
+  Flow_1fg0ai9:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[balance]'
+      right: '0'
+      operator: greaterthan
+      type: value
+  Flow_1up2xvc:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[balance]'
+      right: '0'
+      operator: atmost
+      type: value
 gateways:
   Gateway_0403byw:
     type: 0
@@ -298,6 +316,9 @@ actions:
     successors:
       -
         id: Activity_1rgszo3
+        condition: ''
+      -
+        id: Activity_1qyvsw7
         condition: ''
   Activity_0f9v5xr:
     plugin: eca_enqueue_task_delayed
@@ -571,7 +592,7 @@ actions:
       arguments: '[certificate-user]/[certificate:nid]'
     successors:
       -
-        id: Activity_1c6u3f2
+        id: Activity_1worgqy
         condition: Flow_08mb5v4
       -
         id: Gateway_0403byw
@@ -808,3 +829,49 @@ actions:
       -
         id: Activity_108w1lu
         condition: ''
+  Activity_1qyvsw7:
+    plugin: eca_enqueue_task_delayed
+    label: 'Wait 22 months(2 years without 2 months)'
+    configuration:
+      delay_value: '22'
+      delay_unit: '1'
+      task_name: reminder
+      task_value: ''
+      tokens: created-user
+    successors: {  }
+  Activity_1worgqy:
+    plugin: eca_views_query
+    label: 'Get last record about user'
+    configuration:
+      token_name: records
+      view_id: records
+      display_id: block_2
+      arguments: '[certificate-user]'
+    successors:
+      -
+        id: Activity_0niyc54
+        condition: ''
+  Activity_0niyc54:
+    plugin: eca_token_set_value
+    label: 'Get balance field'
+    configuration:
+      token_name: balance
+      token_value: '[records:1:field_balance]'
+      use_yaml: false
+    successors:
+      -
+        id: Activity_1c6u3f2
+        condition: Flow_1fg0ai9
+      -
+        id: Activity_0jn8nle
+        condition: Flow_1up2xvc
+  Activity_0jn8nle:
+    plugin: eca_enqueue_task_delayed
+    label: 'Wait and trigger that event again'
+    configuration:
+      delay_value: '1'
+      delay_unit: '60'
+      task_name: burn_certificate
+      task_value: ''
+      tokens: certificate
+    successors: {  }

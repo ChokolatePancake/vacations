@@ -1,0 +1,168 @@
+uuid: 7288b54d-fe42-4790-b1b4-e8797082c7e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.long_vacation
+  module:
+    - eca_base
+    - eca_content
+    - eca_queue
+    - eca_tamper
+    - eca_views
+id: process_k2w1pxx
+modeller: bpmn_io
+label: 'Wait 12 months'
+version: ''
+weight: 0
+events:
+  Event_1q1nh2b:
+    plugin: 'eca_queue:processing_task'
+    label: Event_1q1nh2b
+    configuration:
+      task_name: reminder
+      task_value: ''
+      distribute: true
+      cron: '60'
+    successors:
+      -
+        id: Activity_0cphvos
+        condition: Flow_1o9qxgp
+      -
+        id: Activity_0tcwitw
+        condition: ''
+conditions:
+  Flow_1o9qxgp:
+    plugin: eca_entity_exists
+    configuration:
+      negate: false
+      unchanged: false
+      latest_revision: false
+      from: id
+      entity_type: user
+      entity_id: '[created-user]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      entity: ''
+  Flow_0384r0c:
+    plugin: eca_token_exists
+    configuration:
+      negate: false
+      token_name: created
+  Flow_1vw5hcu:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[result]'
+      right: '26297460'
+      operator: greaterthan
+      type: value
+  Flow_19hgbso:
+    plugin: eca_token_exists
+    configuration:
+      token_name: long-vacation
+      negate: true
+  Flow_1wkwrmb:
+    plugin: eca_token_exists
+    configuration:
+      negate: false
+      token_name: long-vacation
+gateways: {  }
+actions:
+  Activity_0j2mc3a:
+    plugin: eca_views_query
+    label: 'Execute long vacation query'
+    configuration:
+      token_name: long-vacation
+      view_id: long_vacation
+      display_id: default
+      arguments: '[recipient]'
+    successors:
+      -
+        id: Activity_1azmypz
+        condition: Flow_19hgbso
+      -
+        id: Activity_1eqyhel
+        condition: Flow_1wkwrmb
+  Activity_1azmypz:
+    plugin: action_send_email_action
+    label: 'Send an email if the person has never taken long vacations'
+    configuration:
+      replace_tokens: false
+      recipient: '[email]'
+      subject: 'You are tired!'
+      message: 'You are tired! Get some rest! Take a vacation.'
+    successors: {  }
+  Activity_0cphvos:
+    plugin: eca_enqueue_task_delayed
+    label: 'Wait 12 months'
+    configuration:
+      delay_value: '12'
+      delay_unit: '1'
+      task_name: reminder
+      task_value: ''
+      tokens: created-user
+    successors: {  }
+  Activity_0iihvy5:
+    plugin: 'eca_tamper:math'
+    label: 'Subtract created date from current'
+    configuration:
+      operation: subtraction
+      flip: false
+      value: '[created]'
+      eca_data: '[current-date:raw]'
+      eca_token_name: result
+    successors:
+      -
+        id: Activity_0hthzvp
+        condition: Flow_1vw5hcu
+  Activity_0tcwitw:
+    plugin: eca_token_load_entity
+    label: 'Load user'
+    configuration:
+      token_name: recipient
+      from: id
+      entity_type: user
+      entity_id: '[created-user]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_115yuig
+        condition: ''
+  Activity_1eqyhel:
+    plugin: 'eca_tamper:cast_to_int'
+    label: "Last vacation's created date to integer"
+    configuration:
+      eca_data: '[long-vacation:0:created]'
+      eca_token_name: created
+    successors:
+      -
+        id: Activity_0iihvy5
+        condition: Flow_0384r0c
+  Activity_115yuig:
+    plugin: eca_get_field_value
+    label: 'Get email address'
+    configuration:
+      field_name: mail
+      token_name: email
+      object: recipient
+    successors:
+      -
+        id: Activity_0j2mc3a
+        condition: ''
+  Activity_0hthzvp:
+    plugin: action_send_email_action
+    label: 'Send a reminder about long vacation'
+    configuration:
+      replace_tokens: false
+      recipient: '[email]'
+      subject: 'You are tired!'
+      message: 'You are tired! Get some rest! Take a vacation.'
+    successors: {  }
