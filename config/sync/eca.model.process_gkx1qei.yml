@@ -5,7 +5,7 @@ dependencies:
   config:
     - eca.eca.process_gkx1qei
 id: process_gkx1qei
-label: 'Wait 22 months(2 years without 2 months)'
+label: Certificate
 tags:
   - ''
 documentation: ''
@@ -13,7 +13,7 @@ filename: ''
 modeldata: |
   <?xml version="1.0" encoding="UTF-8"?>
   <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:qa="http://some-company/schema/bpmn/qa" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
-    <bpmn2:process id="Process_gKx1qEI" name="Wait 22 months(2 years without 2 months)" isExecutable="true">
+    <bpmn2:process id="Process_gKx1qEI" name="Certificate" isExecutable="true">
       <bpmn2:extensionElements />
       <bpmn2:startEvent id="Event_1lp4or2" camunda:modelerTemplate="org.drupal.event.content_entity:insert">
         <bpmn2:extensionElements>

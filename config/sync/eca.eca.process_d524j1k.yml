@@ -1,6 +1,6 @@
 uuid: 52de0554-36ca-4141-9ee8-7ff1215900ef
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - field.field.node.certificate_flow.field_balance
@@ -406,6 +406,15 @@ conditions:
       operator: equal
       type: value
       entity: ''
+  Flow_1o3t2ck:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[full_days]'
+      right: '7'
+      operator: lessthan
+      type: value
   Flow_1xth8tc:
     plugin: eca_scalar
     configuration:
@@ -1395,7 +1404,7 @@ actions:
         condition: Flow_093mlke
       -
         id: Activity_0zrgikr
-        condition: ''
+        condition: Flow_1o3t2ck
   Activity_1cnbpyz:
     plugin: 'eca_tamper:math'
     label: Subtraction

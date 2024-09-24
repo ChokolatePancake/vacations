@@ -41,7 +41,7 @@ dependencies:
     - user
 id: process_gkx1qei
 modeller: bpmn_io
-label: 'Wait 22 months(2 years without 2 months)'
+label: Certificate
 version: ''
 weight: 0
 events:

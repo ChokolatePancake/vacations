@@ -12,7 +12,7 @@ dependencies:
     - eca_views
 id: process_k2w1pxx
 modeller: bpmn_io
-label: 'Wait 12 months'
+label: Reminder
 version: ''
 weight: 0
 events:
