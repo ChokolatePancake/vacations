@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.certificate_flow.field_days
     - field.field.node.certificate_flow.field_operation
     - field.field.node.certificate_flow.field_operation_with_days
+    - field.field.node.certificate_flow.field_vacation
     - node.type.certificate_flow
   module:
     - user
@@ -58,6 +59,14 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_vacation:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
     region: content
 hidden:
   links: true

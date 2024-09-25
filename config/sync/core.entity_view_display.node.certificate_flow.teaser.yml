@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.certificate_flow.field_days
     - field.field.node.certificate_flow.field_operation
     - field.field.node.certificate_flow.field_operation_with_days
+    - field.field.node.certificate_flow.field_vacation
     - node.type.certificate_flow
   module:
     - user
@@ -28,3 +29,4 @@ hidden:
   field_days: true
   field_operation: true
   field_operation_with_days: true
+  field_vacation: true

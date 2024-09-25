@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.certificate_flow.field_days
     - field.field.node.certificate_flow.field_operation
     - field.field.node.certificate_flow.field_operation_with_days
+    - field.field.node.certificate_flow.field_vacation
     - node.type.certificate_flow
   module:
     - path
@@ -57,6 +58,16 @@ content:
     weight: 123
     region: content
     settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_vacation:
+    type: entity_reference_autocomplete
+    weight: 126
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   path:

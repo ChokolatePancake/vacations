@@ -501,19 +501,6 @@ display:
             format: basic_html
           tokenize: false
       sorts:
-        field_is_regular_value:
-          id: field_is_regular_value
-          table: node__field_is_regular
-          field: field_is_regular_value
-          relationship: field_certificate
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-            field_identifier: ''
-          exposed: false
         created:
           id: created
           table: node_field_data

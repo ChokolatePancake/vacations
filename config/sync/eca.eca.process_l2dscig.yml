@@ -392,9 +392,9 @@ conditions:
     configuration:
       negate: false
       case: false
-      left: '[value]'
-      right: '[current-date:raw]'
-      operator: lessthan
+      left: '[current-day]'
+      right: '[value]'
+      operator: greaterthan
       type: value
   Flow_0po1zom:
     plugin: eca_entity_field_value
@@ -464,6 +464,33 @@ conditions:
       left: '[seniority-months]'
       right: '6'
       operator: atleast
+      type: value
+  Flow_04bjphz:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[current-day]'
+      right: '[value]'
+      operator: equal
+      type: value
+  Flow_05vlclw:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[current-date:raw]'
+      right: '[value]'
+      operator: lessthan
+      type: value
+  Flow_0cdjhhk:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[today-time]'
+      right: '[current-date:raw]'
+      operator: lessthan
       type: value
 gateways:
   Gateway_027c115:
@@ -580,6 +607,12 @@ gateways:
       -
         id: Activity_17ck8vl
         condition: Flow_1e4zneg
+  Gateway_0rygb6h:
+    type: 0
+    successors:
+      -
+        id: Activity_068aabg
+        condition: Flow_0cdjhhk
 actions:
   Activity_0xf6sei:
     plugin: 'eca_tamper:math'
@@ -1013,8 +1046,8 @@ actions:
         id: Activity_0uq60ov
         condition: Flow_0gn4cyn
       -
-        id: Activity_068aabg
-        condition: Flow_12pdh1s
+        id: Activity_1nv2sk4
+        condition: ''
   Activity_0uq60ov:
     plugin: 'eca_tamper:strtotime'
     label: 'End date time to UNIX'
@@ -1592,3 +1625,29 @@ actions:
       -
         id: Activity_0k187ib
         condition: Flow_0l1fko4
+  Activity_1nv2sk4:
+    plugin: 'eca_tamper:strtotime'
+    label: 'Current day to UNIX'
+    configuration:
+      eca_data: '[current-date:date_all_day]'
+      eca_token_name: current-day
+    successors:
+      -
+        id: Activity_068aabg
+        condition: Flow_12pdh1s
+      -
+        id: Activity_09msj9s
+        condition: Flow_04bjphz
+  Activity_09msj9s:
+    plugin: eca_form_field_get_value
+    label: 'Get start time'
+    configuration:
+      token_name: today-time
+      field_name: 'field_date_and_time[0][value][time]'
+      strip_tags: true
+      trim: true
+      xss_filter: true
+    successors:
+      -
+        id: Gateway_0rygb6h
+        condition: Flow_05vlclw

@@ -454,7 +454,31 @@ modeldata: |
         </bpmn2:extensionElements>
         <bpmn2:incoming>Flow_15vw231</bpmn2:incoming>
       </bpmn2:task>
-      <bpmn2:sequenceFlow id="Flow_15vw231" sourceRef="Activity_08ap54w" targetRef="Activity_17kxn8p" />
+      <bpmn2:sequenceFlow id="Flow_15vw231" camunda:modelerTemplate="org.drupal.condition.eca_scalar" sourceRef="Activity_08ap54w" targetRef="Activity_17kxn8p">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_scalar" />
+          </camunda:properties>
+          <camunda:field name="left">
+            <camunda:string>[vacation:field_is_paid:value]</camunda:string>
+          </camunda:field>
+          <camunda:field name="operator">
+            <camunda:string>equal</camunda:string>
+          </camunda:field>
+          <camunda:field name="right">
+            <camunda:string>0</camunda:string>
+          </camunda:field>
+          <camunda:field name="type">
+            <camunda:string>value</camunda:string>
+          </camunda:field>
+          <camunda:field name="case">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+          <camunda:field name="negate">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+      </bpmn2:sequenceFlow>
       <bpmn2:textAnnotation id="TextAnnotation_11w9cgh">
         <bpmn2:text>Is there such person in required list</bpmn2:text>
       </bpmn2:textAnnotation>

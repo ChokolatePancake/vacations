@@ -448,7 +448,7 @@ display:
           entity_type: node
           entity_field: created
           plugin_id: date
-          order: ASC
+          order: DESC
           expose:
             label: ''
             field_identifier: ''
@@ -799,7 +799,7 @@ display:
           plugin_id: other_views_filter
           operator: 'not in'
           value:
-            'exhausted_certificates:entity_reference_1': 'exhausted_certificates:entity_reference_1'
+            'my_exhausted_certificates:block_1': 'my_exhausted_certificates:block_1'
           group: 1
           exposed: false
           expose:
