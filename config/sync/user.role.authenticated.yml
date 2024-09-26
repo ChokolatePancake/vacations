@@ -6,6 +6,7 @@ dependencies:
     - filter.format.basic_html
     - node.type.vacations
   module:
+    - field_permissions
     - file
     - filter
     - flag
@@ -28,5 +29,6 @@ permissions:
   - 'delete own vacations content'
   - 'flag cancel'
   - 'use text format basic_html'
+  - 'view own field_regular_certificate_templa'
   - 'view own unpublished content'
   - 'view user email addresses'

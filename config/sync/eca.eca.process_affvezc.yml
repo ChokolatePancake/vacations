@@ -1,16 +1,21 @@
-uuid: 9e7671b5-b6a7-4b05-9546-e95e79a1adf9
+uuid: 494e0dfe-e792-44e6-8d40-4ff15fa42ad8
 langcode: en
-status: false
+status: true
 dependencies:
   config:
+    - field.field.node.certificate.field_user
     - field.field.node.certificate_flow.field_balance
     - field.field.node.certificate_flow.field_certificate
     - field.field.node.certificate_flow.field_days
     - field.field.node.certificate_flow.field_operation
     - field.field.node.certificate_flow.field_operation_with_days
+    - field.field.node.certificate_flow.field_vacation
+    - field.field.node.vacations.field_approvers
     - field.field.node.vacations.field_date
     - field.field.node.vacations.field_date_and_time
     - field.field.node.vacations.field_full_days
+    - field.field.node.vacations.field_status
+    - field.storage.node.field_approvers
     - field.storage.node.field_balance
     - field.storage.node.field_certificate
     - field.storage.node.field_date
@@ -19,18 +24,25 @@ dependencies:
     - field.storage.node.field_full_days
     - field.storage.node.field_operation
     - field.storage.node.field_operation_with_days
+    - field.storage.node.field_status
+    - field.storage.node.field_user
+    - field.storage.node.field_vacation
+    - flag.flag.cancel
     - node.type.certificate_flow
     - node.type.vacations
     - views.view.certificates_information
     - views.view.long_vacation
+    - views.view.paid_vacations
     - views.view.records
+    - views.view.records_by_certificate
+    - views.view.vacation_s_certificates
   module:
     - eca_base
     - eca_content
     - eca_form
     - eca_tamper
     - eca_views
-id: process_l2dscig
+id: process_affvezc
 modeller: bpmn_io
 label: 'Vacations (clone)'
 version: ''
@@ -70,11 +82,20 @@ events:
     plugin: 'content_entity:presave'
     label: Event_1leum74
     configuration:
-      type: _all
+      type: 'node vacations'
     successors:
       -
         id: Activity_1ajgw72
         condition: Flow_0po1zom
+  Event_1ltfq03:
+    plugin: 'content_entity:insert'
+    label: Event_1ltfq03
+    configuration:
+      type: 'flagging cancel'
+    successors:
+      -
+        id: Activity_1s8anfc
+        condition: ''
 conditions:
   Flow_1vy7gm2:
     plugin: eca_entity_field_value
@@ -104,6 +125,15 @@ conditions:
       right: '[full-days]'
       operator: atleast
       type: value
+  Flow_16d6wjp:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[balance-days]'
+      right: '0'
+      operator: equal
+      type: value
+      negate: true
   Flow_10zgp9m:
     plugin: eca_scalar
     configuration:
@@ -387,15 +417,6 @@ conditions:
       operator: equal
       type: value
       entity: vacation
-  Flow_12pdh1s:
-    plugin: eca_scalar
-    configuration:
-      negate: false
-      case: false
-      left: '[current-day]'
-      right: '[value]'
-      operator: greaterthan
-      type: value
   Flow_0po1zom:
     plugin: eca_entity_field_value
     configuration:
@@ -465,33 +486,69 @@ conditions:
       right: '6'
       operator: atleast
       type: value
-  Flow_04bjphz:
+  Flow_1uybf16:
     plugin: eca_scalar
     configuration:
       negate: false
       case: false
-      left: '[current-day]'
-      right: '[value]'
+      left: '[vacation:field_is_paid:value]'
+      right: '1'
       operator: equal
       type: value
-  Flow_05vlclw:
+  Flow_09doap1:
     plugin: eca_scalar
     configuration:
       negate: false
       case: false
       left: '[current-date:raw]'
       right: '[value]'
-      operator: lessthan
+      operator: greaterthan
       type: value
-  Flow_0cdjhhk:
+  Flow_18epwfg:
     plugin: eca_scalar
     configuration:
       negate: false
       case: false
-      left: '[today-time]'
-      right: '[current-date:raw]'
-      operator: lessthan
+      left: '[vacation:field_status:target_id]'
+      right: '7'
+      operator: equal
       type: value
+  Flow_0vtx2bx:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[vacation:field_status:target_id]'
+      right: '6'
+      operator: equal
+      type: value
+  Flow_0s9jvoi:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[balance-days]'
+      right: '0'
+      operator: equal
+      type: value
+  Flow_0d6m569:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[vacation:field_approvers]'
+      right: '[author-name]'
+      operator: contains
+      type: value
+  Flow_09h8t4r:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[balance-days]'
+      right: '0'
+      operator: equal
+      type: value
+      negate: true
 gateways:
   Gateway_027c115:
     type: 0
@@ -607,12 +664,6 @@ gateways:
       -
         id: Activity_17ck8vl
         condition: Flow_1e4zneg
-  Gateway_0rygb6h:
-    type: 0
-    successors:
-      -
-        id: Activity_068aabg
-        condition: Flow_0cdjhhk
 actions:
   Activity_0xf6sei:
     plugin: 'eca_tamper:math'
@@ -762,7 +813,7 @@ actions:
       object: certificate-flow
     successors:
       -
-        id: Activity_1ne4p7y
+        id: Activity_0anwsyj
         condition: ''
   Activity_10e7qhi:
     plugin: 'eca_tamper:math'
@@ -933,11 +984,11 @@ actions:
       method: 'set:clear'
       strip_tags: false
       trim: false
-      save_entity: true
+      save_entity: false
       object: certificate-flow
     successors:
       -
-        id: Activity_1ib0z07
+        id: Activity_1aliwcg
         condition: ''
   Activity_1w7g9ev:
     plugin: eca_list_remove
@@ -1046,8 +1097,8 @@ actions:
         id: Activity_0uq60ov
         condition: Flow_0gn4cyn
       -
-        id: Activity_1nv2sk4
-        condition: ''
+        id: Activity_068aabg
+        condition: Flow_09doap1
   Activity_0uq60ov:
     plugin: 'eca_tamper:strtotime'
     label: 'End date time to UNIX'
@@ -1376,23 +1427,6 @@ actions:
       message: 'Past times are not allowed'
       field_name: field_date
     successors: {  }
-  Activity_07yidjb:
-    plugin: eca_form_field_get_value
-    label: 'Get end date time(time)'
-    configuration:
-      token_name: end-date-time
-      field_name: 'field_date_and_time[0][end_value][time]'
-      strip_tags: true
-      trim: true
-      xss_filter: true
-    successors: {  }
-  Activity_0auzvi9:
-    plugin: 'eca_tamper:strtotime'
-    label: 'End time to UNIX'
-    configuration:
-      eca_data: '[end-date-time]'
-      eca_token_name: end_value-time
-    successors: {  }
   Activity_17woknc:
     plugin: eca_form_field_set_error
     label: 'Show error non-working start time'
@@ -1412,6 +1446,9 @@ actions:
       -
         id: Activity_1abhdau
         condition: Flow_01v7pmu
+      -
+        id: Activity_14urdx6
+        condition: ''
   Activity_1g9crnp:
     plugin: eca_views_query
     label: 'Execute query for user balance'
@@ -1625,29 +1662,565 @@ actions:
       -
         id: Activity_0k187ib
         condition: Flow_0l1fko4
-  Activity_1nv2sk4:
+  Activity_1s8anfc:
+    plugin: eca_get_field_value
+    label: 'Get entity id'
+    configuration:
+      field_name: entity_id
+      token_name: entity-id
+      object: ''
+    successors:
+      -
+        id: Activity_1d9db9z
+        condition: ''
+  Activity_1d9db9z:
+    plugin: eca_token_load_entity
+    label: 'Load vacation'
+    configuration:
+      token_name: vacation
+      from: id
+      entity_type: node
+      entity_id: '[entity-id]'
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: ''
+    successors:
+      -
+        id: Activity_1s8uj95
+        condition: Flow_1uybf16
+  Activity_1s8uj95:
+    plugin: eca_get_field_value
+    label: 'Get full-days from vacation'
+    configuration:
+      field_name: field_full_days
+      token_name: full-days
+      object: vacation
+    successors:
+      -
+        id: Activity_108imqo
+        condition: Flow_18epwfg
+      -
+        id: Activity_1lbyqth
+        condition: Flow_0vtx2bx
+  Activity_108imqo:
+    plugin: eca_views_query
+    label: 'Execute query for getting all certificates that took part in vacation'
+    configuration:
+      token_name: records-list
+      view_id: vacation_s_certificates
+      display_id: default
+      arguments: '[entity-id]'
+    successors:
+      -
+        id: Activity_13lmvuy
+        condition: ''
+  Activity_13lmvuy:
+    plugin: eca_list_remove
+    label: 'Pop record'
+    configuration:
+      value: ''
+      token_name: record
+      method: first
+      index: ''
+      list_token: records-list
+    successors:
+      -
+        id: Activity_0u5jd1j
+        condition: ''
+  Activity_0u5jd1j:
+    plugin: eca_token_load_entity_ref
+    label: 'Load certificate'
+    configuration:
+      field_name_entity_ref: field_certificate
+      token_name: certificate
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: record
+    successors:
+      -
+        id: Activity_1gkkzvc
+        condition: ''
+  Activity_0kdw9mq:
+    plugin: eca_set_field_value
+    label: 'Set vacation'
+    configuration:
+      field_name: field_vacation.target_id
+      field_value: '[vacation]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_1ne4p7y
+        condition: Flow_16d6wjp
+      -
+        id: Activity_1alsuz4
+        condition: Flow_0s9jvoi
+  Activity_0jiwdqf:
+    plugin: eca_set_field_value
+    label: 'Set vacation'
+    configuration:
+      field_name: field_vacation.target_id
+      field_value: '[vacation]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_1ib0z07
+        condition: ''
+  Activity_1gkkzvc:
+    plugin: eca_views_query
+    label: 'Get last record'
+    configuration:
+      token_name: last-record
+      view_id: records_by_certificate
+      display_id: default
+      arguments: '[certificate]'
+    successors:
+      -
+        id: Activity_0klsiq4
+        condition: ''
+  Activity_1lbyqth:
+    plugin: eca_set_field_value
+    label: 'Set cancel'
+    configuration:
+      field_name: field_status
+      field_value: '8'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: vacation
+    successors: {  }
+  Activity_1alsuz4:
+    plugin: eca_set_field_value
+    label: 'Set operation "Exhausted"'
+    configuration:
+      field_name: field_operation.target_id
+      field_value: '5'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-flow
+    successors: {  }
+  Activity_1warw26:
+    plugin: eca_form_field_set_error
+    label: 'Error current user approver'
+    configuration:
+      message: "You can't be approver for own vacation"
+      field_name: field_approvers
+    successors: {  }
+  Activity_0klsiq4:
+    plugin: eca_new_entity
+    label: 'Create certificate returning record'
+    configuration:
+      token_name: certificate-flow
+      type: 'node certificate_flow'
+      langcode: ''
+      label: Returning
+      published: true
+      owner: '1'
+    successors:
+      -
+        id: Activity_0cgzmz4
+        condition: ''
+  Activity_0cgzmz4:
+    plugin: eca_set_field_value
+    label: 'Set certificate id'
+    configuration:
+      field_name: field_certificate
+      field_value: '[certificate]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_1g698pb
+        condition: ''
+  Activity_016nmcj:
+    plugin: eca_set_field_value
+    label: 'Set balance days'
+    configuration:
+      field_name: field_days
+      field_value: '[balance-days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_09wu5x2
+        condition: ''
+  Activity_1jinqsu:
+    plugin: eca_set_field_value
+    label: 'Set operation with days'
+    configuration:
+      field_name: field_operation_with_days
+      field_value: '[oper-days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_1j31wmo
+        condition: ''
+  Activity_09wu5x2:
+    plugin: eca_set_field_value
+    label: 'Set vacation'
+    configuration:
+      field_name: field_vacation.target_id
+      field_value: '[vacation]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_13r4y25
+        condition: Flow_09h8t4r
+  Activity_13r4y25:
+    plugin: eca_set_field_value
+    label: 'Set operation "Returning"'
+    configuration:
+      field_name: field_operation.target_id
+      field_value: '4'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: false
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_04ljlgc
+        condition: ''
+  Activity_1g698pb:
+    plugin: 'eca_tamper:math'
+    label: 'Calculating operation with days'
+    configuration:
+      operation: multiplication
+      flip: false
+      value: '-1'
+      eca_data: '[record:field_operation_with_days:value]'
+      eca_token_name: oper-days
+    successors:
+      -
+        id: Activity_1jinqsu
+        condition: ''
+  Activity_1j31wmo:
+    plugin: 'eca_tamper:math'
+    label: 'Calculate balance'
+    configuration:
+      operation: addition
+      flip: false
+      value: '[last-record:0:field_days]'
+      eca_data: '[oper-days]'
+      eca_token_name: balance-days
+    successors:
+      -
+        id: Activity_016nmcj
+        condition: ''
+  Activity_14urdx6:
+    plugin: eca_token_load_entity_ref
+    label: 'Load current user'
+    configuration:
+      field_name_entity_ref: uid
+      token_name: author-name
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: vacation
+    successors:
+      -
+        id: Activity_1warw26
+        condition: Flow_0d6m569
+  Activity_04ljlgc:
+    plugin: eca_token_load_entity_ref
+    label: 'Load user'
+    configuration:
+      field_name_entity_ref: field_user
+      token_name: certificate-user
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: certificate
+    successors:
+      -
+        id: Activity_0l6mya5
+        condition: ''
+  Activity_0l6mya5:
+    plugin: eca_views_query
+    label: "Get previous record about user's certificates"
+    configuration:
+      token_name: previous-record
+      view_id: records
+      display_id: block_2
+      arguments: '[certificate-user]'
+    successors:
+      -
+        id: Activity_15oa7ke
+        condition: ''
+  Activity_15oa7ke:
+    plugin: 'eca_tamper:cast_to_int'
+    label: 'Get available days from query'
+    configuration:
+      eca_data: '[previous-record:0:field_balance]'
+      eca_token_name: available
+    successors:
+      -
+        id: Activity_0qnhysf
+        condition: ''
+  Activity_0qnhysf:
+    plugin: 'eca_tamper:math'
+    label: 'Calculate current available days'
+    configuration:
+      operation: addition
+      flip: false
+      value: '[oper-days]'
+      eca_data: '[available]'
+      eca_token_name: current-available-days
+    successors:
+      -
+        id: Activity_1eckg25
+        condition: ''
+  Activity_1eckg25:
+    plugin: eca_set_field_value
+    label: 'Set available days'
+    configuration:
+      field_name: field_balance
+      field_value: '[current-available-days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_13lmvuy
+        condition: ''
+  Activity_0anwsyj:
+    plugin: eca_token_load_entity_ref
+    label: 'Load user'
+    configuration:
+      field_name_entity_ref: field_user
+      token_name: certificate-user
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: certificate
+    successors:
+      -
+        id: Activity_0ix1clk
+        condition: ''
+  Activity_0ix1clk:
+    plugin: eca_views_query
+    label: "Get previous record about user's certificates"
+    configuration:
+      token_name: previous-record
+      view_id: records
+      display_id: block_2
+      arguments: '[certificate-user]'
+    successors:
+      -
+        id: Activity_09939x1
+        condition: ''
+  Activity_09939x1:
+    plugin: 'eca_tamper:cast_to_int'
+    label: 'Get available days from query'
+    configuration:
+      eca_data: '[previous-record:0:field_balance]'
+      eca_token_name: available
+    successors:
+      -
+        id: Activity_1iwa98s
+        condition: ''
+  Activity_1iwa98s:
+    plugin: 'eca_tamper:math'
+    label: 'Calculate current available days'
+    configuration:
+      operation: addition
+      flip: false
+      value: '[oper-days]'
+      eca_data: '[available]'
+      eca_token_name: current-available-days
+    successors:
+      -
+        id: Activity_0v7q84d
+        condition: ''
+  Activity_0v7q84d:
+    plugin: eca_set_field_value
+    label: 'Set available days'
+    configuration:
+      field_name: field_balance
+      field_value: '[current-available-days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_0kdw9mq
+        condition: ''
+  Activity_03it5di:
+    plugin: eca_set_field_value
+    label: 'Set available days'
+    configuration:
+      field_name: field_balance
+      field_value: '[current-available-days]'
+      method: 'set:clear'
+      strip_tags: false
+      trim: false
+      save_entity: true
+      object: certificate-flow
+    successors:
+      -
+        id: Activity_0jiwdqf
+        condition: ''
+  Activity_1aliwcg:
+    plugin: eca_token_load_entity_ref
+    label: 'Load user'
+    configuration:
+      field_name_entity_ref: field_user
+      token_name: certificate-user
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: certificate
+    successors:
+      -
+        id: Activity_1h7mx6a
+        condition: ''
+  Activity_1h7mx6a:
+    plugin: eca_views_query
+    label: "Get previous record about user's certificates"
+    configuration:
+      token_name: previous-record
+      view_id: records
+      display_id: block_2
+      arguments: '[certificate-user]'
+    successors:
+      -
+        id: Activity_1ur06qe
+        condition: ''
+  Activity_1ur06qe:
+    plugin: 'eca_tamper:cast_to_int'
+    label: 'Get available days from query'
+    configuration:
+      eca_data: '[previous-record:0:field_balance]'
+      eca_token_name: available
+    successors:
+      -
+        id: Activity_1fffsra
+        condition: ''
+  Activity_1fffsra:
+    plugin: 'eca_tamper:math'
+    label: 'Calculate current available days'
+    configuration:
+      operation: addition
+      flip: false
+      value: '[oper-days]'
+      eca_data: '[available]'
+      eca_token_name: current-available-days
+    successors:
+      -
+        id: Activity_03it5di
+        condition: ''
+  Activity_1bfi7vm:
+    plugin: eca_views_query
+    label: 'Execute query to get all paid vacations'
+    configuration:
+      token_name: paid-vacations
+      view_id: paid_vacations
+      display_id: default
+      arguments: '[author]'
+    successors:
+      -
+        id: Activity_1lthfxj
+        condition: ''
+  Activity_1lthfxj:
+    plugin: eca_list_remove
+    label: 'Get first paid vacation'
+    configuration:
+      value: ''
+      token_name: paid-vacation
+      method: first
+      index: ''
+      list_token: paid-vacations
+    successors:
+      -
+        id: Activity_1wcw7hb
+        condition: ''
+  Activity_1wcw7hb:
     plugin: 'eca_tamper:strtotime'
-    label: 'Current day to UNIX'
+    label: 'Get start day from previous vacation'
     configuration:
-      eca_data: '[current-date:date_all_day]'
-      eca_token_name: current-day
+      eca_data: '[paid-vacation:field_date:value]'
+      eca_token_name: start-day2
     successors:
       -
-        id: Activity_068aabg
-        condition: Flow_12pdh1s
-      -
-        id: Activity_09msj9s
-        condition: Flow_04bjphz
-  Activity_09msj9s:
-    plugin: eca_form_field_get_value
-    label: 'Get start time'
+        id: Activity_0xdb4mq
+        condition: ''
+  Activity_0xdb4mq:
+    plugin: 'eca_tamper:math'
+    label: Activity_0xdb4mq
     configuration:
-      token_name: today-time
-      field_name: 'field_date_and_time[0][value][time]'
-      strip_tags: true
-      trim: true
-      xss_filter: true
+      operation: subtraction
+      flip: false
+      value: '[value]'
+      eca_data: '[start-day2]'
+      eca_token_name: start-difference
     successors:
       -
-        id: Gateway_0rygb6h
-        condition: Flow_05vlclw
+        id: Activity_0kizd43
+        condition: ''
+  Activity_0kizd43:
+    plugin: 'eca_tamper:math'
+    label: Activity_0kizd43
+    configuration:
+      operation: division
+      flip: false
+      value: '86400'
+      eca_data: '[start-difference]'
+      eca_token_name: '[start-difference-day]'
+    successors: {  }

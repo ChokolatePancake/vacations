@@ -109,7 +109,7 @@ events:
       operation: ''
     successors:
       -
-        id: Activity_16b863e
+        id: Activity_15a5fbi
         condition: ''
   Event_0d14opt:
     plugin: 'content_entity:insert'
@@ -702,26 +702,13 @@ actions:
     plugin: eca_form_field_set_value
     label: 'Set title'
     configuration:
-      field_value: 'Bonus certificate from [current-user:account-name] for [user-id]'
+      field_value: 'Bonus certificate from [author:name] for [receiver:name]'
       use_yaml: false
       field_name: title
       strip_tags: true
       trim: true
       xss_filter: true
     successors: {  }
-  Activity_16b863e:
-    plugin: eca_form_field_get_value
-    label: 'Get user name and id'
-    configuration:
-      token_name: user-id
-      field_name: 'field_user[0][target_id]'
-      strip_tags: true
-      trim: true
-      xss_filter: true
-    successors:
-      -
-        id: Activity_0he2nnd
-        condition: ''
   Activity_1c1heng:
     plugin: eca_token_load_entity
     label: 'Load certificate'
@@ -951,3 +938,50 @@ actions:
       -
         id: Activity_144qdyn
         condition: Flow_1nbvp2z
+  Activity_15a5fbi:
+    plugin: eca_form_build_entity
+    label: 'Build certificate'
+    configuration:
+      token_name: certificate
+    successors:
+      -
+        id: Activity_16b863e
+        condition: ''
+  Activity_16b863e:
+    plugin: eca_token_load_entity_ref
+    label: 'Get receiver'
+    configuration:
+      field_name_entity_ref: field_user
+      token_name: receiver
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: certificate
+    successors:
+      -
+        id: Activity_0j57hry
+        condition: ''
+  Activity_0j57hry:
+    plugin: eca_token_load_entity_ref
+    label: 'Get author'
+    configuration:
+      field_name_entity_ref: uid
+      token_name: author
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: certificate
+    successors:
+      -
+        id: Activity_0he2nnd
+        condition: ''
