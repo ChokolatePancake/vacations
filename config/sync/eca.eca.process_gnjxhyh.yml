@@ -3,17 +3,22 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.certificate_flow.field_balance
     - field.field.node.vacations.field_approvers
     - field.field.node.vacations.field_status
     - field.storage.node.field_approvers
+    - field.storage.node.field_balance
     - field.storage.node.field_status
     - flag.flag.approve
     - flag.flag.cancel
     - views.view.flags
+    - views.view.records
   module:
     - eca_base
     - eca_content
+    - eca_tamper
     - eca_views
+    - flag
 id: process_gnjxhyh
 modeller: bpmn_io
 label: Approvement
@@ -82,6 +87,24 @@ conditions:
       right: '0'
       operator: equal
       type: value
+  Flow_0025c0y:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[balance]'
+      right: '[vacation:field_full_days:value]'
+      operator: atleast
+      type: value
+  Flow_1p2osvz:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[balance]'
+      right: '[vacation:field_full_days:value]'
+      operator: lessthan
+      type: value
 gateways: {  }
 actions:
   Activity_1rxxpss:
@@ -111,7 +134,7 @@ actions:
       object: ''
     successors:
       -
-        id: Activity_0ayrcgz
+        id: Activity_1e9ba2w
         condition: Flow_0cyr0u9
   Activity_0ayrcgz:
     plugin: eca_views_query
@@ -246,4 +269,64 @@ actions:
       trim: false
       save_entity: true
       object: vacation
+    successors: {  }
+  Activity_198an6k:
+    plugin: flag_delete_flagging
+    label: Unflag
+    configuration:
+      object: ''
+    successors:
+      -
+        id: Activity_1i50pk6
+        condition: ''
+  Activity_1e9ba2w:
+    plugin: eca_token_load_entity_ref
+    label: 'Load requester'
+    configuration:
+      field_name_entity_ref: uid
+      token_name: requester
+      from: current
+      entity_type: _none
+      entity_id: ''
+      revision_id: ''
+      properties: ''
+      langcode: _interface
+      latest_revision: false
+      unchanged: false
+      object: vacation
+    successors:
+      -
+        id: Activity_0s81ex1
+        condition: ''
+  Activity_0s81ex1:
+    plugin: eca_views_query
+    label: "Execute query for user's balance"
+    configuration:
+      token_name: previous-record
+      view_id: records
+      display_id: block_2
+      arguments: '[requester]'
+    successors:
+      -
+        id: Activity_0nrhgax
+        condition: ''
+  Activity_0nrhgax:
+    plugin: 'eca_tamper:cast_to_int'
+    label: "Cast to int user's balance"
+    configuration:
+      eca_data: '[previous-record:0:field_balance]'
+      eca_token_name: balance
+    successors:
+      -
+        id: Activity_0ayrcgz
+        condition: Flow_0025c0y
+      -
+        id: Activity_198an6k
+        condition: Flow_1p2osvz
+  Activity_1i50pk6:
+    plugin: eca_error_message
+    label: 'Show error message'
+    configuration:
+      replace_tokens: false
+      message: 'The user does not have enough days in their balance for the vacation you are trying to approve'
     successors: {  }
