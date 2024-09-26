@@ -549,6 +549,114 @@ conditions:
       operator: equal
       type: value
       negate: true
+  Flow_0buqus7:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[start-difference-day]'
+      right: '-15'
+      operator: greaterthan
+      type: value
+  Flow_1b93p2h:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[start-difference-day]'
+      right: '15'
+      operator: lessthan
+      type: value
+  Flow_03uh7pd:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[start-difference-day]'
+      right: '14'
+      operator: greaterthan
+      type: value
+  Flow_1nafdld:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[start-day2]'
+      right: '[value]'
+      operator: lessthan
+      type: value
+  Flow_1bnvccu:
+    plugin: eca_scalar
+    configuration:
+      case: false
+      left: '[start-difference-day]'
+      right: '0'
+      operator: equal
+      type: value
+      negate: true
+  Flow_1jbwjo2:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[start-difference-day]'
+      right: '0'
+      operator: equal
+      type: value
+  Flow_0ld98an:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[value]'
+      right: '[end-day2]'
+      operator: atmost
+      type: value
+  Flow_158vi38:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[start-day2]'
+      right: '[value]'
+      operator: greaterthan
+      type: value
+  Flow_0ye7fvl:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[end_value]'
+      right: '[start-day2]'
+      operator: atleast
+      type: value
+  Flow_0dyoojw:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[value]'
+      right: '[end-day2]'
+      operator: greaterthan
+      type: value
+  Flow_1ifpfvu:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[end_value]'
+      right: '[start-day2]'
+      operator: lessthan
+      type: value
+  Flow_0k39bz5:
+    plugin: eca_scalar
+    configuration:
+      negate: false
+      case: false
+      left: '[start-difference-day]'
+      right: '-14'
+      operator: lessthan
+      type: value
 gateways:
   Gateway_027c115:
     type: 0
@@ -664,6 +772,54 @@ gateways:
       -
         id: Activity_17ck8vl
         condition: Flow_1e4zneg
+  Gateway_1p5tbym:
+    type: 0
+    successors:
+      -
+        id: Gateway_0cg0tjt
+        condition: Flow_1b93p2h
+  Gateway_0cg0tjt:
+    type: 0
+    successors:
+      -
+        id: Gateway_0gi97mr
+        condition: Flow_1nafdld
+      -
+        id: Gateway_1apq8cv
+        condition: Flow_158vi38
+  Gateway_12mm88y:
+    type: 0
+    successors:
+      -
+        id: Gateway_1p5tbym
+        condition: Flow_0buqus7
+  Gateway_0gi97mr:
+    type: 0
+    successors:
+      -
+        id: Activity_11w4pi5
+        condition: Flow_0ld98an
+      -
+        id: Gateway_1ropv28
+        condition: Flow_0dyoojw
+  Gateway_1apq8cv:
+    type: 0
+    successors:
+      -
+        id: Activity_11w4pi5
+        condition: Flow_0ye7fvl
+      -
+        id: Gateway_1ropv28
+        condition: Flow_1ifpfvu
+  Gateway_1ropv28:
+    type: 0
+    successors:
+      -
+        id: Activity_1lthfxj
+        condition: ''
+  Gateway_1nby4so:
+    type: 0
+    successors: {  }
 actions:
   Activity_0xf6sei:
     plugin: 'eca_tamper:math'
@@ -1226,6 +1382,9 @@ actions:
     successors:
       -
         id: Activity_1g9crnp
+        condition: ''
+      -
+        id: Activity_1bfi7vm
         condition: ''
   Activity_08s8ucx:
     plugin: eca_form_field_set_error
@@ -2199,11 +2358,11 @@ actions:
       eca_token_name: start-day2
     successors:
       -
-        id: Activity_0xdb4mq
+        id: Activity_0sivnz2
         condition: ''
   Activity_0xdb4mq:
     plugin: 'eca_tamper:math'
-    label: Activity_0xdb4mq
+    label: 'Calculate difference between starting dates'
     configuration:
       operation: subtraction
       flip: false
@@ -2216,11 +2375,40 @@ actions:
         condition: ''
   Activity_0kizd43:
     plugin: 'eca_tamper:math'
-    label: Activity_0kizd43
+    label: 'Difference to days'
     configuration:
       operation: division
       flip: false
       value: '86400'
       eca_data: '[start-difference]'
-      eca_token_name: '[start-difference-day]'
+      eca_token_name: start-difference-day
+    successors:
+      -
+        id: Activity_1lthfxj
+        condition: Flow_03uh7pd
+      -
+        id: Gateway_12mm88y
+        condition: Flow_1bnvccu
+      -
+        id: Activity_11w4pi5
+        condition: Flow_1jbwjo2
+      -
+        id: Gateway_1nby4so
+        condition: Flow_0k39bz5
+  Activity_11w4pi5:
+    plugin: eca_form_field_set_error
+    label: 'Show error about already taken vacation for choosen dates'
+    configuration:
+      message: 'You already have paid vacation for some of chosen days'
+      field_name: field_date
     successors: {  }
+  Activity_0sivnz2:
+    plugin: 'eca_tamper:strtotime'
+    label: 'Get end day from previous vacation'
+    configuration:
+      eca_data: '[paid-vacation:field_date:end_value]'
+      eca_token_name: end-day2
+    successors:
+      -
+        id: Activity_0xdb4mq
+        condition: ''
