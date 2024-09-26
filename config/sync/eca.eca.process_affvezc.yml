@@ -549,6 +549,11 @@ conditions:
       operator: equal
       type: value
       negate: true
+  Flow_1k3b6jk:
+    plugin: eca_token_exists
+    configuration:
+      negate: false
+      token_name: paid-vacation
   Flow_0buqus7:
     plugin: eca_scalar
     configuration:
@@ -2349,7 +2354,7 @@ actions:
     successors:
       -
         id: Activity_1wcw7hb
-        condition: ''
+        condition: Flow_1k3b6jk
   Activity_1wcw7hb:
     plugin: 'eca_tamper:strtotime'
     label: 'Get start day from previous vacation'

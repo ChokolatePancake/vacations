@@ -4369,7 +4369,19 @@ modeldata: |
         <bpmn2:incoming>Flow_1k3b6jk</bpmn2:incoming>
         <bpmn2:outgoing>Flow_14tvxnk</bpmn2:outgoing>
       </bpmn2:task>
-      <bpmn2:sequenceFlow id="Flow_1k3b6jk" sourceRef="Activity_1lthfxj" targetRef="Activity_1wcw7hb" />
+      <bpmn2:sequenceFlow id="Flow_1k3b6jk" camunda:modelerTemplate="org.drupal.condition.eca_token_exists" sourceRef="Activity_1lthfxj" targetRef="Activity_1wcw7hb">
+        <bpmn2:extensionElements>
+          <camunda:properties>
+            <camunda:property name="pluginid" value="eca_token_exists" />
+          </camunda:properties>
+          <camunda:field name="token_name">
+            <camunda:string>paid-vacation</camunda:string>
+          </camunda:field>
+          <camunda:field name="negate">
+            <camunda:string>no</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+      </bpmn2:sequenceFlow>
       <bpmn2:task id="Activity_0xdb4mq" name="Calculate difference between starting dates" camunda:modelerTemplate="org.drupal.action.eca_tamper:math">
         <bpmn2:extensionElements>
           <camunda:properties>
